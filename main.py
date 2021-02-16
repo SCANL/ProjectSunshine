@@ -6,15 +6,17 @@ from pathlib import Path
 from analyzer import Analyzer
 from common import util
 from model.file_type import FileType
+from service.result_writer import ResultWriter
 
 
 def run_analysis(files):
     # file_path = 'C:/Users/sheha/Downloads/GreetingTest.java'
+    results = ResultWriter()
     for file in files:
         print("Analyzing: %s ..." % (str(file)), end='', flush=True)
         file_type = FileType.Test
         a = Analyzer(str(file), file_type)
-        a.analyze()
+        results.save_issues(a.analyze())
         print('done!')
 
 

@@ -3,7 +3,6 @@ from rule.test.annotation_setup import AnnotationSetup
 from rule.test.annotation_teardown import AnnotationTeardown
 from rule.test.annotation_test import AnnotationTest
 from service.factory import EntityFactory
-from service.result_writer import ResultWriter
 
 
 class Analyzer:
@@ -23,6 +22,5 @@ class Analyzer:
                 if issue_list is not None:
                     self.issues.append(issue_list)
 
-        results = ResultWriter()
         concat_issues = [j for i in self.issues for j in i]
-        results.save_issues(concat_issues)
+        return concat_issues
