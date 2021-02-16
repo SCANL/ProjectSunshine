@@ -6,3 +6,4 @@ class Issue:
         self.identifier_type = None
         self.identifier = None
         self.file_path = None
+        self.analysis_datetime = None
