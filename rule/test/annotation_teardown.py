@@ -23,7 +23,7 @@ class AnnotationTeardown:
                     'After' not in identifier.annotations:
                 issue = Issue()
                 issue.file_path = self.__entity.path
-                issue.identifier = identifier.name_fq
+                issue.identifier = identifier.get_fully_qualified_name()
                 issue.identifier_type = IdentifierType.Method
                 issue.category = self.__issue_category
                 issue.details = self.__issue_description

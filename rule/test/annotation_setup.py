@@ -8,7 +8,7 @@ class AnnotationSetup:
 
     def __init__(self):
         self.__entity = None
-        self.__junit = 4#None
+        self.__junit = 4  # None
         self.__issues = []
         self.__issue_category = '\'Before\' annotation not in use'
         self.__issue_description = 'Utilize the \'Before\' annotation for setup methods'
@@ -23,7 +23,7 @@ class AnnotationSetup:
                     'Before' not in identifier.annotations:
                 issue = Issue()
                 issue.file_path = self.__entity.path
-                issue.identifier = identifier.name_fq
+                issue.identifier = identifier.get_fully_qualified_name()
                 issue.identifier_type = IdentifierType.Method
                 issue.category = self.__issue_category
                 issue.details = self.__issue_description
