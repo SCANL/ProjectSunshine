@@ -38,7 +38,7 @@ class Method:
     def get_parameters_as_string(self):
         string_list = []
         for parameter in self.parameters:
-            string_list.append(parameter.type + ' ' + parameter.name)
+            string_list.append(parameter.type if parameter.type is not None else '' + ' ' + parameter.name)
         string = ','.join(string_list)
         return '(' + string + ')'
 
