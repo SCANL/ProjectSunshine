@@ -1,3 +1,6 @@
+[general]
+name=ProjectSunshine
+
 [srcml]
 directory=C:/Program Files/srcML
 executable=C:/Program Files/srcML/srcml.exe
