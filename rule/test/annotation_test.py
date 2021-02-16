@@ -21,7 +21,7 @@ class AnnotationTest:
             if identifier.name_terms[0].lower() == 'test':
                 issue = Issue()
                 issue.file_path = self.__entity.path
-                issue.identifier = identifier
+                issue.identifier = identifier.name_fq
                 issue.identifier_type = IdentifierType.Method
                 issue.category = self.__issue_category
                 issue.details = self.__issue_description
