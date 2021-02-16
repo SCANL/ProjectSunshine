@@ -19,10 +19,10 @@ class Analyzer:
         if self.file_type == FileType.Test:
             entity = EntityFactory().construct_model(self.file_path)
             for rule in self.rules:
-                self.issues.append(rule.analyze(entity))
+                issue_list = rule.analyze(entity)
+                if issue_list is not None:
+                    self.issues.append(issue_list)
 
         results = ResultWriter()
-        for issue in self.issues:
-            if type(issue) is not type(None):
-                for sub_issue in issue:
-                    results.save_issue(sub_issue)
+        concat_issues = [j for i in self.issues for j in i]
+        results.save_issues(concat_issues)
