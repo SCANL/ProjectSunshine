@@ -17,7 +17,6 @@ class EntityFactory:
             self.entity.path = source_path
             self.entity.name = util.get_name(source_path)
             c = self.entity.construct_hierarchy()
-            print(c)
         else:
             print('todo: fail')
 
