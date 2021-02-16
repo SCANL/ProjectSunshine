@@ -14,7 +14,7 @@ class ResultWriter:
 
     def save_issue(self, issue):
         self.results_file.write('%s,%s,%s,%s,%s,%s\n' % (
-            issue.file_path, issue.identifier, issue.identifier_type, issue.category, issue.details,
+            issue.file_path, issue.identifier, issue.identifier_type.name, issue.category, issue.details,
             issue.analysis_datetime.strftime("%Y-%m-%d %H:%M:%S")))
         self.results_file.flush()
         self.results_file.close()
@@ -22,7 +22,7 @@ class ResultWriter:
     def save_issues(self, issues):
         for issue in issues:
             self.results_file.write('%s,%s,%s,%s,%s,%s\n' % (
-                issue.file_path, issue.identifier, issue.identifier_type, issue.category, issue.details,
+                issue.file_path, issue.identifier, issue.identifier_type.name, issue.category, issue.details,
                 issue.analysis_datetime.strftime("%Y-%m-%d %H:%M:%S")))
             self.results_file.flush()
         self.results_file.close()
