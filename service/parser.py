@@ -31,12 +31,9 @@ class Parser:
         return process.communicate()
 
     def parse_file(self, file_path):
-        print('running srcml...', end='', flush=True)
         result, error = self.__run_srcml(file_path)
         if len(error) == 0:
-            print('done')
             self.parsed_string = result
             return True
         else:
-            print('error')
             return False
