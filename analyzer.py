@@ -2,6 +2,7 @@ from model.file_type import FileType
 from rule.test.annotation_setup import AnnotationSetup
 from rule.test.annotation_teardown import AnnotationTeardown
 from rule.test.annotation_test import AnnotationTest
+from rule.test.nonverb_starting import NonVerbStarting
 from service.factory import EntityFactory
 
 
@@ -11,7 +12,12 @@ class Analyzer:
         self.file_path = file_path
         self.file_type = file_type
         self.junit = None
-        self.rules = [AnnotationTest(), AnnotationSetup(), AnnotationTeardown()]
+        self.rules = [
+            AnnotationTest(),
+            AnnotationSetup(),
+            AnnotationTeardown(),
+            NonVerbStarting()
+        ]
         self.issues = []
 
     def analyze(self):
