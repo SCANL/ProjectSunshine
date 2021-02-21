@@ -7,7 +7,7 @@ class POSTag:
 
     @staticmethod
     def generate_tag(term):
-        return (nltk.pos_tag(term))
+        return (nltk.pos_tag(term)[0][1])
 
     @staticmethod
     def generate_tags(term_list, append_I=False):
