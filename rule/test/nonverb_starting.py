@@ -2,7 +2,8 @@ from datetime import datetime
 
 from model.identifier_type import IdentifierType
 from model.issue import Issue
-from nlp.pos_tag import POSTag, POSType
+from nlp import pos_tag
+from nlp.pos_tag import POSType
 
 
 class NonVerbStarting:
@@ -25,8 +26,8 @@ class NonVerbStarting:
                 starting_term = identifier.name_terms[1]
 
         if starting_term != '':
-            tag = POSTag.generate_tag([starting_term])
-            if POSTag.get_tag_text(tag) != POSType.Verb:
+            tag = pos_tag.generate_tag(starting_term)
+            if pos_tag.get_tag_text(tag) != POSType.Verb:
                 issue = Issue()
                 issue.file_path = self.__entity.path
                 issue.identifier = identifier.get_fully_qualified_name()
