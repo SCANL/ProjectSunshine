@@ -25,7 +25,7 @@ class NonVerbStarting:
                 starting_term = identifier.name_terms[1]
 
         if starting_term != '':
-            tag = POSTag.generate_tag(starting_term)
+            tag = POSTag.generate_tag([starting_term])
             if POSTag.get_tag_text(tag) != POSType.Verb:
                 issue = Issue()
                 issue.file_path = self.__entity.path
