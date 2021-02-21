@@ -3,45 +3,53 @@ import sys
 from argparse import ArgumentParser
 from pathlib import Path
 
+import pandas
+
 from analyzer import Analyzer
 from common import util
-from model.file_type import FileType
+from model.input import Input
 from service.result_writer import ResultWriter
 
 
 def run_analysis(files):
-    # file_path = 'C:/Users/sheha/Downloads/GreetingTest.java'
-    results = ResultWriter()
+    results = None
     for file in files:
-        print("Analyzing: %s ..." % (str(file)), end='', flush=True)
-        file_type = FileType.Test
-        a = Analyzer(str(file), file_type)
+        print("Analyzing: %s ..." % (file.path), end='', flush=True)
+        a = Analyzer(file.path, file.type)
+        results = ResultWriter()
         results.save_issues(a.analyze())
         print('done!')
+
+
+def read_input(path):
+    input_data = pandas.read_csv(path)
+    if len(input_data) == 0:
+        sys.exit("Input CSV file cannot be empty")
+
+    files = []
+    for i, item in input_data.iterrows():
+        path = str(Path(item[0]))
+        if os.path.isfile(path):
+            if path.lower().endswith('.java'):
+                input_item = Input(path, item[1], item[2])
+                files.append(input_item)
+
+    if len(files) == 0:
+        sys.exit("Invalid files provided in input CSV file")
+
+    run_analysis(files)
 
 
 def process_arguments():
     parser = ArgumentParser(util.get_config_setting('general', 'name'))
     parser.add_argument("-f", "--file", dest="arg_file", required=True,
-                        help="Source file or directory to be analyzed", metavar="FILE")
+                        help="Input CSV file", metavar="FILE")
     args = parser.parse_args()
 
     if not os.path.exists(args.arg_file):
-        sys.exit("Invalid file/directory supplied")
+        sys.exit("Invalid file supplied")
 
-    if os.path.isdir(args.arg_file):
-        path = Path(args.arg_file)
-        files = list(path.rglob('*.java'))
-        if len(files) == 0:
-            sys.exit("Java files not present in specified directory")
-        else:
-            run_analysis(files)
-
-    if os.path.isfile(args.arg_file):
-        if not args.arg_file.lower().endswith('.java'):
-            sys.exit("Specified file must be a Java source file")
-        else:
-            run_analysis([args.arg_file])
+    read_input(args.arg_file)
 
 
 if __name__ == '__main__':
