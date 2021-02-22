@@ -21,17 +21,25 @@ def run_analysis(files):
         print('done!')
 
 
-def read_input(path):
-    input_data = pandas.read_csv(path)
+def read_input(path_string):
+    input_data = pandas.read_csv(path_string)
     if len(input_data) == 0:
         sys.exit("Input CSV file cannot be empty")
 
     files = []
     for i, item in input_data.iterrows():
-        path = str(Path(item[0]))
-        if os.path.isfile(path):
-            if path.lower().endswith('.java'):
-                input_item = Input(path, item[1], item[2])
+        path = Path(item[0])
+        path_string = str(path)
+
+        if os.path.isdir(path_string):
+            source_files = list(path.rglob('*.java'))
+            for file in source_files:
+                input_item = Input(str(file), item[1], item[2])
+                files.append(input_item)
+
+        if os.path.isfile(path_string):
+            if path_string.lower().endswith('.java'):
+                input_item = Input(path_string, item[1], item[2])
                 files.append(input_item)
 
     if len(files) == 0:
