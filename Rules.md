@@ -1,6 +1,11 @@
 # Rules
 
-Following are the identifier naming rules supported by this tool.
+Following are the identifier naming rules supported by this tool:
+
+ - [Non-Verb Starting Term](#non-verb-starting-term)
+ - [Test Annotation](#test-annotation)
+ - [Before Annotation](#before-annotation)
+ - [After Annotation](#after-annotation)
 
 ## Non-Verb Starting Term
 
@@ -33,9 +38,9 @@ The following test method name is ***not*** a violation of the rule:
         String output = testFileUnix.getTestFileName();
         assertEquals(oracle, output);
     }
+**[*[↑](#rules)*]**
 
-
-## Test Annotation
+## Test Annotation 
 
 ### Applicability
 
@@ -50,10 +55,10 @@ The starting term of the test method's name should not be 'test'; annotate the m
 The following test method name is a violation of the rule:
 
     @Test
-    @EnabledOnOs({OS.LINUX, OS.MAC})
-    public void testGetFileNameUnix() {
-        String oracle = "RandomStringUtilsTest.java";
-        String output = testFileUnix.getTestFileName();
+    @EnabledOnOs({OS.WINDOWS})
+    public void testProductionFileNameWindows() {
+        String oracle = "Graph.java";
+        String output = testFileWindows.getProductionFileName();
         assertEquals(oracle, output);
     }
 
@@ -65,6 +70,7 @@ The following test method name is ***not*** a violation of the rule:
 	    repository.deleteAll();
 	    assertThat(regionClearListener.eventFired).isTrue();
     }
+**[*[↑](#rules)*]** 
 
 ## Before Annotation
 
@@ -97,6 +103,7 @@ The following test method name is ***not*** a violation of the rule:
         super.setup();
         this.mojo.init();
     }
+**[*[↑](#rules)*]** 
 
 ## After Annotation
 
@@ -125,3 +132,4 @@ The following test method name is ***not*** a violation of the rule:
             this.mojo.cleanup();
         }
     }
+**[*[↑](#rules)*]** 
