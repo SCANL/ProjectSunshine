@@ -65,3 +65,63 @@ The following test method name is ***not*** a violation of the rule:
 	    repository.deleteAll();
 	    assertThat(regionClearListener.eventFired).isTrue();
     }
+
+## Before Annotation
+
+### Applicability
+
+ - Identifier Type: Method
+ - File Type: Test
+ - JUnit Version: 4+
+
+A method with the name 'setup' must use `@Before` annotation.
+
+### Example
+
+The following test method name is a violation of the rule:
+
+        public void setUp(Context c) {
+            mCursor = c.getContentResolver().query(People.CONTENT_URI, PEOPLE_PROJECTION, null,
+                    null, People.DEFAULT_SORT_ORDER);
+        }
+
+The following test method name is ***not*** a violation of the rule:
+
+    @Before
+    public void setup() throws Exception {
+        this.mojo = new AbstractGitMojo() {
+            public void run()
+                    throws MojoExecutionException {}
+        };
+
+        super.setup();
+        this.mojo.init();
+    }
+
+## After Annotation
+
+### Applicability
+
+ - Identifier Type: Method
+ - File Type: Test
+ - JUnit Version: 4+
+
+A method with the name 'teardown' must use `@After` annotation.
+
+### Example
+
+The following test method name is a violation of the rule:
+
+      @Override protected void tearDown() {
+		  tearDownStack.runTearDown();
+      }
+
+
+The following test method name is ***not*** a violation of the rule:
+
+    @After
+    public void tearDown() {
+	    if (this.mojo != null) {
+            this.mojo.cleanup();
+        }
+    }
