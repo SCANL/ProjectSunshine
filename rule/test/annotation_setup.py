@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from model.file_type import FileType
 from model.identifier_type import IdentifierType
 from model.issue import Issue
 
@@ -31,7 +32,10 @@ class AnnotationSetup:
                 self.__issues.append(issue)
 
     def analyze(self, entity):
-        self.__entity = entity
-        for class_item in self.__entity.classes:
-            for method_item in class_item.methods:
-                self.__process_identifier(method_item)
+        if entity.file_type == FileType.Test:
+            self.__entity = entity
+            for class_item in self.__entity.classes:
+                for method_item in class_item.methods:
+                    self.__process_identifier(method_item)
+
+        return self.__issues
