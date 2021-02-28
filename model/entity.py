@@ -1,5 +1,6 @@
 from lxml import etree
 
+from model.file_type import FileType
 from model.identifier import Class, Attribute, Method, Parameter, Variable
 
 
@@ -11,6 +12,16 @@ class Entity:
         self.path = None
         self.classes = []
         self.type = None
+        self.file_type = None
+        self.junit = None
+
+    def set_file_type(self, file_type):
+        if file_type == 1:
+            self.file_type = FileType.Test
+        elif file_type == 2:
+            self.file_type = FileType.NonTest
+        else:
+            self.file_type = FileType.Unknown
 
     def construct_hierarchy(self):
         tree = etree.fromstring(self.srcml)
