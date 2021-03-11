@@ -17,7 +17,7 @@ class IsNoReturnBool:
         self.__id = 'A.2'
         self.__issues = []
         self.__issue_category = '\'Is\' returns more than a Boolean'
-        self.__issue_description = 'The name of a method is a predicate suggesting a true/false value in return. However the return type is not Boolean but rather a more complex type'
+        self.__issue_description = 'The name of a method is a predicate suggesting a true/false value in return. However the return type is not Boolean but rather a more complex type.'
 
     def __process_identifier(self, identifier):
         if identifier.name_terms[0].lower() in self.custom_terms:
