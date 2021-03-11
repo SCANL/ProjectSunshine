@@ -1,6 +1,5 @@
 from lxml import etree
 
-from common.util_parsing import get_method_return_type
 from model.file_type import FileType
 from model.identifier import Class, Attribute, Method, Parameter, Variable
 
