@@ -1,5 +1,6 @@
 from lxml import etree
 
+from common.util_parsing import get_method_return_type
 from model.file_type import FileType
 from model.identifier import Class, Attribute, Method, Parameter, Variable
 
@@ -52,8 +53,9 @@ class Entity:
                 method_name = method_item.xpath('./src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
                 method_annotation = method_item.xpath('./src:annotation/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})
                 method_annotation = [''.join(x.text) for x in method_annotation]
+                method_return_type = method_item.xpath('./src:type/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
 
-                model_method = Method(method_name.text, method_annotation, model_class.name, method_item)
+                model_method = Method(method_name.text, method_annotation, model_class.name, method_return_type.text, method_item)
 
                 parameter_list = method_item.xpath('*/src:parameter/src:decl', namespaces={'src': 'http://www.srcML.org/srcML/src'})
                 for parameter_item in parameter_list:

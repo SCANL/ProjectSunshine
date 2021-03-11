@@ -26,7 +26,7 @@ class Attribute:
 
 class Method:
 
-    def __init__(self, name, annotations, parent_name, source):
+    def __init__(self, name, annotations, parent_name, return_type, source):
         self.name = name
         self.source = source
         self.annotations = annotations
@@ -34,6 +34,7 @@ class Method:
         self.parameters = []
         self.name_terms = splitter.split_heuristic(name)
         self.parent_name = parent_name
+        self.return_type = return_type
 
     def get_parameters_as_string(self):
         string_list = []
