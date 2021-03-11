@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from common.util_parsing import get_all_return_statements
 from model.identifier_type import IdentifierType
 from model.issue import Issue
 
@@ -30,8 +31,8 @@ class GetNoReturn:
     def __process_identifier(self, identifier):
 
         if identifier.name_terms[0].lower() in self.custom_terms:
-            return_statements = identifier.source.xpath('./src:block/src:block_content/src:return',
-                                                        namespaces={'src': 'http://www.srcML.org/srcML/src'})
+            return_statements = get_all_return_statements(identifier.source)
+
             if len(return_statements) == 0:
                 issue = Issue()
                 issue.file_path = self.__entity.path
