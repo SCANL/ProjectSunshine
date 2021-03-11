@@ -12,7 +12,7 @@ class GetMoreThanAccessor:
         self.__id = 'A.1'
         self.__issues = []
         self.__issue_category = '\'Get\' more than accessor'
-        self.__issue_description = 'A getter that performs actions other than returning the corresponding attribute without documenting it'
+        self.__issue_description = 'A getter that performs actions other than returning the corresponding attribute.'
 
     def __process_identifier(self, identifier):
 

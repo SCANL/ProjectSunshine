@@ -26,7 +26,7 @@ class GetNoReturn:
         self.__id = 'B.3'
         self.__issues = []
         self.__issue_category = '\'Get\' method does not return'
-        self.__issue_description = 'The name suggests that the method returns something (e.g., name starts with \'get\' or \'return\')'
+        self.__issue_description = 'The name suggests that the method returns something (e.g., name starts with \'get\' or \'return\').'
 
     def __process_identifier(self, identifier):
 
