@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from common.util_parsing import get_all_return_statements
-from model.identifier_type import IdentifierType
+from model.identifier_type import get_type
 from model.issue import Issue
 from nlp import custom_terms
 
@@ -24,7 +24,7 @@ class GetNoReturn:
                 issue = Issue()
                 issue.file_path = self.__entity.path
                 issue.identifier = identifier.get_fully_qualified_name()
-                issue.identifier_type = IdentifierType.Method
+                issue.identifier_type = get_type(type(identifier).__name__)
                 issue.category = self.__issue_category
                 issue.details = self.__issue_description
                 issue.analysis_datetime = datetime.now()
