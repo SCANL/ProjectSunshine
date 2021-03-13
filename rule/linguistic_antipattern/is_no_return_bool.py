@@ -16,6 +16,7 @@ class IsNoReturnBool:
         self.__issue_description = 'The name of a method is a predicate suggesting a true/false value in return. However the return type is not Boolean but rather a more complex type.'
 
     def __process_identifier(self, identifier):
+        # Issue: starting term is a boolean term, but the method does not have a boolean return statement (i.e., true/false not returned)
         if identifier.name_terms[0].lower() in custom_terms.boolean_terms:
             returns = get_all_return_statements(identifier.source)
             return_boolean = 0
@@ -35,6 +36,7 @@ class IsNoReturnBool:
                 self.__issues.append(issue)
 
     def analyze(self, entity):
+        # Analyze all methods in a class
         self.__entity = entity
         for class_item in self.__entity.classes:
             for method_item in class_item.methods:

@@ -16,7 +16,7 @@ class GetNoReturn:
         self.__issue_description = 'The name suggests that the method returns something (e.g., name starts with \'get\' or \'return\').'
 
     def __process_identifier(self, identifier):
-
+        # Issue: The name starts with a get term, but there are no return statements
         if identifier.name_terms[0].lower() in custom_terms.get_terms:
             return_statements = get_all_return_statements(identifier.source)
 
@@ -31,6 +31,7 @@ class GetNoReturn:
                 self.__issues.append(issue)
 
     def analyze(self, entity):
+        # Analyze all methods in a class
         self.__entity = entity
         for class_item in self.__entity.classes:
             for method_item in class_item.methods:

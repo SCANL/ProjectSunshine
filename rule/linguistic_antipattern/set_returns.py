@@ -14,7 +14,7 @@ class SetReturns:
         self.__issue_description = 'A set method having a return type different than \'void\'.'
 
     def __process_identifier(self, identifier):
-
+        # Issue: The name starts with a set, but the method return type is not void
         if identifier.name_terms[0].lower() == 'set':
             if identifier.return_type != 'void':
                 issue = Issue()
@@ -27,6 +27,7 @@ class SetReturns:
                 self.__issues.append(issue)
 
     def analyze(self, entity):
+        # Analyze all methods in a class
         self.__entity = entity
         for class_item in self.__entity.classes:
             for method_item in class_item.methods:
