@@ -3,14 +3,10 @@ from datetime import datetime
 from common.util_parsing import get_all_return_statements
 from model.identifier_type import IdentifierType
 from model.issue import Issue
+from nlp import custom_terms
 
 
 class IsNoReturnBool:
-
-    custom_terms = ['is',
-                    'has',
-                    'have',
-                    'can']
 
     def __init__(self):
         self.__entity = None
@@ -20,11 +16,12 @@ class IsNoReturnBool:
         self.__issue_description = 'The name of a method is a predicate suggesting a true/false value in return. However the return type is not Boolean but rather a more complex type.'
 
     def __process_identifier(self, identifier):
-        if identifier.name_terms[0].lower() in self.custom_terms:
+        if identifier.name_terms[0].lower() in custom_terms.boolean_terms:
             returns = get_all_return_statements(identifier.source)
             return_boolean = 0
             for item in returns:
-                if len(item.xpath('.//src:expr/src:literal[@type="boolean"]', namespaces={'src': 'http://www.srcML.org/srcML/src'})) != 0:
+                if len(item.xpath('.//src:expr/src:literal[@type="boolean"]',
+                                  namespaces={'src': 'http://www.srcML.org/srcML/src'})) != 0:
                     return_boolean += 1
 
             if len(returns) != return_boolean:
@@ -36,7 +33,6 @@ class IsNoReturnBool:
                 issue.details = self.__issue_description
                 issue.analysis_datetime = datetime.now()
                 self.__issues.append(issue)
-
 
     def analyze(self, entity):
         self.__entity = entity

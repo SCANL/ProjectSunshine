@@ -3,23 +3,10 @@ from datetime import datetime
 from common.util_parsing import get_all_return_statements
 from model.identifier_type import IdentifierType
 from model.issue import Issue
+from nlp import custom_terms
 
 
 class GetNoReturn:
-    custom_terms = ['find',
-                    'fetch',
-                    'query',
-                    'generate',
-                    'produce',
-                    'obtain',
-                    'acquire',
-                    'develop',
-                    'return',
-                    'recall',
-                    'render',
-                    'yield',
-                    'deliver',
-                    'give']
 
     def __init__(self):
         self.__entity = None
@@ -30,7 +17,7 @@ class GetNoReturn:
 
     def __process_identifier(self, identifier):
 
-        if identifier.name_terms[0].lower() in self.custom_terms:
+        if identifier.name_terms[0].lower() in custom_terms.get_terms:
             return_statements = get_all_return_statements(identifier.source)
 
             if len(return_statements) == 0:
