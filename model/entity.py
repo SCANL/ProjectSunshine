@@ -42,10 +42,10 @@ class Entity:
                     model_attribute = Attribute(attribute_type.text, attribute_name.text,model_class.name + "." + attribute_name.text, attribute_item)
                 else:# capture the attribute's type when the attributes are declared in groups (e.g., String app, testFilePath;)
                     if attribute_item.xpath('./src:type/@ref', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0] == 'prev':
-                        attribute_type = model_class.attribute[-1].type
+                        attribute_type = model_class.attributes[-1].type
                         model_attribute = Attribute(attribute_type, attribute_name.text, model_class.name + "." + attribute_name.text, attribute_item)
 
-                model_class.attribute.append(model_attribute)
+                model_class.attributes.append(model_attribute)
 
             method_list = class_item.xpath('*/src:function', namespaces={'src': 'http://www.srcML.org/srcML/src'})
             for method_item in method_list:

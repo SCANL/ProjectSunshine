@@ -7,7 +7,7 @@ class Class:
         self.name = name
         self.source = source
         self.methods = []
-        self.attribute = []
+        self.attributes = []
         self.name_terms = splitter.split_heuristic(name)
 
 
