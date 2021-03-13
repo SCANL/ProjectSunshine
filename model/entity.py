@@ -53,6 +53,8 @@ class Entity:
                 method_annotation = method_item.xpath('./src:annotation/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})
                 method_annotation = [''.join(x.text) for x in method_annotation]
                 method_return_type = method_item.xpath('./src:type/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
+                if method_return_type.text is None:
+                    method_return_type = method_item.xpath('./src:type/src:name/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
 
                 model_method = Method(method_name.text, method_annotation, model_class.name, method_return_type.text, method_item)
 
