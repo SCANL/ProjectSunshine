@@ -2,7 +2,7 @@ def get_all_class_fields(entity_class):
     items = []
     for attribute_item in entity_class.attributes:
         items.append(attribute_item)
-    for method_item in entity_class.mthods:
+    for method_item in entity_class.methods:
         for variable_item in method_item.variables:
             items.append(variable_item)
         for parameter_item in method_item.parameters:
