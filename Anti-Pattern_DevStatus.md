@@ -1,3 +1,13 @@
+###### Total Implementation Count: 05/17
+
+-   ###### A.* Implementation Count: 03/04
+-   ###### B.* Implementation Count: 01/06
+-   ###### C.* Implementation Count: 00/02
+-   ###### D.* Implementation Count: 01/02
+-   ###### E.* Implementation Count: 00/01
+-   ###### F.* Implementation Count: 00/02
+
+
 |  Id |                     Name                     |                                                                                                                       Definition                                                                                                                      |    Status   |
 |:---:|:--------------------------------------------:|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:-----------:|
 | A.1 | Get more than accessor                       | A getter that performs actions other than returning the corresponding attribute.                                                                                                                                                                      | <mark>Implemented</mark> |
