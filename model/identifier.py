@@ -13,12 +13,13 @@ class Class:
 
 class Attribute:
 
-    def __init__(self, type, name, parent_name, source):
+    def __init__(self, type, name, parent_name, is_array, source):
         self.type = type
         self.name = name
         self.source = source
         self.name_terms = splitter.split_heuristic(name)
         self.parent_name = parent_name
+        self.is_array = is_array
 
     def get_fully_qualified_name(self):
         return self.parent_name + '.' + self.name
@@ -26,7 +27,7 @@ class Attribute:
 
 class Method:
 
-    def __init__(self, name, annotations, parent_name, return_type, source):
+    def __init__(self, name, annotations, parent_name, return_type, is_array, source):
         self.name = name
         self.source = source
         self.annotations = annotations
@@ -35,6 +36,7 @@ class Method:
         self.name_terms = splitter.split_heuristic(name)
         self.parent_name = parent_name
         self.return_type = return_type
+        self.is_array = is_array
 
     def get_parameters_as_string(self):
         string_list = []
@@ -49,12 +51,13 @@ class Method:
 
 class Variable:
 
-    def __init__(self, type, name, source):
+    def __init__(self, type, name, is_array, source):
         self.type = type
         self.name = name
         self.source = source
         self.name_terms = splitter.split_heuristic(name)
         self.parent_name = None
+        self.is_array = is_array
 
     def set_parent_name(self, parent_name):
         self.parent_name = parent_name
@@ -65,12 +68,13 @@ class Variable:
 
 class Parameter:
 
-    def __init__(self, type, name, source):
+    def __init__(self, type, name, is_array, source):
         self.type = type
         self.name = name
         self.source = source
         self.name_terms = splitter.split_heuristic(name)
         self.parent_name = None
+        self.is_array = is_array
 
     def set_parent_name(self, parent_name):
         self.parent_name = parent_name
