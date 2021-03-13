@@ -17,6 +17,6 @@ def get_config_setting(section, name):
         log.exception(msg='Config setting %s not available.' % str(section + name), exc_info=True)
 
 
-def get_name(file_path):
+def get_file_name(file_path):
     head, tail = os.path.split(file_path)
     return tail

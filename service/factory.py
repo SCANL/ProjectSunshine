@@ -15,7 +15,7 @@ class EntityFactory:
             self.entity = Entity()
             self.entity.srcml = parser.parsed_string
             self.entity.path = source_path
-            self.entity.name = util.get_name(source_path)
+            self.entity.name = util.get_file_name(source_path)
             c = self.entity.construct_hierarchy()
         else:
             print('todo: fail')
