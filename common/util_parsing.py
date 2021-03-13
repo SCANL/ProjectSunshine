@@ -1,3 +1,18 @@
+def get_all_class_fields(entity_class):
+    items = []
+    for attribute_item in entity_class.attributes:
+        items.append(attribute_item)
+    for method_item in entity_class.mthods:
+        for variable_item in method_item.variables:
+            items.append(variable_item)
+        for parameter_item in method_item.parameters:
+            items.append(parameter_item)
+
+    return items
+
+
+
+
 def get_all_return_statements(code):
     return code.xpath('.//src:return', namespaces={'src': 'http://www.srcML.org/srcML/src'})
 
