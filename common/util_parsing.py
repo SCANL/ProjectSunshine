@@ -11,8 +11,6 @@ def get_all_class_fields(entity_class):
     return items
 
 
-
-
 def get_all_return_statements(code):
     return code.xpath('.//src:return', namespaces={'src': 'http://www.srcML.org/srcML/src'})
 
