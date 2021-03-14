@@ -17,8 +17,8 @@ class ExpectingNotGettingSingle:
 
     def __process_identifier(self, identifier):
         # Issue: if the last term is singular and the return type is a collection
-        if identifier.return_type in java_collection_data_types or identifier.is_array == True:
-            if is_singular(identifier.name_terms[-1]):
+        if is_singular(identifier.name_terms[-1]):
+            if identifier.return_type in java_collection_data_types or identifier.is_array == True:
                 issue = Issue()
                 issue.file_path = self.__entity.path
                 issue.identifier = identifier.get_fully_qualified_name()
