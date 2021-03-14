@@ -1,10 +1,10 @@
-###### Total Implementation Count: 06/17
+###### Total Implementation Count: 08/17
 
 -   ###### A.* Implementation Count: 04/04
 -   ###### B.* Implementation Count: 01/06
 -   ###### C.* Implementation Count: 00/02
--   ###### D.* Implementation Count: 01/02
--   ###### E.* Implementation Count: 00/01
+-   ###### D.* Implementation Count: 02/02
+-   ###### E.* Implementation Count: 01/01
 -   ###### F.* Implementation Count: 00/02
 
 
@@ -24,7 +24,7 @@
 | C.2 | Method signature and comment are opposite    | The name of an attribute suggests a single instance, while its type suggests that the attribute stores a collection of objects.                                                                                                                       | Not Started |
 | D.1 | Says one but contains many                   | The name of an attribute suggests a single instance, while its type suggests that the attribute stores a collection of objects.                                                                                                                       | <mark>Implemented</mark> |
 | D.2 | Name suggests boolean but type is not        | The name of an attribute suggests that its value is true or false, but its declaring type is not Boolean.                                                                                                                                             | <mark>Implemented</mark> |
-| E.1 | Says many but contains one                   | The name of an attribute suggests multiple instances, but its type suggests a single one.                                                                                                                                                             | Not Started |
+| E.1 | Says many but contains one                   | The name of an attribute suggests multiple instances, but its type suggests a single one.                                                                                                                                                             | <mark>Implemented</mark> |
 | F.1 | Attribute name and type are opposite         | The name of an attribute is in contradiction with its type as they contain antonyms.                                                                                                                                                                  | Not Started |
 | F.2 | Attribute signature and comment are opposite | The declaration of an attribute is in contradiction with its documentation.                                                                                                                                                                           | Not Started |
 
