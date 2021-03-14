@@ -1,7 +1,7 @@
-###### Total Implementation Count: 08/17
+###### Total Implementation Count: 09/17
 
 -   ###### A.* Implementation Count: 04/04
--   ###### B.* Implementation Count: 01/06
+-   ###### B.* Implementation Count: 02/06
 -   ###### C.* Implementation Count: 00/02
 -   ###### D.* Implementation Count: 02/02
 -   ###### E.* Implementation Count: 01/01
@@ -19,7 +19,7 @@
 | B.3 | Get method does not return                   | The name suggests that the method returns something (e.g., name starts with get or return) but the return type is void.                                                                                                                               | <mark>Implemented</mark> |
 | B.4 | Not answered question                        | The name of a method is in the form of predicate whereas the return type is not Boolean.                                                                                                                                                              | Not Started |
 | B.5 | Transform method does not return             | The name of a method suggests the transformation of an object but there is no return value and it is not clear from the documentation where the result is stored.                                                                                     | Not Started |
-| B.6 | Expecting but not getting a collection       | The name of a method suggests that a collection should be returned but a single object or nothing is returned.                                                                                                                                        | Not Started |
+| B.6 | Expecting but not getting a collection       | The name of a method suggests that a collection should be returned but a single object or nothing is returned.                                                                                                                                        | <mark>Implemented</mark> |
 | C.1 | Method name and return type are opposite     | The documentation of a method is in contradiction with its declaration.                                                                                                                                                                               | Not Started |
 | C.2 | Method signature and comment are opposite    | The name of an attribute suggests a single instance, while its type suggests that the attribute stores a collection of objects.                                                                                                                       | Not Started |
 | D.1 | Says one but contains many                   | The name of an attribute suggests a single instance, while its type suggests that the attribute stores a collection of objects.                                                                                                                       | <mark>Implemented</mark> |
