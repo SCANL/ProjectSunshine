@@ -3,10 +3,10 @@ from spiral.simple_splitters import heuristic_split
 
 custom_dictionary = ['AtLeast', 'AllOf', 'setup', 'teardown', 'cleanup', 'shutdown', 'noop', 'Exp4j', 'Neo4j', 'Dom4j',
                      'SVN', 'JSON', 'HEAD', 'Hash', 'API'
-                      'PDF', 'TTL', 'Thread', 'ASCII', 'Boolean', 'Number', 'Value',
-                     'Set', 'Get', 'Endpoint', 'Expiry', 'BOS', 'Url', 'When', 'With', 'TLS', 'delete', 'SUT', 'XML',
-                     'Format', 'Pojo', 'List', 'IP', 'M3', 'IO', 'Bag', 'KO', 'IGNORE', 'TRACE', 'DNC', 'Compress',
-                     'SLA', 'H5', 'PATCH', 'Mail', 'URL']
+                      'PDF', 'TTL',  'ASCII',
+                      'Endpoint',  'BOS', 'Url',  'TLS',  'SUT', 'XML',
+                     'Pojo', 'IP', 'M3', 'IO', 'Bag', 'KO', 'IGNORE', 'TRACE', 'DNC',
+                     'SLA', 'H5', 'PATCH', 'URL']
 
 custom_dictionary = list(dict.fromkeys(custom_dictionary))
 
