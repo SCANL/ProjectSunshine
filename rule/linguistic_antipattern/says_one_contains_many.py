@@ -18,8 +18,8 @@ class SaysOneContainsMany:
 
     def __process_identifier(self, identifier):
         # Issue: The last term in the name is singular AND the data type is a collection
-        if identifier.type in java_collection_data_types or identifier.is_array == True:
-            if is_singular(identifier.name_terms[-1]):
+        if is_singular(identifier.name_terms[-1]):
+            if identifier.type in java_collection_data_types or identifier.is_array == True:
                 issue = Issue()
                 issue.file_path = self.__entity.path
                 issue.identifier = identifier.get_fully_qualified_name()
