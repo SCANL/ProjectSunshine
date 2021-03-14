@@ -43,12 +43,12 @@ class Entity:
                         attribute_array = attribute_item.xpath('./src:type/src:name/src:index', namespaces={'src': 'http://www.srcML.org/srcML/src'})
                         if len(attribute_array) != 0:
                             attribute_type_array = True
-                    model_attribute = Attribute(attribute_type.text, attribute_name.text,model_class.name + "." + attribute_name.text, attribute_type_array, attribute_item)
+                    model_attribute = Attribute(attribute_type.text, attribute_name.text,model_class.name, attribute_type_array, attribute_item)
                 else:# capture the attribute's type when the attributes are declared in groups (e.g., String app, testFilePath;)
                     if attribute_item.xpath('./src:type/@ref', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0] == 'prev':
                         attribute_type = model_class.attributes[-1].type
                         attribute_type_array = model_class.attributes[-1].is_array
-                        model_attribute = Attribute(attribute_type, attribute_name.text, model_class.name + "." + attribute_name.text, attribute_type_array, attribute_item)
+                        model_attribute = Attribute(attribute_type, attribute_name.text, model_class.name, attribute_type_array, attribute_item)
 
                 model_class.attributes.append(model_attribute)
 
