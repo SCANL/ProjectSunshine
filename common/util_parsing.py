@@ -1,3 +1,9 @@
+def get_class_attribute_names(entity_class):
+    names = []
+    for attribute_item in entity_class.attributes:
+        names.append(attribute_item.name)
+    return names
+
 def get_all_class_fields(entity_class):
     items = []
     for attribute_item in entity_class.attributes:
