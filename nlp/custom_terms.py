@@ -13,10 +13,7 @@ validate_terms = ['validate',
                   'affirm',
                   'confirm']
 
-boolean_terms = ['is',
-                 'has',
-                 'have',
-                 'can']
+boolean_terms = ['is', 'has', 'have', 'can', 'are']
 
 get_terms = ['find',
              'fetch',
