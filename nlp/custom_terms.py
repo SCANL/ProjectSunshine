@@ -1,3 +1,13 @@
+validate_terms = ['validate',
+                  'ensure',
+                  'check',
+                  'test',
+                  'guarantee',
+                  'assert',
+                  'verify',
+                  'affirm',
+                  'confirm']
+
 boolean_terms = ['is',
                  'has',
                  'have',
