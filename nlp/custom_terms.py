@@ -1,3 +1,5 @@
+transform_terms = ['convert', 'change', 'transform', 'translate', 'transmute', 'cast', 'recast', 'turn']
+
 conditional_terms = ['if', 'condition', 'check', 'compare', 'equate']
 
 validate_terms = ['validate',
