@@ -1,4 +1,5 @@
-transform_terms = ['convert', 'change', 'transform', 'translate', 'transmute', 'cast', 'recast', 'turn']
+transform_terms_staring = ['to', 'convert', 'change', 'transform', 'translate', 'transmute', 'cast', 'recast', 'turn']
+transform_terms_inner = ['2', 'to', 'into']
 
 conditional_terms = ['if', 'condition', 'check', 'compare', 'equate']
 
