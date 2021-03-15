@@ -1,7 +1,7 @@
-###### Total Implementation Count: 10/17
+###### Total Implementation Count: 11/17
 
 -   ###### A.* Implementation Count: 04/04
--   ###### B.* Implementation Count: 03/06
+-   ###### B.* Implementation Count: 04/06
 -   ###### C.* Implementation Count: 00/02
 -   ###### D.* Implementation Count: 02/02
 -   ###### E.* Implementation Count: 01/01
@@ -14,7 +14,7 @@
 | A.2 | Is returns more than a Boolean               | The name of a method is a predicate suggesting a true/false value in return. However the return type is not Boolean but rather a more complex type.                                                                                                   | <mark>Implemented</mark> |
 | A.3 | Set method returns                           | A set method having a return type different than void.                                                                                                                                                                                                | <mark>Implemented</mark> |
 | A.4 | Expecting but not getting single instance    | The name of a method indicates that a single object is returned but the return type is a collection.                                                                                                                                                  | <mark>Implemented</mark> |
-| B.1 | Not implemented condition                    | The comments of a method suggest a conditional behavior that is not implemented in the code. When the implementation is default this should be documented                                                                                             | Not Started |
+| B.1 | Not implemented condition                    | The comments of a method suggest a conditional behavior that is not implemented in the code. When the implementation is default this should be documented                                                                                             | <mark>Implemented</mark> |
 | B.2 | Validation method does not confirm           | A validation method (e.g., name starting with validate, check, ensure) does not confirm the validation, i.e., the method neither provides a return value informing whether the validation was successful, nor documents how to proceed to understand. | <mark>Implemented</mark> |
 | B.3 | Get method does not return                   | The name suggests that the method returns something (e.g., name starts with get or return) but the return type is void.                                                                                                                               | <mark>Implemented</mark> |
 | B.4 | Not answered question                        | The name of a method is in the form of predicate whereas the return type is not Boolean.                                                                                                                                                              | Not Started |
