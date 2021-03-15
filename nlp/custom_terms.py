@@ -1,3 +1,5 @@
+conditional_terms = ['if', 'condition', 'check', 'compare', 'equate']
+
 validate_terms = ['validate',
                   'ensure',
                   'check',
