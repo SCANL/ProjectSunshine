@@ -1,7 +1,7 @@
-###### Total Implementation Count: 11/17
+###### Total Implementation Count: 2/17
 
 -   ###### A.* Implementation Count: 04/04
--   ###### B.* Implementation Count: 04/06
+-   ###### B.* Implementation Count: 05/06
 -   ###### C.* Implementation Count: 00/02
 -   ###### D.* Implementation Count: 02/02
 -   ###### E.* Implementation Count: 01/01
@@ -17,7 +17,7 @@
 | B.1 | Not implemented condition                    | The comments of a method suggest a conditional behavior that is not implemented in the code. When the implementation is default this should be documented                                                                                             | <mark>Implemented</mark> |
 | B.2 | Validation method does not confirm           | A validation method (e.g., name starting with validate, check, ensure) does not confirm the validation, i.e., the method neither provides a return value informing whether the validation was successful, nor documents how to proceed to understand. | <mark>Implemented</mark> |
 | B.3 | Get method does not return                   | The name suggests that the method returns something (e.g., name starts with get or return) but the return type is void.                                                                                                                               | <mark>Implemented</mark> |
-| B.4 | Not answered question                        | The name of a method is in the form of predicate whereas the return type is not Boolean.                                                                                                                                                              | Not Started |
+| B.4 | Not answered question                        | The name of a method is in the form of predicate whereas the return type is not Boolean.                                                                                                                                                              | <mark>!!! Implemented !!!</mark> |
 | B.5 | Transform method does not return             | The name of a method suggests the transformation of an object but there is no return value and it is not clear from the documentation where the result is stored.                                                                                     | Not Started |
 | B.6 | Expecting but not getting a collection       | The name of a method suggests that a collection should be returned but a single object or nothing is returned.                                                                                                                                        | <mark>Implemented</mark> |
 | C.1 | Method name and return type are opposite     | The documentation of a method is in contradiction with its declaration.                                                                                                                                                                               | Not Started |
