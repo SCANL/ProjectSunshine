@@ -16,36 +16,38 @@ def get_all_class_fields(entity_class):
 
     return items
 
+def get_all_exception_throws(method):
+    return method.xpath('.//src:throw', namespaces={'src': 'http://www.srcML.org/srcML/src'})
 
-def get_all_return_statements(code):
-    return code.xpath('.//src:return', namespaces={'src': 'http://www.srcML.org/srcML/src'})
+def get_all_return_statements(method):
+    return method.xpath('.//src:return', namespaces={'src': 'http://www.srcML.org/srcML/src'})
 
 
-def get_all_conditional_statements(code):
+def get_all_conditional_statements(method):
     statements = {}
     statements_total = 0
 
-    statement_while = code.xpath('.//src:while', namespaces={'src': 'http://www.srcML.org/srcML/src'})
+    statement_while = method.xpath('.//src:while', namespaces={'src': 'http://www.srcML.org/srcML/src'})
     statements['while'] = statement_while
     statements_total += len(statement_while)
 
-    statement_do = code.xpath('.//src:do', namespaces={'src': 'http://www.srcML.org/srcML/src'})
+    statement_do = method.xpath('.//src:do', namespaces={'src': 'http://www.srcML.org/srcML/src'})
     statements['do'] = statement_do
     statements_total += len(statement_do)
 
-    statement_for = code.xpath('.//src:for', namespaces={'src': 'http://www.srcML.org/srcML/src'})
+    statement_for = method.xpath('.//src:for', namespaces={'src': 'http://www.srcML.org/srcML/src'})
     statements['for'] = statement_for
     statements_total += len(statement_for)
 
-    statement_if = code.xpath('.//src:if', namespaces={'src': 'http://www.srcML.org/srcML/src'})
+    statement_if = method.xpath('.//src:if', namespaces={'src': 'http://www.srcML.org/srcML/src'})
     statements['if'] = statement_if
     statements_total += len(statement_if)
 
-    statement_if2 = code.xpath('.//src:if_stmt', namespaces={'src': 'http://www.srcML.org/srcML/src'})
+    statement_if2 = method.xpath('.//src:if_stmt', namespaces={'src': 'http://www.srcML.org/srcML/src'})
     statements['if_stmt'] = statement_if2
     statements_total += len(statement_if2)
 
-    statement_switch = code.xpath('.//src:switch', namespaces={'src': 'http://www.srcML.org/srcML/src'})
+    statement_switch = method.xpath('.//src:switch', namespaces={'src': 'http://www.srcML.org/srcML/src'})
     statements['switch'] = statement_switch
     statements_total += len(statement_switch)
 
