@@ -4,6 +4,7 @@ def get_class_attribute_names(entity_class):
         names.append(attribute_item.name)
     return names
 
+
 def get_all_class_fields(entity_class):
     items = []
     for attribute_item in entity_class.attributes:
@@ -16,17 +17,23 @@ def get_all_class_fields(entity_class):
 
     return items
 
+
 def get_all_exception_throws(method):
     return method.xpath('.//src:throw', namespaces={'src': 'http://www.srcML.org/srcML/src'})
+
 
 def get_all_return_statements(method):
     return method.xpath('.//src:return', namespaces={'src': 'http://www.srcML.org/srcML/src'})
 
+
 def get_all_comments(method):
     return method.xpath('.//src:comment', namespaces={'src': 'http://www.srcML.org/srcML/src'})
 
-def get_count_text_comment(method, text):
-    return method.xpath('.//src:comment[contains(text(),\''+text+'\')]', namespaces={'src': 'http://www.srcML.org/srcML/src'})
+
+def get_comment_with_text(method, text):
+    return method.xpath('.//src:comment[contains(text(),\'' + text + '\')]',
+                        namespaces={'src': 'http://www.srcML.org/srcML/src'})
+
 
 def get_all_conditional_statements(method):
     statements = {}
