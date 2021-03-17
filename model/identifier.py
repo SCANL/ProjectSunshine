@@ -20,6 +20,7 @@ class Attribute:
         self.name_terms = splitter.split_heuristic(name)
         self.parent_name = parent_name
         self.is_array = is_array
+        self.type_terms = splitter.split_heuristic(type)
 
     def get_fully_qualified_name(self):
         return self.parent_name + '.' + self.name
@@ -37,6 +38,7 @@ class Method:
         self.parent_name = parent_name
         self.return_type = return_type
         self.is_array = is_array
+        self.type_terms = splitter.split_heuristic(return_type)
 
     def get_parameters_as_string(self):
         string_list = []
@@ -58,6 +60,7 @@ class Variable:
         self.name_terms = splitter.split_heuristic(name)
         self.parent_name = None
         self.is_array = is_array
+        self.type_terms = splitter.split_heuristic(type)
 
     def set_parent_name(self, parent_name):
         self.parent_name = parent_name
@@ -75,6 +78,7 @@ class Parameter:
         self.name_terms = splitter.split_heuristic(name)
         self.parent_name = None
         self.is_array = is_array
+        self.type_terms = splitter.split_heuristic(type)
 
     def set_parent_name(self, parent_name):
         self.parent_name = parent_name
