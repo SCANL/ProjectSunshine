@@ -32,6 +32,11 @@ class Entity:
         for class_item in class_list:
             class_name = class_item.xpath('./src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
             model_class = Class(class_name.text, class_item)
+            class_comment = tree.xpath('//src:class[src:name=\''+model_class.name+'\']/preceding-sibling::*[1][self::src:comment]',namespaces={'src': 'http://www.srcML.org/srcML/src'})
+            if len(class_comment) > 0:
+                model_class.set_block_comment(class_comment[0].text)
+            else:
+                model_class.set_block_comment(None)
     ##----------------------------------------------------------------------------------------------------------------##
             attribute_list = class_item.xpath('*/src:decl_stmt/src:decl', namespaces={'src': 'http://www.srcML.org/srcML/src'})
             for i, attribute_item in enumerate(attribute_list):

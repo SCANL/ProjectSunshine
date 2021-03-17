@@ -9,7 +9,10 @@ class Class:
         self.methods = []
         self.attributes = []
         self.name_terms = splitter.split_heuristic(name)
+        self.block_comment = None
 
+    def set_block_comment(self, comment):
+        self.block_comment = comment
 
 class Attribute:
 
