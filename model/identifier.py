@@ -13,7 +13,7 @@ class Class:
 
 class Attribute:
 
-    def __init__(self, type, name, parent_name, is_array, source):
+    def __init__(self, type, name, parent_name, is_array, is_generic, source):
         self.type = type
         self.name = name
         self.source = source
@@ -21,6 +21,11 @@ class Attribute:
         self.parent_name = parent_name
         self.is_array = is_array
         self.type_terms = splitter.split_heuristic(type)
+        self.block_comment = None
+        self.type_is_generic = is_generic
+
+    def set_block_comment(self, comment):
+        self.block_comment = comment
 
     def get_fully_qualified_name(self):
         return self.parent_name + '.' + self.name
@@ -39,6 +44,10 @@ class Method:
         self.return_type = return_type
         self.is_array = is_array
         self.type_terms = splitter.split_heuristic(return_type)
+        self.block_comment = None
+
+    def set_block_comment(self, comment):
+        self.block_comment = comment
 
     def get_parameters_as_string(self):
         string_list = []
@@ -53,7 +62,7 @@ class Method:
 
 class Variable:
 
-    def __init__(self, type, name, is_array, source):
+    def __init__(self, type, name, is_array, is_generic, source):
         self.type = type
         self.name = name
         self.source = source
@@ -61,6 +70,11 @@ class Variable:
         self.parent_name = None
         self.is_array = is_array
         self.type_terms = splitter.split_heuristic(type)
+        self.block_comment = None
+        self.type_is_generic = is_generic
+
+    def set_block_comment(self, comment):
+            self.block_comment = comment
 
     def set_parent_name(self, parent_name):
         self.parent_name = parent_name
@@ -71,7 +85,7 @@ class Variable:
 
 class Parameter:
 
-    def __init__(self, type, name, is_array, source):
+    def __init__(self, type, name, is_array, is_generic, source):
         self.type = type
         self.name = name
         self.source = source
@@ -79,6 +93,11 @@ class Parameter:
         self.parent_name = None
         self.is_array = is_array
         self.type_terms = splitter.split_heuristic(type)
+        self.block_comment = None
+        self.type_is_generic = is_generic
+
+    def set_block_comment(self, comment):
+        self.block_comment = comment
 
     def set_parent_name(self, parent_name):
         self.parent_name = parent_name
