@@ -14,6 +14,7 @@ class Entity:
         self.type = None
         self.file_type = None
         self.junit = None
+        self.language = None
 
     def set_file_type(self, file_type):
         if file_type == 1:
@@ -25,6 +26,8 @@ class Entity:
 
     def construct_hierarchy(self):
         tree = etree.fromstring(self.srcml)
+        self.language = tree.xpath('//src:unit/@language',namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
+
         class_list = tree.xpath('//src:class', namespaces={'src': 'http://www.srcML.org/srcML/src'})
         for class_item in class_list:
             class_name = class_item.xpath('./src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
