@@ -22,6 +22,16 @@ def get_file_name(file_path):
     return tail
 
 
+def remove_list_nestings(l):
+    output = []
+    for i in l:
+        if type(i) == list:
+            remove_list_nestings(i)
+        else:
+            output.append(i)
+    return output
+
+
 # https://docs.oracle.com/javase/tutorial/java/nutsandbolts/datatypes.html
 java_primitive_data_types = ['byte', 'short', 'int', 'long', 'float', 'double', 'boolean', 'char']
 
