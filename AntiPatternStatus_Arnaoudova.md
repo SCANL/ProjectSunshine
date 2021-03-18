@@ -1,8 +1,8 @@
-###### Total Implementation Count: 15/17
+###### Total Implementation Count: 17/17
 
 -   ###### A.* Implementation Count: 04/04
 -   ###### B.* Implementation Count: 06/06
--   ###### C.* Implementation Count: 01/02
+-   ###### C.* Implementation Count: 02/02
 -   ###### D.* Implementation Count: 02/02
 -   ###### E.* Implementation Count: 01/01
 -   ###### F.* Implementation Count: 02/02
@@ -21,7 +21,7 @@
 | B.5 | Transform method does not return             | The name of a method suggests the transformation of an object but there is no return value and it is not clear from the documentation where the result is stored.                                                                                     | <mark>Implemented</mark>         | transform_not_return.py             |
 | B.6 | Expecting but not getting a collection       | The name of a method suggests that a collection should be returned but a single object or nothing is returned.                                                                                                                                        | <mark>Implemented</mark>         | expecting_not_getting_collection.py |
 | C.1 | Method name and return type are opposite     | The documentation of a method is in contradiction with its declaration.                                                                                                                                                                               | <mark>Implemented</mark>         | method_name_return_opposite.py      |
-| C.2 | Method signature and comment are opposite    | The name of an attribute suggests a single instance, while its type suggests that the attribute stores a collection of objects.                                                                                                                       | Not Started                      |                                     |
+| C.2 | Method signature and comment are opposite    | The name of an attribute suggests a single instance, while its type suggests that the attribute stores a collection of objects.                                                                                                                       | <mark>Implemented</mark>         | method_signature_comment_opposite.py|
 | D.1 | Says one but contains many                   | The name of an attribute suggests a single instance, while its type suggests that the attribute stores a collection of objects.                                                                                                                       | <mark>Implemented</mark>         | says_one_contains_many.py           |
 | D.2 | Name suggests boolean but type is not        | The name of an attribute suggests that its value is true or false, but its declaring type is not Boolean.                                                                                                                                             | <mark>Implemented</mark>         | name_suggest_boolean_type_not.py    |
 | E.1 | Says many but contains one                   | The name of an attribute suggests multiple instances, but its type suggests a single one.                                                                                                                                                             | <mark>Implemented</mark>         | says_many_contains_one.py           |
