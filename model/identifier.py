@@ -14,6 +14,7 @@ class Class:
     def set_block_comment(self, comment):
         self.block_comment = comment
 
+
 class Attribute:
 
     def __init__(self, type, name, parent_name, is_array, is_generic, source):
@@ -52,6 +53,17 @@ class Method:
     def set_block_comment(self, comment):
         self.block_comment = comment
 
+    def get_inner_comments(self):
+        return self.source.xpath('.//src:comment', namespaces={'src': 'http://www.srcML.org/srcML/src'})
+
+    def get_all_comments(self):
+        comments = []
+        if self.block_comment is not None:
+            comments.append(self.block_comment)
+        for comment in self.get_inner_comments():
+            comments.append(comment.text)
+        return comments
+
     def get_parameters_as_string(self):
         string_list = []
         for parameter in self.parameters:
@@ -77,7 +89,7 @@ class Variable:
         self.type_is_generic = is_generic
 
     def set_block_comment(self, comment):
-            self.block_comment = comment
+        self.block_comment = comment
 
     def set_parent_name(self, parent_name):
         self.parent_name = parent_name

@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from common.util_parsing import get_all_conditional_statements, get_comment_with_text
+from common.util_parsing import get_all_conditional_statements
 from model.identifier_type import get_type
 from model.issue import Issue
 from nlp.custom_terms import conditional_terms
@@ -17,25 +17,24 @@ class NotImplementedCondition:
 
     def __process_identifier(self, identifier):
         # Issue: method contains conditional-related comment, but no conditional statements
-
-        conditional_comments = []
-        for term in conditional_terms:
-            comments = get_comment_with_text(identifier.source, term)
-            if len(comments) >= 1:
-                conditional_comments.append(comments)
-
-        if len(conditional_comments) >= 1:
-            conditional_statements, conditional_statements_total = get_all_conditional_statements(identifier.source)
-
-            if conditional_statements_total == 0:
-                issue = Issue()
-                issue.file_path = self.__entity.path
-                issue.identifier = identifier.get_fully_qualified_name()
-                issue.identifier_type = get_type(type(identifier).__name__)
-                issue.category = self.__issue_category
-                issue.details = self.__issue_description
-                issue.analysis_datetime = datetime.now()
-                self.__issues.append(issue)
+        comments = identifier.get_all_comments()
+        if len(comments) >= 1:
+            contains = False
+            for comment in comments:
+                if any(item in comment for item in conditional_terms):
+                    contains = True
+                    break
+            if contains:
+                conditional_statements, conditional_statements_total = get_all_conditional_statements(identifier.source)
+                if conditional_statements_total == 0:
+                    issue = Issue()
+                    issue.file_path = self.__entity.path
+                    issue.identifier = identifier.get_fully_qualified_name()
+                    issue.identifier_type = get_type(type(identifier).__name__)
+                    issue.category = self.__issue_category
+                    issue.details = self.__issue_description
+                    issue.analysis_datetime = datetime.now()
+                    self.__issues.append(issue)
 
     def analyze(self, entity):
         # Analyze all methods in a class

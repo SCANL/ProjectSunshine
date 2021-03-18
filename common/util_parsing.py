@@ -26,15 +26,6 @@ def get_all_return_statements(method):
     return method.xpath('.//src:return', namespaces={'src': 'http://www.srcML.org/srcML/src'})
 
 
-def get_all_comments(method):
-    return method.xpath('.//src:comment', namespaces={'src': 'http://www.srcML.org/srcML/src'})
-
-
-def get_comment_with_text(method, text):
-    return method.xpath('.//src:comment[contains(text(),\'' + text + '\')]',
-                        namespaces={'src': 'http://www.srcML.org/srcML/src'})
-
-
 def get_all_conditional_statements(method):
     statements = {}
     statements_total = 0
