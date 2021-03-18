@@ -1,6 +1,34 @@
 from itertools import product
 
-from nltk.corpus import wordnet
+from nltk import word_tokenize
+from nltk.corpus import wordnet, stopwords
+
+from common.util import remove_list_nestings
+
+
+def remove_stopwords(term_list):
+    stop_words = stopwords.words('english')
+    cleansed_terms = [i for i in term_list if not i in stop_words]
+    return cleansed_terms
+
+
+def clean_text(text, return_unique=False):
+    symbols = ['\t', '\r', '\n', '@', '?', '"', ':', '|', '<', '>', '.', ',', '\\', '/', '//', '#', '!', '$', '%', '^',
+               '&', '*', ';', ':', '{',
+               '}', '=', '-', '_', '`', '~', '(', ')']
+
+    if type(text) is list:
+        text = remove_list_nestings(text)
+        text = ' '.join(text)
+
+    for symbol in symbols:
+        text = text.replace(symbol, ' ')
+    text = text.strip()
+    tokenized_text = word_tokenize(text)
+    tokenized_text = [i for i in tokenized_text if not i in symbols]
+    if return_unique:
+        tokenized_text = list(set(tokenized_text))
+    return tokenized_text
 
 
 def are_antonyms(term1, term2):
@@ -33,6 +61,5 @@ def get_synonyms(term, pos):
     return set(synonym_terms)
     # return set(chain.from_iterable([word.lemma_names() for word in synonyms]))
 
-
-#z = are_antonyms('sleep', 'run')#get_synonyms('to', 'v')
-#print(z)
+# z = are_antonyms('sleep', 'run')#get_synonyms('to', 'v')
+# print(z)
