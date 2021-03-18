@@ -32,6 +32,55 @@ def remove_list_nestings(l):
     return output
 
 
+cplusplus_primitive_data_types = ['int', 'unsigned int', 'signed int', 'short', 'short int', 'unsigned short', 'long',
+                                  'long double', 'unsigned long', 'float', 'double', 'char', 'unsigned char',
+                                  'signed char', 'bool']
+
+# https://www.cplusplus.com/reference/stl/
+cplusplus_collection_data_types = [
+    'array',
+    'vector',
+    'deque',
+    'forward_list',
+    'list',
+    'stack',
+    'queue',
+    'priority_queue',
+    'set',
+    'multiset',
+    'map',
+    'multimap',
+    'unordered_set',
+    'unordered_multiset',
+    'unordered_map',
+    'unordered_multimap'
+]
+
+# https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/built-in-types
+csharp_primitive_data_types = ['bool', 'byte', 'sbyte', 'char', 'decimal', 'double', 'float', 'int', 'uint', 'long', 'ulong', 'short', 'ushort', 'object', 'string', 'dynamic']
+
+# https://docs.microsoft.com/en-us/dotnet/standard/collections/commonly-used-collection-types
+csharp_collection_data_types = [
+    'Dictionary',
+    'List',
+    'Queue',
+    'Stack',
+    'LinkedList',
+    'ObservableCollection',
+    'SortedList',
+    'HashSet',
+    'SortedSet',
+    'Hashtable',
+    'Array',
+    'ArrayList',
+    'ConcurrentDictionary',
+    'BitArray',
+    'BlockingCollection',
+    'ConcurrentQueue',
+    'ConcurrentStack',
+    'ConcurrentBag'
+]
+
 # https://docs.oracle.com/javase/tutorial/java/nutsandbolts/datatypes.html
 java_primitive_data_types = ['byte', 'short', 'int', 'long', 'float', 'double', 'boolean', 'char']
 
