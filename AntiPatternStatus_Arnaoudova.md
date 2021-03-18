@@ -5,7 +5,7 @@
 -   ###### C.* Implementation Count: 01/02
 -   ###### D.* Implementation Count: 02/02
 -   ###### E.* Implementation Count: 01/01
--   ###### F.* Implementation Count: 01/02
+-   ###### F.* Implementation Count: 02/02
 
 
 |  Id |                     Name                     |                                                                                                                       Definition                                                                                                                      |              Status              |             Python File             |
@@ -26,5 +26,5 @@
 | D.2 | Name suggests boolean but type is not        | The name of an attribute suggests that its value is true or false, but its declaring type is not Boolean.                                                                                                                                             | <mark>Implemented</mark>         | name_suggest_boolean_type_not.py    |
 | E.1 | Says many but contains one                   | The name of an attribute suggests multiple instances, but its type suggests a single one.                                                                                                                                                             | <mark>Implemented</mark>         | says_many_contains_one.py           |
 | F.1 | Attribute name and type are opposite         | The name of an attribute is in contradiction with its type as they contain antonyms.                                                                                                                                                                  | <mark>Implemented</mark>         | attribute_name_type_opposite.py     |
-| F.2 | Attribute signature and comment are opposite | The declaration of an attribute is in contradiction with its documentation.                                                                                                                                                                           | Not Started                      |                                     |
+| F.2 | Attribute signature and comment are opposite | The declaration of an attribute is in contradiction with its documentation.                                                                                                                                                                           | <mark>Implemented</mark>         | attribute_signature_comment_opposite.py |
 ##### [Back To ReadMe](README.md)
