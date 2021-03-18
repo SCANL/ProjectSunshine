@@ -16,14 +16,20 @@ class MethodSignatureCommentOpposite:
         self.__issue_description = 'The documentation of a method is in contradiction with its declaration.'
 
     def __process_identifier(self, identifier):
-        # Issue: The method name and comment contain antonyms
+        # Issue: The method name or retrun type and comment contain antonyms
         comment = identifier.block_comment
         if comment is not None:
             comment_cleansed_terms = clean_text(comment, True)
-            unique_combinations = list(itertools.product(comment_cleansed_terms, identifier.type_terms))
+            unique_combinations_type = list(itertools.product(comment_cleansed_terms, identifier.type_terms))
+            unique_combinations_name = list(itertools.product(comment_cleansed_terms, identifier.name_terms))
 
             result_antonyms = False
-            for combination in unique_combinations:
+            for combination in unique_combinations_type:
+                if are_antonyms(combination[0], combination[1]):
+                    result_antonyms = True
+                    break
+
+            for combination in unique_combinations_name:
                 if are_antonyms(combination[0], combination[1]):
                     result_antonyms = True
                     break
