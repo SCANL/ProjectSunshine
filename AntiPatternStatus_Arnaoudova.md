@@ -1,11 +1,11 @@
-###### Total Implementation Count: 13/17
+###### Total Implementation Count: 15/17
 
 -   ###### A.* Implementation Count: 04/04
 -   ###### B.* Implementation Count: 06/06
--   ###### C.* Implementation Count: 00/02
+-   ###### C.* Implementation Count: 01/02
 -   ###### D.* Implementation Count: 02/02
 -   ###### E.* Implementation Count: 01/01
--   ###### F.* Implementation Count: 00/02
+-   ###### F.* Implementation Count: 01/02
 
 
 |  Id |                     Name                     |                                                                                                                       Definition                                                                                                                      |              Status              |             Python File             |
