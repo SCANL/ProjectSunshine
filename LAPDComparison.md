@@ -9,7 +9,7 @@ Tool initially developed by Arnaoudova et al.[1] and extended in [2].
 | Tool/Source code is not available                          | ***Source code available on GitHub***                        |
 | Analyzes methods and attributes                            | ***Analyzes methods, attributes, method variables, and method parameters; supports analysis of class names*** |
 | Utilizes srcML based                                       | Utilizes srcML based                                         |
-| Supports C++ and Java                                      | ***Supports C++, Java, and C#***                             |
+| Supports C++ and Java                                      | ***Supports Java, and C#***                             |
 | Utilizes WordNet and Stanford tagger                       | Utilizes WordNet and Stanford tagger                         |
 | Unknown                                                    | ***Supports custom linguistic terms in rule analysis***      |
 | C++ is offline; ***Java is an Eclipse Checkstyle plugin*** | Completely offline                                           |

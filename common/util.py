@@ -155,4 +155,4 @@ def get_primitive_types(language):
 
 
 def get_supported_file_extensions():
-    return ['.java', '.cs', '.cpp']
+    return ['.java', '.cs']
