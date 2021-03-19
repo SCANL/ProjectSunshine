@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from model.identifier_type import get_type
+from common.enum import IdentifierType
 from model.issue import Issue
 from nlp import custom_terms
 
@@ -15,7 +15,7 @@ class TransformNotReturn:
         self.__issue_description = 'The name of a method suggests the transformation of an object but there is no return value.'
 
     def __process_identifier(self, identifier):
-        # Issue: The name starts with or inner term contains transformation term and return type is void
+        # AntiPattern: The name starts with or inner term contains transformation term and return type is void
         inner_terms = [x.lower() for x in identifier.name_terms[1:-1]]
         if (identifier.name_terms[0].lower() in custom_terms.transform_terms_staring or
             any(item in inner_terms for item in custom_terms.transform_terms_inner)) \
@@ -23,7 +23,7 @@ class TransformNotReturn:
             issue = Issue()
             issue.file_path = self.__entity.path
             issue.identifier = identifier.get_fully_qualified_name()
-            issue.identifier_type = get_type(type(identifier).__name__)
+            issue.identifier_type = IdentifierType.get_type(type(identifier).__name__)
             issue.category = self.__issue_category
             issue.details = self.__issue_description
             issue.analysis_datetime = datetime.now()

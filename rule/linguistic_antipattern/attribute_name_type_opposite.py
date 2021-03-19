@@ -1,12 +1,10 @@
 import itertools
 from datetime import datetime
 
-from common.util import java_collection_data_types
+from common.enum import IdentifierType
 from common.util_parsing import get_all_class_fields
-from model.identifier_type import get_type
 from model.issue import Issue
 from nlp.related_terms import are_antonyms
-from nlp.term_property import is_singular
 
 
 class AttributeNameTypeOpposite:
@@ -19,7 +17,7 @@ class AttributeNameTypeOpposite:
         self.__issue_description = 'The name of an attribute is in contradiction with its type as they contain antonyms.'
 
     def __process_identifier(self, identifier):
-        # Issue: The identifer name and return type name contain antonyms
+        # AntiPattern: The identifier name and return type name contain antonyms
         unique_combinations = list(itertools.product(identifier.name_terms, identifier.type_terms))
         result_antonyms = False
         for combination in unique_combinations:
@@ -31,7 +29,7 @@ class AttributeNameTypeOpposite:
                 issue = Issue()
                 issue.file_path = self.__entity.path
                 issue.identifier = identifier.get_fully_qualified_name()
-                issue.identifier_type = get_type(type(identifier).__name__)
+                issue.identifier_type = IdentifierType.get_type(type(identifier).__name__)
                 issue.category = self.__issue_category
                 issue.details = self.__issue_description
                 issue.analysis_datetime = datetime.now()

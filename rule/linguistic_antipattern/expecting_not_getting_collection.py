@@ -1,7 +1,7 @@
 from datetime import datetime
 
-from common.util import java_collection_data_types
-from model.identifier_type import get_type
+from common import util
+from common.enum import IdentifierType
 from model.issue import Issue
 from nlp.term_property import is_plural
 
@@ -16,13 +16,13 @@ class ExpectingNotGettingCollection:
         self.__issue_description = 'The name of a method suggests that a collection should be returned but a single object or nothing is returned.'
 
     def __process_identifier(self, identifier):
-        # Issue: if the last term is plural and the return type is not a collection
+        # AntiPattern: if the last term is plural and the return type is not a collection
         if is_plural(identifier.name_terms[-1]):
-            if identifier.return_type not in java_collection_data_types and identifier.is_array != True:
+            if identifier.return_type not in util.get_collection_types(self.__entity.language) and identifier.is_array != True:
                 issue = Issue()
                 issue.file_path = self.__entity.path
                 issue.identifier = identifier.get_fully_qualified_name()
-                issue.identifier_type = get_type(type(identifier).__name__)
+                issue.identifier_type = IdentifierType.get_type(type(identifier).__name__)
                 issue.category = self.__issue_category
                 issue.details = self.__issue_description
                 issue.analysis_datetime = datetime.now()

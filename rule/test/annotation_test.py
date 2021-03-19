@@ -1,7 +1,6 @@
 from datetime import datetime
 
-from model.file_type import FileType
-from model.identifier_type import IdentifierType
+from common.enum import FileType, IdentifierType
 from model.issue import Issue
 
 
@@ -23,7 +22,7 @@ class AnnotationTest:
                 issue = Issue()
                 issue.file_path = self.__entity.path
                 issue.identifier = identifier.get_fully_qualified_name()
-                issue.identifier_type = IdentifierType.Method
+                issue.identifier_type = IdentifierType.get_type(type(identifier).__name__)
                 issue.category = self.__issue_category
                 issue.details = self.__issue_description
                 issue.analysis_datetime = datetime.now()

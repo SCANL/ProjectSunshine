@@ -1,7 +1,7 @@
 from datetime import datetime
 
+from common.enum import IdentifierType
 from common.util_parsing import get_all_return_statements
-from model.identifier_type import get_type
 from model.issue import Issue
 from nlp import custom_terms
 
@@ -16,7 +16,7 @@ class IsNoReturnBool:
         self.__issue_description = 'The name of a method is a predicate suggesting a true/false value in return. However the return type is not Boolean but rather a more complex type.'
 
     def __process_identifier(self, identifier):
-        # Issue: starting term is a boolean term, but the method does not have a boolean return statement (i.e., true/false not returned)
+        # AntiPattern: starting term is a boolean term, but the method does not have a boolean return statement (i.e., true/false not returned)
         if identifier.name_terms[0].lower() in custom_terms.boolean_terms:
             returns = get_all_return_statements(identifier.source)
             return_boolean = 0
@@ -29,7 +29,7 @@ class IsNoReturnBool:
                 issue = Issue()
                 issue.file_path = self.__entity.path
                 issue.identifier = identifier.get_fully_qualified_name()
-                issue.identifier_type = get_type(type(identifier).__name__)
+                issue.identifier_type = IdentifierType.get_type(type(identifier).__name__)
                 issue.category = self.__issue_category
                 issue.details = self.__issue_description
                 issue.analysis_datetime = datetime.now()

@@ -1,7 +1,7 @@
 import itertools
 from datetime import datetime
 
-from model.identifier_type import get_type
+from common.enum import IdentifierType
 from model.issue import Issue
 from nlp.related_terms import are_antonyms, clean_text
 
@@ -16,7 +16,7 @@ class MethodSignatureCommentOpposite:
         self.__issue_description = 'The documentation of a method is in contradiction with its declaration.'
 
     def __process_identifier(self, identifier):
-        # Issue: The method name or retrun type and comment contain antonyms
+        # AntiPattern: The method name or retrun type and comment contain antonyms
         comment = identifier.block_comment
         if comment is not None:
             comment_cleansed_terms = clean_text(comment, True)
@@ -38,7 +38,7 @@ class MethodSignatureCommentOpposite:
                 issue = Issue()
                 issue.file_path = self.__entity.path
                 issue.identifier = identifier.get_fully_qualified_name()
-                issue.identifier_type = get_type(type(identifier).__name__)
+                issue.identifier_type = IdentifierType.get_type(type(identifier).__name__)
                 issue.category = self.__issue_category
                 issue.details = self.__issue_description
                 issue.analysis_datetime = datetime.now()

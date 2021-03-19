@@ -1,7 +1,7 @@
 from datetime import datetime
 
+from common.enum import IdentifierType
 from common.util_parsing import get_all_return_statements
-from model.identifier_type import get_type
 from model.issue import Issue
 from nlp import custom_terms
 
@@ -16,7 +16,7 @@ class GetNoReturn:
         self.__issue_description = 'The name suggests that the method returns something (e.g., name starts with \'get\' or \'return\').'
 
     def __process_identifier(self, identifier):
-        # Issue: The name starts with a get term, but there are no return statements
+        # AntiPattern: The name starts with a get term, but there are no return statements
         if identifier.name_terms[0].lower() in custom_terms.get_terms:
             return_statements = get_all_return_statements(identifier.source)
 
@@ -24,7 +24,7 @@ class GetNoReturn:
                 issue = Issue()
                 issue.file_path = self.__entity.path
                 issue.identifier = identifier.get_fully_qualified_name()
-                issue.identifier_type = get_type(type(identifier).__name__)
+                issue.identifier_type = IdentifierType.get_type(type(identifier).__name__)
                 issue.category = self.__issue_category
                 issue.details = self.__issue_description
                 issue.analysis_datetime = datetime.now()

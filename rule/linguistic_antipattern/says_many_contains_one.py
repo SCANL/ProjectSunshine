@@ -1,8 +1,8 @@
 from datetime import datetime
 
-from common.util import java_collection_data_types
+from common import util
+from common.enum import IdentifierType
 from common.util_parsing import get_all_class_fields
-from model.identifier_type import get_type
 from model.issue import Issue
 from nlp.term_property import is_singular, is_plural
 
@@ -17,13 +17,13 @@ class SaysManyContainsOne:
         self.__issue_description = 'The name of an attribute suggests multiple instances, but its type suggests a single one.'
 
     def __process_identifier(self, identifier):
-        # Issue: The last term in the name is plural AND the data type is not a collection
+        # AntiPattern: The last term in the name is plural AND the data type is not a collection
         if is_plural(identifier.name_terms[-1]):
-            if identifier.type not in java_collection_data_types and identifier.is_array != True:
+            if identifier.type not in util.get_collection_types(self.__entity.language) and identifier.is_array != True:
                 issue = Issue()
                 issue.file_path = self.__entity.path
                 issue.identifier = identifier.get_fully_qualified_name()
-                issue.identifier_type = get_type(type(identifier).__name__)
+                issue.identifier_type = IdentifierType.get_type(type(identifier).__name__)
                 issue.category = self.__issue_category
                 issue.details = self.__issue_description
                 issue.analysis_datetime = datetime.now()

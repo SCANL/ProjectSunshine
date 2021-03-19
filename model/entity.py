@@ -1,6 +1,6 @@
 from lxml import etree
 
-from model.file_type import FileType
+from common.enum import FileType, LanguageType
 from model.identifier import Class, Attribute, Method, Parameter, Variable
 
 
@@ -24,9 +24,10 @@ class Entity:
         else:
             self.file_type = FileType.Unknown
 
+
     def construct_hierarchy(self):
         tree = etree.fromstring(self.srcml)
-        self.language = tree.xpath('//src:unit/@language',namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
+        self.language = LanguageType.get_type(tree.xpath('//src:unit/@language',namespaces={'src': 'http://www.srcML.org/srcML/src'})[0])
     ##----------------------------------------------------------------------------------------------------------------##
         class_list = tree.xpath('//src:class', namespaces={'src': 'http://www.srcML.org/srcML/src'})
         for class_item in class_list:

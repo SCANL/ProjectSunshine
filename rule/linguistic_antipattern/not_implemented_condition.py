@@ -1,7 +1,7 @@
 from datetime import datetime
 
+from common.enum import IdentifierType
 from common.util_parsing import get_all_conditional_statements
-from model.identifier_type import get_type
 from model.issue import Issue
 from nlp.custom_terms import conditional_terms
 
@@ -16,7 +16,7 @@ class NotImplementedCondition:
         self.__issue_description = 'The comments of a method suggest a conditional behavior that is not implemented in the code.'
 
     def __process_identifier(self, identifier):
-        # Issue: method contains conditional-related comment, but no conditional statements
+        # AntiPattern: method contains conditional-related comment, but no conditional statements
         comments = identifier.get_all_comments()
         if len(comments) >= 1:
             contains = False
@@ -30,7 +30,7 @@ class NotImplementedCondition:
                     issue = Issue()
                     issue.file_path = self.__entity.path
                     issue.identifier = identifier.get_fully_qualified_name()
-                    issue.identifier_type = get_type(type(identifier).__name__)
+                    issue.identifier_type = IdentifierType.get_type(type(identifier).__name__)
                     issue.category = self.__issue_category
                     issue.details = self.__issue_description
                     issue.analysis_datetime = datetime.now()

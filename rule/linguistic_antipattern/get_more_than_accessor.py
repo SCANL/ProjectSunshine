@@ -1,7 +1,7 @@
 from datetime import datetime
 
+from common.enum import IdentifierType
 from common.util_parsing import get_all_conditional_statements
-from model.identifier_type import get_type
 from model.issue import Issue
 
 
@@ -16,7 +16,7 @@ class GetMoreThanAccessor:
         self.__class_attributes = None
 
     def __process_identifier(self, identifier):
-        # Issue: The method name starts with 'get' AND the method is a getter for an attribute AND the method body contains conditional statements (if, loops, switch)
+        # AntiPattern: The method name starts with 'get' AND the method is a getter for an attribute AND the method body contains conditional statements (if, loops, switch)
         if identifier.name_terms[0].lower() == 'get':
             for attribute in self.__class_attributes:
                 if identifier.name.lower().endswith(attribute.name.lower()) and identifier.return_type == attribute.type:
@@ -25,7 +25,7 @@ class GetMoreThanAccessor:
                         issue = Issue()
                         issue.file_path = self.__entity.path
                         issue.identifier = identifier.get_fully_qualified_name()
-                        issue.identifier_type = get_type(type(identifier).__name__)
+                        issue.identifier_type = IdentifierType.get_type(type(identifier).__name__)
                         issue.category = self.__issue_category
                         issue.details = self.__issue_description
                         issue.analysis_datetime = datetime.now()

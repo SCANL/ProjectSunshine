@@ -2,6 +2,8 @@ import configparser
 import logging
 import os
 
+from common.enum import LanguageType
+
 log = logging.getLogger(__name__)
 
 
@@ -32,12 +34,12 @@ def remove_list_nestings(l):
     return output
 
 
-cplusplus_primitive_data_types = ['int', 'unsigned int', 'signed int', 'short', 'short int', 'unsigned short', 'long',
+__cplusplus_primitive_data_types = ['int', 'unsigned int', 'signed int', 'short', 'short int', 'unsigned short', 'long',
                                   'long double', 'unsigned long', 'float', 'double', 'char', 'unsigned char',
                                   'signed char', 'bool']
 
 # https://www.cplusplus.com/reference/stl/
-cplusplus_collection_data_types = [
+__cplusplus_collection_data_types = [
     'array',
     'vector',
     'deque',
@@ -57,10 +59,11 @@ cplusplus_collection_data_types = [
 ]
 
 # https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/built-in-types
-csharp_primitive_data_types = ['bool', 'byte', 'sbyte', 'char', 'decimal', 'double', 'float', 'int', 'uint', 'long', 'ulong', 'short', 'ushort', 'object', 'string', 'dynamic']
+__csharp_primitive_data_types = ['bool', 'byte', 'sbyte', 'char', 'decimal', 'double', 'float', 'int', 'uint', 'long',
+                               'ulong', 'short', 'ushort', 'object', 'string', 'dynamic']
 
 # https://docs.microsoft.com/en-us/dotnet/standard/collections/commonly-used-collection-types
-csharp_collection_data_types = [
+__csharp_collection_data_types = [
     'Dictionary',
     'List',
     'Queue',
@@ -82,10 +85,10 @@ csharp_collection_data_types = [
 ]
 
 # https://docs.oracle.com/javase/tutorial/java/nutsandbolts/datatypes.html
-java_primitive_data_types = ['byte', 'short', 'int', 'long', 'float', 'double', 'boolean', 'char']
+__java_primitive_data_types = ['byte', 'short', 'int', 'long', 'float', 'double', 'boolean', 'char']
 
 # https://docs.oracle.com/javase/8/docs/technotes/guides/collections/overview.html
-java_collection_data_types = [
+__java_collection_data_types = [
     'ArrayBlockingQueue',
     'ArrayDeque',
     'ArrayList',
@@ -127,3 +130,25 @@ java_collection_data_types = [
     'TreeSet',
     'Vector'
 ]
+
+
+def get_collection_types(language):
+    if language == LanguageType.Java:
+        return __java_collection_data_types
+    elif language == LanguageType.CPP:
+        return __cplusplus_collection_data_types
+    elif language == LanguageType.CSharp:
+        return __csharp_collection_data_types
+    else:
+        return None
+
+
+def get_primitive_types(language):
+    if language == LanguageType.Java:
+        return __java_primitive_data_types
+    elif language == LanguageType.CPP:
+        return __cplusplus_primitive_data_types
+    elif language == LanguageType.CSharp:
+        return __csharp_primitive_data_types
+    else:
+        return None

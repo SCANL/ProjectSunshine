@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from model.identifier_type import get_type
+from common.enum import IdentifierType
 from model.issue import Issue
 
 
@@ -14,13 +14,13 @@ class SetReturns:
         self.__issue_description = 'A set method having a return type different than \'void\'.'
 
     def __process_identifier(self, identifier):
-        # Issue: The name starts with a set, but the method return type is not void
+        # AntiPattern: The name starts with a set, but the method return type is not void
         if identifier.name_terms[0].lower() == 'set':
             if identifier.return_type != 'void':
                 issue = Issue()
                 issue.file_path = self.__entity.path
                 issue.identifier = identifier.get_fully_qualified_name()
-                issue.identifier_type = get_type(type(identifier).__name__)
+                issue.identifier_type = IdentifierType.get_type(type(identifier).__name__)
                 issue.category = self.__issue_category
                 issue.details = self.__issue_description
                 issue.analysis_datetime = datetime.now()
