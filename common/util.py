@@ -152,3 +152,7 @@ def get_primitive_types(language):
         return __csharp_primitive_data_types
     else:
         return None
+
+
+def get_supported_file_extensions():
+    return ['.java', '.cs', '.cpp']
