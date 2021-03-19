@@ -7,3 +7,4 @@ class Issue:
         self.identifier = None
         self.file_path = None
         self.analysis_datetime = None
+        self.id = None
