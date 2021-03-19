@@ -8,6 +8,7 @@ class AnnotationSetup:
 
     def __init__(self):
         self.__entity = None
+        self.__id = 'X.1'
         self.__junit = 4  # None
         self.__issues = []
         self.__issue_category = '\'Before\' annotation not in use'
@@ -27,6 +28,7 @@ class AnnotationSetup:
                 issue.identifier_type = IdentifierType.get_type(type(identifier).__name__)
                 issue.category = self.__issue_category
                 issue.details = self.__issue_description
+                issue.id = self.__id
                 issue.analysis_datetime = datetime.now()
                 self.__issues.append(issue)
 
