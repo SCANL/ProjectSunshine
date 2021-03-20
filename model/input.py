@@ -1,6 +1,3 @@
-from common.enum import FileType
-
-
 class Input:
 
     def __init__(self, path, type, junit):
