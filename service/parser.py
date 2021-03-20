@@ -33,6 +33,7 @@ class Parser:
     def parse_file(self, file_path):
         result, error = self.__run_srcml(file_path)
         if len(error) == 0:
+            temp = result.decode("utf-8")
             self.parsed_string = result
             return True
         else:

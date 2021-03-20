@@ -1,5 +1,6 @@
 from lxml import etree
 
+from common import util, enum
 from common.enum import FileType, LanguageType
 from model.identifier import Class, Attribute, Method, Parameter, Variable
 
@@ -24,10 +25,34 @@ class Entity:
         else:
             self.file_type = FileType.Unknown
 
+    def is_using_testing_package(self, source):
+        if self.file_type is not None or self.file_type is not enum.FileType.Unknown:
+            return
+
+        self.file_type = enum.FileType.NonTest
+        testing_packages = util.get_testing_packages(self.language)
+
+        if self.language == enum.LanguageType.Java:
+            all_imports = source.xpath('//src:import',namespaces={'src': 'http://www.srcML.org/srcML/src'})
+            for i in range(len(all_imports)):
+                partial_name = source.xpath('//src:import['+str(i)+']/src:name//text()', namespaces={'src': 'http://www.srcML.org/srcML/src'})
+                if ''.join(partial_name) in testing_packages:
+                    self.file_type = enum.FileType.Test
+                    break
+
+        if self.language == enum.LanguageType.CSharp:
+            all_imports = source.xpath('//src:using',namespaces={'src': 'http://www.srcML.org/srcML/src'})
+            for i in range(len(all_imports)):
+                partial_name = source.xpath('//src:using['+str(i)+']/src:name//text()', namespaces={'src': 'http://www.srcML.org/srcML/src'})
+                if ''.join(partial_name) in testing_packages:
+                    self.file_type = enum.FileType.Test
+                    break
 
     def construct_hierarchy(self):
         tree = etree.fromstring(self.srcml)
         self.language = LanguageType.get_type(tree.xpath('//src:unit/@language',namespaces={'src': 'http://www.srcML.org/srcML/src'})[0])
+    ##----------------------------------------------------------------------------------------------------------------##
+        self.is_using_testing_package(tree)
     ##----------------------------------------------------------------------------------------------------------------##
         class_list = tree.xpath('//src:class', namespaces={'src': 'http://www.srcML.org/srcML/src'})
         for class_item in class_list:

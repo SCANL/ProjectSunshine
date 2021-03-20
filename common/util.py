@@ -131,6 +131,34 @@ __java_collection_data_types = [
     'Vector'
 ]
 
+__java_testing_packages = [
+    'junit.framework.Test',
+    'junit.framework.TestCase',
+    'org.junit.Test',
+    'android.test.AndroidTestCase',
+    'android.test.InstrumentationTestCase',
+    'android.test.ActivityInstrumentationTestCase2',
+    'org.junit.Assert'
+]
+
+__csharp_testing_packages = [
+    'Microsoft.VisualStudio.TestTools.UnitTesting',
+    'Microsoft.VisualStudio.QualityTools.UnitTesting.Framework',
+    'NUnit.Tests',
+    'NUnit.Framework',
+    'Xunit',
+    'Xunit.Abstractions'
+]
+
+
+def get_testing_packages(language):
+    if language == LanguageType.Java:
+        return __java_testing_packages
+    elif language == LanguageType.CSharp:
+        return __csharp_testing_packages
+    else:
+        return None
+
 
 def get_collection_types(language):
     if language == LanguageType.Java:
