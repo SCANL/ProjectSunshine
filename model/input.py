@@ -1,4 +1,4 @@
-from model.file_type import FileType
+from common.enum import FileType
 
 
 class Input:
@@ -7,13 +7,7 @@ class Input:
         self.path = path
         self.junit = junit
         self.entity = None
-
-        if type == 1:
-            self.type = FileType.Test
-        elif type == 2:
-            self.type = FileType.NonTest
-        else:
-            self.type = FileType.Unknown
+        self.type = type
 
     def set_entity(self, entity):
         self.entity = entity
