@@ -1,0 +1,10 @@
+ip
+sut
+sla
+json
+oop
+poco
+orm
+pojo
+dto
+dao
