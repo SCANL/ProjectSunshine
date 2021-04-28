@@ -26,6 +26,10 @@ def get_all_return_statements(method):
     return method.xpath('.//src:return', namespaces={'src': 'http://www.srcML.org/srcML/src'})
 
 
+def get_all_function_calls(method):
+    return  method.xpath('.//src:call/src:name/text()', namespaces={'src': 'http://www.srcML.org/srcML/src'})
+
+
 def get_all_conditional_statements(method):
     statements = {}
     statements_total = 0
