@@ -8,6 +8,7 @@ class Class:
         self.source = source
         self.methods = []
         self.attributes = []
+        self.properties = []
         self.name_terms = splitter.split_heuristic(name)
         self.block_comment = None
 
@@ -17,6 +18,25 @@ class Class:
 
 class Attribute:
 
+    def __init__(self, type, name, parent_name, is_array, is_generic, source):
+        self.type = type
+        self.name = name
+        self.source = source
+        self.name_terms = splitter.split_heuristic(name)
+        self.parent_name = parent_name
+        self.is_array = is_array
+        self.type_terms = splitter.split_heuristic(type)
+        self.block_comment = None
+        self.type_is_generic = is_generic
+
+    def set_block_comment(self, comment):
+        self.block_comment = comment
+
+    def get_fully_qualified_name(self):
+        return self.parent_name + '.' + self.name
+
+
+class Property:
     def __init__(self, type, name, parent_name, is_array, is_generic, source):
         self.type = type
         self.name = name
