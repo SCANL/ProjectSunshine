@@ -3,25 +3,26 @@ from datetime import datetime
 from common.enum import FileType, IdentifierType
 from model.issue import Issue
 
+# Impacted File: Test
+# Impacted identifier: Method
 
-class AnnotationTeardown:
+
+class TestAnnotationTest:
 
     def __init__(self):
         self.__entity = None
-        self.__id = 'X.2'
+        self.__id = 'X.3'
         self.__junit = 4#None
         self.__issues = []
-        self.__issue_category = '\'After\' annotation not in use'
-        self.__issue_description = 'Utilize the \'After\' annotation for setup methods'
+        self.__issue_category = 'Redundant use of \'test\' in method name'
+        self.__issue_description = 'Replace the term \'test\' in the method name with the \'Test\' annotation'
 
     def __get_junit_version(self):
         pass
 
     def __process_identifier(self, identifier):
         if self.__junit >= 4:
-            if len(identifier.name_terms) == 1 and \
-                    identifier.name_terms[0].lower() == 'teardown' and \
-                    'After' not in identifier.annotations:
+            if identifier.name_terms[0].lower() == 'test':
                 issue = Issue()
                 issue.file_path = self.__entity.path
                 issue.identifier = identifier.get_fully_qualified_name()

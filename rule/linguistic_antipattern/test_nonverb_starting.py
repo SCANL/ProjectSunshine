@@ -5,8 +5,11 @@ from model.issue import Issue
 from nlp import pos_tag
 from nlp.pos_tag import POSType
 
+# Impacted File: Test
+# Impacted identifier: Method
 
-class NonVerbStarting:
+
+class TestNonVerbStarting:
 
     def __init__(self):
         self.__entity = None
