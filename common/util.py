@@ -150,6 +150,25 @@ __csharp_testing_packages = [
     'Xunit.Abstractions'
 ]
 
+__java_null_check_test_methods = [
+    'assertNotNull',
+    'assertNull'
+]
+
+__csharp_null_check_test_methods = [
+    'IsNull',
+    'IsNotNull'
+]
+
+
+def get_null_check_test_method(language):
+    if language == LanguageType.Java:
+        return __java_null_check_test_methods
+    elif language == LanguageType.CSharp:
+        return __csharp_null_check_test_methods
+    else:
+        return None
+
 
 def get_testing_packages(language):
     if language == LanguageType.Java:
