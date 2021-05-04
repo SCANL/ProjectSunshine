@@ -69,6 +69,8 @@ class Entity:
             attribute_list = class_item.xpath('*/src:decl_stmt/src:decl', namespaces={'src': 'http://www.srcML.org/srcML/src'})
             for i, attribute_item in enumerate(attribute_list):
                 attribute_name = attribute_item.xpath('./src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
+                if attribute_name.text is None:
+                    attribute_name = attribute_item.xpath('./src:name/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
                 attribute_type = attribute_item.xpath('./src:type/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})
                 attribute_type_array = False
                 attribute_type_generic = False
@@ -184,6 +186,8 @@ class Entity:
                 variable_list = method_item.xpath('*//src:decl_stmt/src:decl', namespaces={'src': 'http://www.srcML.org/srcML/src'})
                 for variable_item in variable_list:
                     variable_name = variable_item.xpath('./src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
+                    if variable_name.text is None:
+                        variable_name = variable_item.xpath('./src:name/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
                     variable_type = variable_item.xpath('./src:type/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})
                     variable_type_array = False
                     variable_type_generic = False
