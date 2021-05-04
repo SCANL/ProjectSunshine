@@ -5,6 +5,9 @@ from common.enum import IdentifierType
 from model.issue import Issue
 from nlp.term_property import is_plural
 
+# Impacted File: All
+# Impacted identifier: Method
+
 
 class ExpectingNotGettingCollection:
 

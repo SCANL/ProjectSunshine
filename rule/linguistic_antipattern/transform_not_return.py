@@ -4,6 +4,8 @@ from common.enum import IdentifierType
 from model.issue import Issue
 from nlp import custom_terms
 
+# Impacted identifier: All
+# Impacted identifier: Method
 
 class TransformNotReturn:
 

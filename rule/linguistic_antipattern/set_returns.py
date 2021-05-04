@@ -3,6 +3,9 @@ from datetime import datetime
 from common.enum import IdentifierType
 from model.issue import Issue
 
+# Impacted identifier: All
+# Impacted identifier: Method
+
 
 class SetReturns:
 
