@@ -15,7 +15,8 @@ validate_terms = ['validate',
 
 boolean_terms = ['is', 'has', 'have', 'can', 'are']
 
-get_terms = ['find',
+get_terms = ['get',
+             'find',
              'fetch',
              'query',
              'generate',
