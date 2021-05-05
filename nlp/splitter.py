@@ -1,14 +1,20 @@
+from nltk.tokenize import word_tokenize,sent_tokenize
 from spiral import ronin  # pip install git+https://github.com/casics/spiral.git
 from spiral.simple_splitters import heuristic_split
 
 custom_dictionary = ['AtLeast', 'AllOf', 'setup', 'teardown', 'cleanup', 'shutdown', 'noop', 'Exp4j', 'Neo4j', 'Dom4j',
                      'SVN', 'JSON', 'HEAD', 'Hash', 'API'
-                      'PDF', 'TTL',  'ASCII',
-                      'Endpoint',  'BOS', 'Url',  'TLS',  'SUT', 'XML',
+                                                    'PDF', 'TTL', 'ASCII',
+                     'Endpoint', 'BOS', 'Url', 'TLS', 'SUT', 'XML',
                      'Pojo', 'IP', 'M3', 'IO', 'Bag', 'KO', 'IGNORE', 'TRACE', 'DNC',
                      'SLA', 'H5', 'PATCH', 'URL']
 
 custom_dictionary = list(dict.fromkeys(custom_dictionary))
+
+
+def split_word_tokens(text):
+    words = word_tokenize(text)
+    return [w for w in words if w.isalpha()]
 
 
 def split_ronin(name):
