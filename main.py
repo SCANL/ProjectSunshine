@@ -38,10 +38,12 @@ def read_input(path_string):
                 input_item = Input(str(file), item[1], item[2])
                 files.append(input_item)
 
-        if os.path.isfile(path_string):
+        elif os.path.isfile(path_string):
             if path_string.lower().endswith(tuple(file_extensions)):
                 input_item = Input(path_string, item[1], item[2])
                 files.append(input_item)
+        else:
+            sys.exit("Invalid files provided in input CSV file: %s" %path_string)
 
     if len(files) == 0:
         sys.exit("Invalid files provided in input CSV file")
