@@ -76,13 +76,20 @@ class Method:
     def get_inner_comments(self):
         return self.source.xpath('.//src:comment', namespaces={'src': 'http://www.srcML.org/srcML/src'})
 
-    def get_all_comments(self):
+    def get_all_comments(self, unique_terms=True):
         comments = []
         if self.block_comment is not None:
             comments.append(self.block_comment)
         for comment in self.get_inner_comments():
             comments.append(comment.text)
-        return comments
+
+        if not unique_terms:
+            return comments
+        else:
+            terms = []
+            for comment in comments:
+                terms.extend(splitter.split_word_tokens(comment))
+            return list(set(terms))
 
     def get_parameters_as_string(self):
         string_list = []
