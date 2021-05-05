@@ -94,6 +94,7 @@ __java_collection_data_types = [
     'ArrayList',
     'BlockingDeque',
     'BlockingQueue',
+    'Collection',
     'ConcurrentHashMap',
     'ConcurrentMap',
     'ConcurrentNavigableMap',
