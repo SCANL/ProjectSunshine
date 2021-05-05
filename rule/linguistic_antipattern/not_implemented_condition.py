@@ -17,13 +17,11 @@ class NotImplementedCondition:
 
     def __process_identifier(self, identifier):
         # AntiPattern: method contains conditional-related comment, but no conditional statements
-        comments = identifier.get_all_comments()
+        comments = identifier.get_all_comments(unique_terms=True)
         if len(comments) >= 1:
             contains = False
-            for comment in comments:
-                if any(item in comment for item in conditional_terms):
-                    contains = True
-                    break
+            if any(item in map(str.lower, comments) for item in map(str.lower, conditional_terms)):
+                contains = True
             if contains:
                 conditional_statements, conditional_statements_total = get_all_conditional_statements(identifier.source)
                 if conditional_statements_total == 0:
