@@ -145,7 +145,17 @@ class Entity:
     ##----------------------------------------------------------------------------------------------------------------##
                 parameter_list = method_item.xpath('*/src:parameter/src:decl', namespaces={'src': 'http://www.srcML.org/srcML/src'})
                 for parameter_item in parameter_list:
-                    parameter_name = parameter_item.xpath('./src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
+                    if len(parameter_item.xpath('./src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})) != 0:
+                        parameter_name = parameter_item.xpath('./src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
+                    else:
+                        if len(parameter_item.xpath('./src:name/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})) != 0:
+                            parameter_name = parameter_item.xpath('./src:name/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
+                        else:
+                            continue
+
+                    if parameter_name.text is None:
+                        parameter_name = parameter_item.xpath('./src:name/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
+
                     parameter_type = parameter_item.xpath('./src:type/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})
                     parameter_type_array = False
                     parameter_type_generic = False
@@ -158,8 +168,10 @@ class Entity:
                             if len(parameter_array) != 0:
                                 parameter_type_array = True
 
-                        model_parameter = Parameter(parameter_type.text, parameter_name.text, parameter_type_array, parameter_type_generic, parameter_item)
-
+                        try:
+                            model_parameter = Parameter(parameter_type.text, parameter_name.text, parameter_type_array, parameter_type_generic, parameter_item)
+                        except:
+                            print('--')
                     model_method.parameters.append(model_parameter)
 
                 for parameter_item in model_method.parameters:
