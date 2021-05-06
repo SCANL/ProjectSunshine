@@ -10,7 +10,8 @@ tagger = None
 
 custom_dictionary = {
     'setup': 'VB',
-    'teardown': 'VB'
+    'teardown': 'VB',
+    'tabs': 'NNS'
 }
 
 
