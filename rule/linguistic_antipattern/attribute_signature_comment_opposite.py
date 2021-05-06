@@ -18,6 +18,7 @@ class AttributeSignatureCommentOpposite:
 
     def __process_identifier(self, identifier):
         # AntiPattern: The identifier name or retrun type and comment contain antonyms
+        matched_terms = ''
         comment = identifier.block_comment
         if comment is not None:
             comment_cleansed_terms = clean_text(comment, True)
@@ -28,11 +29,13 @@ class AttributeSignatureCommentOpposite:
             for combination in unique_combinations_type:
                 if are_antonyms(combination[0], combination[1]):
                     result_antonyms = True
+                    matched_terms = 'Antonyms: \'%s\' and \'%s\'' % (combination[0], combination[1])
                     break
 
             for combination in unique_combinations_name:
                 if are_antonyms(combination[0], combination[1]):
                     result_antonyms = True
+                    matched_terms = 'Antonyms: \'%s\' and \'%s\'' % (combination[0], combination[1])
                     break
 
             if result_antonyms:
@@ -42,6 +45,7 @@ class AttributeSignatureCommentOpposite:
                     issue.identifier_type = IdentifierType.get_type(type(identifier).__name__)
                     issue.category = self.__issue_category
                     issue.details = self.__issue_description
+                    issue.additional_details = matched_terms
                     issue.id = self.__id
                     issue.analysis_datetime = datetime.now()
                     self.__issues.append(issue)

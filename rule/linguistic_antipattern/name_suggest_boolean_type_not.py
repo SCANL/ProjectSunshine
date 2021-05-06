@@ -25,6 +25,7 @@ class NameSuggestBooleanTypeNot:
                 issue.identifier_type = IdentifierType.get_type(type(identifier).__name__)
                 issue.category = self.__issue_category
                 issue.details = self.__issue_description
+                issue.additional_details = 'Starting term: \'%s\' Data type: \'%s\'' % (identifier.name_terms[0], identifier.type)
                 issue.id = self.__id
                 issue.analysis_datetime = datetime.now()
                 self.__issues.append(issue)

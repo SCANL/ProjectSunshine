@@ -26,6 +26,7 @@ class SetReturns:
                 issue.identifier_type = IdentifierType.get_type(type(identifier).__name__)
                 issue.category = self.__issue_category
                 issue.details = self.__issue_description
+                issue.additional_details = 'Return type: %s' % identifier.return_type
                 issue.id = self.__id
                 issue.analysis_datetime = datetime.now()
                 self.__issues.append(issue)
