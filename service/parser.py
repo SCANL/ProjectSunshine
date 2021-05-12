@@ -16,8 +16,9 @@ class Parser:
     def __run_srcml(file_path):
         directory = util.get_config_setting('srcml', 'directory')
         executable = util.get_config_setting('srcml', 'executable')
+        position = '--position'
 
-        args = [executable, file_path]
+        args = [executable, position, file_path]
 
         if sys.platform.startswith("win"):
             # Don't display the Windows GPF dialog if the invoked program dies.
