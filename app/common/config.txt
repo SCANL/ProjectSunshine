@@ -1,0 +1,11 @@
+[general]
+name=ProjectSunshine
+path_to_java = C:/Program Files/Java/jdk-13/bin/java.exe
+
+[srcml]
+directory=C:/Program Files/srcML
+executable=C:/Program Files/srcML/srcml.exe
+
+[stanford]
+path_to_model = C:/Projects/ProjectSunshine/app/lib/stanford-postagger-full-2020-11-17/models/english-bidirectional-distsim.tagger
+path_to_jar = C:/Projects/ProjectSunshine/app/lib/stanford-postagger-full-2020-11-17/stanford-postagger.jar
