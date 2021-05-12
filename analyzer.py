@@ -13,52 +13,57 @@ from rule.linguistic_antipattern.not_implemented_condition import NotImplemented
 from rule.linguistic_antipattern.says_many_contains_one import SaysManyContainsOne
 from rule.linguistic_antipattern.says_one_contains_many import SaysOneContainsMany
 from rule.linguistic_antipattern.set_returns import SetReturns
+from rule.linguistic_antipattern.test_annotation_setup import TestAnnotationSetup
+from rule.linguistic_antipattern.test_annotation_teardown import TestAnnotationTeardown
+from rule.linguistic_antipattern.test_annotation_test import TestAnnotationTest
+from rule.linguistic_antipattern.test_missing_null_check import TestMissingNullCheck
+from rule.linguistic_antipattern.test_nonverb_starting import TestNonVerbStarting
 from rule.linguistic_antipattern.transform_not_return import TransformNotReturn
 from rule.linguistic_antipattern.validate_not_confirm import ValidateNotConfirm
-from rule.test.annotation_setup import AnnotationSetup
-from rule.test.annotation_teardown import AnnotationTeardown
-from rule.test.annotation_test import AnnotationTest
-from rule.test.nonverb_starting import NonVerbStarting
 from service.factory import EntityFactory
 
 
 class Analyzer:
 
-    def __init__(self, file_path, file_type):
+    def __init__(self, project, file_path, file_type):
+        self.project = project
         self.file_path = file_path
         self.file_type = file_type
         self.junit = None
         self.rules = [
-            MethodSignatureCommentOpposite(),
-            AttributeSignatureCommentOpposite(),
-            AttributeNameTypeOpposite(),
-            MethodNameReturnOpposite(),
-            TransformNotReturn(),
-            NotAnsweredQuestion(),
-            NotImplementedCondition(),
-            ValidateNotConfirm(),
+            ###### arnaoudova ######
+            # MethodSignatureCommentOpposite(),
+            # AttributeSignatureCommentOpposite(),
+            # AttributeNameTypeOpposite(),
+            # MethodNameReturnOpposite(),
+            # TransformNotReturn(),
+            # NotAnsweredQuestion(),
+            # NotImplementedCondition(),
+            # ValidateNotConfirm(),
             SaysManyContainsOne(),
-            SaysOneContainsMany(),
+            # SaysOneContainsMany(),
             ExpectingNotGettingCollection(),
-            ExpectingNotGettingSingle(),
-            NameSuggestBooleanTypeNot(),
-            SetReturns(),
-            GetMoreThanAccessor(),
-            IsNoReturnBool(),
-            GetNoReturn(),
-            # AnnotationTest(),
-            # AnnotationSetup(),
-            # AnnotationTeardown(),
-            # NonVerbStarting()
+            # ExpectingNotGettingSingle(),
+            # NameSuggestBooleanTypeNot(),
+            # SetReturns(),
+            # GetMoreThanAccessor(),
+            # IsNoReturnBool(),
+            # GetNoReturn(),
+            ###### peruma ######
+            # TestAnnotationTest(),
+            # TestAnnotationSetup(),
+            # TestAnnotationTeardown(),
+            # TestNonVerbStarting(),
+            TestMissingNullCheck()
+
         ]
         self.issues = []
 
     def analyze(self):
         entity = EntityFactory().construct_model(self.file_path, self.file_type, self.junit)
 
-
         for rule in self.rules:
-            issue_list = rule.analyze(entity)
+            issue_list = rule.analyze(self.project, entity)
             if issue_list is not None:
                 self.issues.append(issue_list)
 

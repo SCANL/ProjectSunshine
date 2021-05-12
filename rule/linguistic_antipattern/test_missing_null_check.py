@@ -1,11 +1,10 @@
 from datetime import datetime
 
 from common.enum import FileType, IdentifierType
-from common.util import get_null_check_test_method
+from common.testing_list import get_null_check_test_method
 from common.util_parsing import get_all_function_calls
 from model.issue import Issue
-from nlp import pos_tag
-from nlp.pos_tag import POSType
+
 
 # Impacted File: Test
 # Impacted identifier: Method
@@ -15,6 +14,7 @@ class TestMissingNullCheck:
 
     def __init__(self):
         self.__entity = None
+        self.__project = None
         self.__id = 'P.5'
         self.__junit = 4  # None
         self.__issues = []
@@ -28,7 +28,7 @@ class TestMissingNullCheck:
         # AntiPattern: Method name contains the term 'null' or 'not', but does not perform a null check
         if 'null' in map(str.lower, identifier.name_terms) or 'not' in map(str.lower, identifier.name_terms):
             method_calls = get_all_function_calls(identifier.source)
-            api_null_method = get_null_check_test_method(self.__entity.language)
+            api_null_method = get_null_check_test_method(self.__project, self.__entity.language)
             if not any(x in method_calls for x in api_null_method):
                 issue = Issue()
                 issue.file_path = self.__entity.path
@@ -40,8 +40,9 @@ class TestMissingNullCheck:
                 issue.analysis_datetime = datetime.now()
                 self.__issues.append(issue)
 
-    def analyze(self, entity):
+    def analyze(self, project, entity):
         if entity.file_type == FileType.Test:
+            self.__project = project
             self.__entity = entity
             for class_item in self.__entity.classes:
                 for method_item in class_item.methods:

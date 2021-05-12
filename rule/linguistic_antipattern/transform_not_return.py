@@ -2,15 +2,17 @@ from datetime import datetime
 
 from common.enum import IdentifierType
 from model.issue import Issue
-from nlp import custom_terms
 
 # Impacted identifier: All
 # Impacted identifier: Method
+from nlp import term_list
+
 
 class TransformNotReturn:
 
     def __init__(self):
         self.__entity = None
+        self.__project = None
         self.__id = 'B.5'
         self.__issues = []
         self.__issue_category = 'Transform method does not return'
@@ -19,8 +21,8 @@ class TransformNotReturn:
     def __process_identifier(self, identifier):
         # AntiPattern: The name starts with or inner term contains transformation term and return type is void
         inner_terms = [x.lower() for x in identifier.name_terms[1:-1]]
-        if (identifier.name_terms[0].lower() in custom_terms.transform_terms_staring or
-            any(item in inner_terms for item in custom_terms.transform_terms_inner)) \
+        if (identifier.name_terms[0].lower() in term_list.get_transform_terms_staring(self.__project) or
+            any(item in inner_terms for item in term_list.get_transform_terms_inner(self.__project))) \
                 and identifier.return_type == 'void':
             issue = Issue()
             issue.file_path = self.__entity.path
@@ -32,8 +34,9 @@ class TransformNotReturn:
             issue.analysis_datetime = datetime.now()
             self.__issues.append(issue)
 
-    def analyze(self, entity):
+    def analyze(self, project, entity):
         # Analyze all methods in a class
+        self.__project = project
         self.__entity = entity
         for class_item in self.__entity.classes:
             for method_item in class_item.methods:

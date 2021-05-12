@@ -11,6 +11,7 @@ class AttributeSignatureCommentOpposite:
 
     def __init__(self):
         self.__entity = None
+        self.__project = None
         self.__id = 'F.2'
         self.__issues = []
         self.__issue_category = 'Attribute signature and comment are opposite'
@@ -50,8 +51,9 @@ class AttributeSignatureCommentOpposite:
                     issue.analysis_datetime = datetime.now()
                     self.__issues.append(issue)
 
-    def analyze(self, entity):
+    def analyze(self, project, entity):
         # Analyze all attributes, variables and parameters in a class
+        self.__project = project
         self.__entity = entity
         for class_item in self.__entity.classes:
             fields = get_all_class_fields(class_item)

@@ -10,6 +10,7 @@ class MethodSignatureCommentOpposite:
 
     def __init__(self):
         self.__entity = None
+        self.__project = None
         self.__id = 'C.2'
         self.__issues = []
         self.__issue_category = 'Method signature and comment are opposite'
@@ -49,8 +50,9 @@ class MethodSignatureCommentOpposite:
                 issue.analysis_datetime = datetime.now()
                 self.__issues.append(issue)
 
-    def analyze(self, entity):
+    def analyze(self, project, entity):
         # Analyze all methods in a class
+        self.__project = project
         self.__entity = entity
         for class_item in self.__entity.classes:
             for method_item in class_item.methods:

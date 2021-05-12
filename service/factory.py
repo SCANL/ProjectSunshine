@@ -1,4 +1,5 @@
 from common import util
+from common.error_handler import handle_error, ErrorSeverity
 from model.entity import Entity
 from service.parser import Parser
 
@@ -20,6 +21,7 @@ class EntityFactory:
             self.entity.junit = junit
             c = self.entity.construct_hierarchy()
         else:
-            print('todo: fail')
+            error_message = "Issue encountered in parsing file: \'%s\'" % str(source_path)
+            handle_error('EntityFactory', error_message, ErrorSeverity.Critical, False)
 
         return self.entity

@@ -10,6 +10,7 @@ class TestAnnotationTeardown:
 
     def __init__(self):
         self.__entity = None
+        self.__project = None
         self.__id = 'X.2'
         self.__junit = 4#None
         self.__issues = []
@@ -34,8 +35,9 @@ class TestAnnotationTeardown:
                 issue.analysis_datetime = datetime.now()
                 self.__issues.append(issue)
 
-    def analyze(self, entity):
+    def analyze(self, project, entity):
         if entity.file_type == FileType.Test:
+            self.__project = project
             self.__entity = entity
             for class_item in self.__entity.classes:
                 for method_item in class_item.methods:

@@ -3,15 +3,17 @@ from datetime import datetime
 from common.enum import IdentifierType
 from common.util_parsing import get_all_exception_throws
 from model.issue import Issue
-from nlp import custom_terms
 
 # Impacted identifier: All
 # Impacted identifier: Method
+from nlp import term_list
+
 
 class ValidateNotConfirm:
 
     def __init__(self):
         self.__entity = None
+        self.__project = None
         self.__id = 'B.2'
         self.__issues = []
         self.__issue_category = 'Validation method does not confirm'
@@ -19,7 +21,7 @@ class ValidateNotConfirm:
 
     def __process_identifier(self, identifier):
         # AntiPattern: The name starts with validate and return type is not boolean and no exception thrown
-        if identifier.name_terms[0].lower() in custom_terms.validate_terms:
+        if identifier.name_terms[0].lower() in term_list.get_validate_terms(self.__project):
             if (identifier.return_type != 'boolean' or identifier.return_type != 'Boolean') and \
                     (len(get_all_exception_throws(identifier.source)) == 0):
                 issue = Issue()
@@ -32,8 +34,9 @@ class ValidateNotConfirm:
                 issue.analysis_datetime = datetime.now()
                 self.__issues.append(issue)
 
-    def analyze(self, entity):
+    def analyze(self, project, entity):
         # Analyze all methods in a class
+        self.__project = project
         self.__entity = entity
         for class_item in self.__entity.classes:
             for method_item in class_item.methods:

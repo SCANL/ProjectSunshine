@@ -3,13 +3,14 @@ from datetime import datetime
 from common.enum import IdentifierType
 from common.util_parsing import get_all_conditional_statements
 from model.issue import Issue
-from nlp.custom_terms import conditional_terms
+from nlp import term_list
 
 
 class NotImplementedCondition:
 
     def __init__(self):
         self.__entity = None
+        self.__project = None
         self.__id = 'B.1'
         self.__issues = []
         self.__issue_category = 'Not implemented condition'
@@ -20,7 +21,7 @@ class NotImplementedCondition:
         comments = identifier.get_all_comments(unique_terms=True)
         if len(comments) >= 1:
             contains = False
-            if any(item in map(str.lower, comments) for item in map(str.lower, conditional_terms)):
+            if any(item in map(str.lower, comments) for item in map(str.lower, term_list.get_conditional_terms(self.__project))):
                 contains = True
             if contains:
                 conditional_statements, conditional_statements_total = get_all_conditional_statements(identifier.source)
@@ -36,8 +37,9 @@ class NotImplementedCondition:
                     issue.analysis_datetime = datetime.now()
                     self.__issues.append(issue)
 
-    def analyze(self, entity):
+    def analyze(self, project, entity):
         # Analyze all methods in a class
+        self.__project = project
         self.__entity = entity
         for class_item in self.__entity.classes:
             for method_item in class_item.methods:

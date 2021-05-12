@@ -1,7 +1,7 @@
 from datetime import datetime
 
-from common import util
 from common.enum import IdentifierType
+from common.types_list import get_collection_types
 from common.util_parsing import get_all_class_fields
 from model.issue import Issue
 from nlp.term_property import is_singular
@@ -11,6 +11,7 @@ class SaysOneContainsMany:
 
     def __init__(self):
         self.__entity = None
+        self.__project = None
         self.__id = 'D.1'
         self.__issues = []
         self.__issue_category = 'Says one but contains many'
@@ -18,8 +19,8 @@ class SaysOneContainsMany:
 
     def __process_identifier(self, identifier):
         # AntiPattern: The last term in the name is singular AND the data type is a collection
-        if is_singular(identifier.name_terms[-1]):
-            if identifier.type in util.get_collection_types(self.__entity.language) or identifier.is_array == True:
+        if is_singular(self.__project, identifier.name_terms[-1]):
+            if identifier.type in get_collection_types(self.__project, self.__entity.language) or identifier.is_array == True:
                 issue = Issue()
                 issue.file_path = self.__entity.path
                 issue.identifier = identifier.get_fully_qualified_name()
@@ -31,8 +32,9 @@ class SaysOneContainsMany:
                 issue.analysis_datetime = datetime.now()
                 self.__issues.append(issue)
 
-    def analyze(self, entity):
+    def analyze(self, project, entity):
         # Analyze all attributes, variables and parameters in a class
+        self.__project = project
         self.__entity = entity
         for class_item in self.__entity.classes:
             fields = get_all_class_fields(class_item)

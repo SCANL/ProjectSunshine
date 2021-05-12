@@ -10,6 +10,7 @@ class MethodNameReturnOpposite:
 
     def __init__(self):
         self.__entity = None
+        self.__project = None
         self.__id = 'C.1'
         self.__issues = []
         self.__issue_category = 'Method name and return type are opposite'
@@ -35,8 +36,9 @@ class MethodNameReturnOpposite:
             issue.analysis_datetime = datetime.now()
             self.__issues.append(issue)
 
-    def analyze(self, entity):
+    def analyze(self, project, entity):
         # Analyze all methods in a class
+        self.__project = project
         self.__entity = entity
         for class_item in self.__entity.classes:
             for method_item in class_item.methods:

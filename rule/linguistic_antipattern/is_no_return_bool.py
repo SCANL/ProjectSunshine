@@ -3,13 +3,14 @@ from datetime import datetime
 from common.enum import IdentifierType
 from common.util_parsing import get_all_return_statements
 from model.issue import Issue
-from nlp import custom_terms
+from nlp import term_list
 
 
 class IsNoReturnBool:
 
     def __init__(self):
         self.__entity = None
+        self.__project = None
         self.__id = 'A.2'
         self.__issues = []
         self.__issue_category = '\'Is\' returns more than a Boolean'
@@ -17,7 +18,7 @@ class IsNoReturnBool:
 
     def __process_identifier(self, identifier):
         # AntiPattern: starting term is a boolean term, but the method does not have a boolean return statement (i.e., true/false not returned)
-        if identifier.name_terms[0].lower() in custom_terms.boolean_terms:
+        if identifier.name_terms[0].lower() in term_list.get_boolean_terms(self.__project):
             returns = get_all_return_statements(identifier.source)
             return_boolean = 0
             for item in returns:
@@ -37,8 +38,9 @@ class IsNoReturnBool:
                 issue.analysis_datetime = datetime.now()
                 self.__issues.append(issue)
 
-    def analyze(self, entity):
+    def analyze(self, project, entity):
         # Analyze all methods in a class
+        self.__project = project
         self.__entity = entity
         for class_item in self.__entity.classes:
             for method_item in class_item.methods:

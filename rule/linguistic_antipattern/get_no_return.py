@@ -3,13 +3,14 @@ from datetime import datetime
 from common.enum import IdentifierType
 from common.util_parsing import get_all_return_statements
 from model.issue import Issue
-from nlp import custom_terms
+from nlp import term_list
 
 
 class GetNoReturn:
 
     def __init__(self):
         self.__entity = None
+        self.__project = None
         self.__id = 'B.3'
         self.__issues = []
         self.__issue_category = '\'Get\' method does not return'
@@ -17,7 +18,7 @@ class GetNoReturn:
 
     def __process_identifier(self, identifier):
         # AntiPattern: The name starts with a get term, but there are no return statements
-        if identifier.name_terms[0].lower() in custom_terms.get_terms:
+        if identifier.name_terms[0].lower() in term_list.get_get_terms(self.__project):
             return_statements = get_all_return_statements(identifier.source)
 
             if len(return_statements) == 0:
@@ -31,8 +32,9 @@ class GetNoReturn:
                 issue.analysis_datetime = datetime.now()
                 self.__issues.append(issue)
 
-    def analyze(self, entity):
+    def analyze(self, project, entity):
         # Analyze all methods in a class
+        self.__project = project
         self.__entity = entity
         for class_item in self.__entity.classes:
             for method_item in class_item.methods:

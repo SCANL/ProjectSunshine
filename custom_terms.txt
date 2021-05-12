@@ -1,0 +1,63 @@
+[Splitter]
+splitter_terms = [
+    "noop",
+    "Exp4j",
+    "Neo4j",
+    "Dom4j",
+    "BOS",
+    "IP",
+    "M3", 
+    "IO", 
+    "Bag", 
+    "KO", 
+    "IGNORE", 
+    "TRACE", 
+    "DNC",
+    "SLA", 
+    "H5", 
+    "PATCH"
+    ]
+
+[POS]
+pos_terms = {
+    "tabs": "NNS"
+    }
+
+
+[Plural]
+plural_terms = [
+    "columns",
+    "tabs"
+    ]
+
+[Terms]
+transform_terms_staring = [
+    "transform",
+    "terms",
+    "staring"
+    ]
+
+transform_terms_inner = [
+    "transform",
+    "terms",
+    "inner"
+    ]
+
+conditional = [
+    "conditional",
+    "terms"
+    ]
+
+validate = [
+    "validate",
+    "terms"
+    ]
+                  
+boolean = ["hello"
+    ]
+
+get = [
+    "get",
+    "terms"
+    ]
+

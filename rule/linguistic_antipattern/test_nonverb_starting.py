@@ -13,6 +13,7 @@ class TestNonVerbStarting:
 
     def __init__(self):
         self.__entity = None
+        self.__project = None
         self.__id = 'X.4'
         self.__junit = 4  # None
         self.__issues = []
@@ -30,7 +31,7 @@ class TestNonVerbStarting:
                 starting_term = identifier.name_terms[1]
 
         if starting_term != '':
-            tag = pos_tag.generate_tag(starting_term)
+            tag = pos_tag.generate_tag(self.__project, starting_term)
             if pos_tag.get_tag_text(tag) != POSType.Verb:
                 issue = Issue()
                 issue.file_path = self.__entity.path
@@ -42,8 +43,9 @@ class TestNonVerbStarting:
                 issue.analysis_datetime = datetime.now()
                 self.__issues.append(issue)
 
-    def analyze(self, entity):
+    def analyze(self, project, entity):
         if entity.file_type == FileType.Test:
+            self.__project = project
             self.__entity = entity
             for class_item in self.__entity.classes:
                 for method_item in class_item.methods:

@@ -1,7 +1,8 @@
 from lxml import etree
 
-from common import util, enum
+from common import enum
 from common.enum import FileType, LanguageType
+from common.testing_list import get_testing_packages
 from model.identifier import Class, Attribute, Method, Parameter, Variable, Property
 
 
@@ -30,7 +31,7 @@ class Entity:
             return
 
         self.file_type = enum.FileType.NonTest
-        testing_packages = util.get_testing_packages(self.language)
+        testing_packages = get_testing_packages(None, self.language)
 
         if self.language == enum.LanguageType.Java:
             all_imports = source.xpath('//src:import',namespaces={'src': 'http://www.srcML.org/srcML/src'})

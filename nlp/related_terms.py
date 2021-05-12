@@ -59,7 +59,3 @@ def get_synonyms(term, pos):
             synonym_terms.extend(synonym.lemma_names())
 
     return set(synonym_terms)
-    # return set(chain.from_iterable([word.lemma_names() for word in synonyms]))
-
-# z = are_antonyms('sleep', 'run')#get_synonyms('to', 'v')
-# print(z)
