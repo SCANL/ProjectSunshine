@@ -49,6 +49,7 @@ class AttributeSignatureCommentOpposite:
                     issue.additional_details = matched_terms
                     issue.id = self.__id
                     issue.analysis_datetime = datetime.now()
+                    issue.file_type = self.__entity.file_type
                     self.__issues.append(issue)
 
     def analyze(self, project, entity):

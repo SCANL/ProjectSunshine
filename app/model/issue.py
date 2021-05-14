@@ -9,3 +9,4 @@ class Issue:
         self.file_path = None
         self.analysis_datetime = None
         self.id = None
+        self.file_type = None

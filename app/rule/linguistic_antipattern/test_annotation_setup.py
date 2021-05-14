@@ -22,19 +22,20 @@ class TestAnnotationSetup:
         pass
 
     def __process_identifier(self, identifier):
-        if self.__junit >= 4:
-            if len(identifier.name_terms) == 1 and \
-                    identifier.name_terms[0].lower() == 'setup' and \
-                    'Before' not in identifier.annotations:
-                issue = Issue()
-                issue.file_path = self.__entity.path
-                issue.identifier = identifier.get_fully_qualified_name()
-                issue.identifier_type = IdentifierType.get_type(type(identifier).__name__)
-                issue.category = self.__issue_category
-                issue.details = self.__issue_description
-                issue.id = self.__id
-                issue.analysis_datetime = datetime.now()
-                self.__issues.append(issue)
+        #if self.__junit >= 4:
+        if len(identifier.name_terms) == 1 and \
+                identifier.name_terms[0].lower() == 'setup' and \
+                'Before' not in identifier.annotations:
+            issue = Issue()
+            issue.file_path = self.__entity.path
+            issue.identifier = identifier.get_fully_qualified_name()
+            issue.identifier_type = IdentifierType.get_type(type(identifier).__name__)
+            issue.category = self.__issue_category
+            issue.details = self.__issue_description
+            issue.id = self.__id
+            issue.analysis_datetime = datetime.now()
+            issue.file_type = self.__entity.file_type
+            self.__issues.append(issue)
 
     def analyze(self, project, entity):
         if entity.file_type == FileType.Test:

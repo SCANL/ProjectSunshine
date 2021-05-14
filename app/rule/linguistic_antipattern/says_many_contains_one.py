@@ -30,6 +30,7 @@ class SaysManyContainsOne:
                 issue.additional_details = 'Last term: \'%s\' Data type: \'%s\'' % (identifier.name_terms[-1], identifier.type)
                 issue.id = self.__id
                 issue.analysis_datetime = datetime.now()
+                issue.file_type = self.__entity.file_type
                 self.__issues.append(issue)
 
     def analyze(self, project, entity):
