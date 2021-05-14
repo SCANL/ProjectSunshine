@@ -107,6 +107,8 @@ class Entity:
             property_list = class_item.xpath('*/src:property', namespaces={'src': 'http://www.srcML.org/srcML/src'})
             for property_item in property_list:
                 property_name = property_item.xpath('./src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
+                if property_name.text is None:
+                    property_name = property_item.xpath('./src:name/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
                 property_type = property_item.xpath('./src:type/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})
                 property_type_array = False
                 property_type_generic = False
@@ -173,10 +175,8 @@ class Entity:
                             if len(parameter_array) != 0:
                                 parameter_type_array = True
 
-                        try:
-                            model_parameter = Parameter(parameter_type.text, parameter_name.text, parameter_type_array, parameter_type_generic, parameter_item)
-                        except:
-                            print('--')
+                        model_parameter = Parameter(parameter_type.text, parameter_name.text, parameter_type_array, parameter_type_generic, parameter_item)
+
                     model_method.parameters.append(model_parameter)
 
                 for parameter_item in model_method.parameters:
