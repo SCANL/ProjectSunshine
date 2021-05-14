@@ -10,3 +10,4 @@ class Issue:
         self.analysis_datetime = None
         self.id = None
         self.file_type = None
+        self.line_number = None

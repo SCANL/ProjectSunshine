@@ -12,6 +12,7 @@ class Class:
         self.properties = []
         self.name_terms = Splitter().split_heuristic(name)
         self.block_comment = None
+        self.line_number = (source.attrib['{http://www.srcML.org/srcML/position}start']).split(':')[0]
 
     def set_block_comment(self, comment):
         self.block_comment = comment
@@ -30,6 +31,7 @@ class Attribute:
         self.type_terms = Splitter().split_heuristic(type)
         self.block_comment = None
         self.type_is_generic = is_generic
+        self.line_number = (source.attrib['{http://www.srcML.org/srcML/position}start']).split(':')[0]
 
     def set_block_comment(self, comment):
         self.block_comment = comment
@@ -50,6 +52,7 @@ class Property:
         self.type_terms = Splitter().split_heuristic(type)
         self.block_comment = None
         self.type_is_generic = is_generic
+        self.line_number = (source.attrib['{http://www.srcML.org/srcML/position}start']).split(':')[0]
 
     def set_block_comment(self, comment):
         self.block_comment = comment
@@ -73,6 +76,7 @@ class Method:
         self.is_array = is_array
         self.type_terms = Splitter().split_heuristic(return_type)
         self.block_comment = None
+        self.line_number = (source.attrib['{http://www.srcML.org/srcML/position}start']).split(':')[0]
 
     def set_block_comment(self, comment):
         self.block_comment = comment
@@ -120,6 +124,7 @@ class Variable:
         self.type_terms = Splitter().split_heuristic(type)
         self.block_comment = None
         self.type_is_generic = is_generic
+        self.line_number = (source.attrib['{http://www.srcML.org/srcML/position}start']).split(':')[0]
 
     def set_block_comment(self, comment):
         self.block_comment = comment
@@ -144,6 +149,7 @@ class Parameter:
         self.type_terms = Splitter().split_heuristic(type)
         self.block_comment = None
         self.type_is_generic = is_generic
+        self.line_number = (source.attrib['{http://www.srcML.org/srcML/position}start']).split(':')[0]
 
     def set_block_comment(self, comment):
         self.block_comment = comment
