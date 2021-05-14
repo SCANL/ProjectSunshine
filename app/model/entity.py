@@ -60,6 +60,8 @@ class Entity:
             if len(class_item.xpath('./src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})) == 0:
                 continue
             class_name = class_item.xpath('./src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
+            if class_name.text is None:
+                class_name = class_item.xpath('./src:name/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
             model_class = Class(class_name.text, class_item)
             class_comment = tree.xpath('//src:class[src:name=\''+model_class.name+'\']/preceding-sibling::*[1][self::src:comment]',namespaces={'src': 'http://www.srcML.org/srcML/src'})
             if len(class_comment) > 0:
