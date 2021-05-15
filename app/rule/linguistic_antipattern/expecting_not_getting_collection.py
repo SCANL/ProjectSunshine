@@ -42,7 +42,7 @@ class ExpectingNotGettingCollection:
             error_message = "Error encountered processing %s in file %s [%s:%s]" % (
                 IdentifierType.get_type(type(identifier).__name__), self.__entity.path, identifier.line_number,
                 identifier.column_number)
-            handle_error('B.6', error_message, ErrorSeverity.Critical, False, e)
+            handle_error('B.6', error_message, ErrorSeverity.Error, False, e)
 
 
     def analyze(self, project, entity):

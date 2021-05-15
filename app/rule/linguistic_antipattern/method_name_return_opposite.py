@@ -44,7 +44,7 @@ class MethodNameReturnOpposite:
             error_message = "Error encountered processing %s in file %s [%s:%s]" % (
                 IdentifierType.get_type(type(identifier).__name__), self.__entity.path, identifier.line_number,
                 identifier.column_number)
-            handle_error('C.1', error_message, ErrorSeverity.Critical, False, e)
+            handle_error('C.1', error_message, ErrorSeverity.Error, False, e)
 
     def analyze(self, project, entity):
         # Analyze all methods in a class
