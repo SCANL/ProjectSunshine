@@ -1,3 +1,5 @@
+from app.rule.linguistic_antipattern.contains_only_special_characters import ContainsOnlySpecialCharacters
+from app.rule.linguistic_antipattern.starts_with_special_character import StartsWithSpecialCharacter
 from rule.linguistic_antipattern.attribute_name_type_opposite import AttributeNameTypeOpposite
 from rule.linguistic_antipattern.attribute_signature_comment_opposite import AttributeSignatureCommentOpposite
 from rule.linguistic_antipattern.expecting_not_getting_collection import ExpectingNotGettingCollection
@@ -31,7 +33,7 @@ class Analyzer:
         self.file_type = file_type
         self.junit = None
         self.rules = [
-            ###### arnaoudova ######
+            # ###### arnaoudova ######
             # MethodSignatureCommentOpposite(),
             # AttributeSignatureCommentOpposite(),
             # AttributeNameTypeOpposite(),
@@ -40,22 +42,23 @@ class Analyzer:
             # NotAnsweredQuestion(),
             # NotImplementedCondition(),
             # ValidateNotConfirm(),
-            SaysManyContainsOne(),
+            # SaysManyContainsOne(),
             # SaysOneContainsMany(),
-            ExpectingNotGettingCollection(),
+            # ExpectingNotGettingCollection(),
             # ExpectingNotGettingSingle(),
             # NameSuggestBooleanTypeNot(),
             # SetReturns(),
             # GetMoreThanAccessor(),
             # IsNoReturnBool(),
             # GetNoReturn(),
-            ###### peruma ######
+            # ###### peruma ######
             # TestAnnotationTest(),
             # TestAnnotationSetup(),
             # TestAnnotationTeardown(),
             # TestNonVerbStarting(),
-            TestMissingNullCheck()
-
+            # TestMissingNullCheck(),
+            StartsWithSpecialCharacter(),
+            ContainsOnlySpecialCharacters()
         ]
         self.issues = []
 
