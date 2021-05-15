@@ -5,6 +5,21 @@ def get_class_attribute_names(entity_class):
     return names
 
 
+def get_all_items_in_class(entity_class):
+    items = []
+    items.append(entity_class)
+    for attribute_item in entity_class.attributes:
+        items.append(attribute_item)
+    for method_item in entity_class.methods:
+        items.append(method_item)
+        for variable_item in method_item.variables:
+            items.append(variable_item)
+        for parameter_item in method_item.parameters:
+            items.append(parameter_item)
+
+    return items
+
+
 def get_all_class_fields(entity_class):
     items = []
     for attribute_item in entity_class.attributes:
