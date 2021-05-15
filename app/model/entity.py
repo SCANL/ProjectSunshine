@@ -135,118 +135,122 @@ class Entity:
             ##----------------------------------------------------------------------------------------------------------------##
             method_list = class_item.xpath('*/src:function', namespaces={'src': 'http://www.srcML.org/srcML/src'})
             for method_item in method_list:
-                method_name = method_item.xpath('./src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
-                if method_name.text is None:
-                    method_name = method_item.xpath('./src:name/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
-                method_annotation = method_item.xpath('./src:annotation/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})
-                method_annotation = [''.join(x.text) for x in method_annotation]
-                method_return_type = method_item.xpath('./src:type/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
-                method_type_array = False
-                if method_return_type.text is None:
-                    method_return_type = method_item.xpath('./src:type/src:name/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
-                    method_array = method_item.xpath('./src:type/src:name/src:index', namespaces={'src': 'http://www.srcML.org/srcML/src'})
-                    if len(method_array) != 0:
-                        method_type_array = True
+                try:
+                    method_name = method_item.xpath('./src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
+                    if method_name.text is None:
+                        method_name = method_item.xpath('./src:name/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
+                    method_annotation = method_item.xpath('./src:annotation/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})
+                    method_annotation = [''.join(x.text) for x in method_annotation]
+                    method_return_type = method_item.xpath('./src:type/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
+                    method_type_array = False
+                    if method_return_type.text is None:
+                        method_return_type = method_item.xpath('./src:type/src:name/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
+                        method_array = method_item.xpath('./src:type/src:name/src:index', namespaces={'src': 'http://www.srcML.org/srcML/src'})
+                        if len(method_array) != 0:
+                            method_type_array = True
 
-                model_method = Method(method_name.text, method_annotation, model_class.name, method_return_type.text, method_type_array, method_item)
-    ##----------------------------------------------------------------------------------------------------------------##
-                parameter_list = method_item.xpath('*/src:parameter/src:decl', namespaces={'src': 'http://www.srcML.org/srcML/src'})
-                for parameter_item in parameter_list:
-                    if len(parameter_item.xpath('./src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})) != 0:
-                        parameter_name = parameter_item.xpath('./src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
-                    else:
-                        if len(parameter_item.xpath('./src:name/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})) != 0:
+                    model_method = Method(method_name.text, method_annotation, model_class.name, method_return_type.text, method_type_array, method_item)
+        ##----------------------------------------------------------------------------------------------------------------##
+                    parameter_list = method_item.xpath('*/src:parameter/src:decl', namespaces={'src': 'http://www.srcML.org/srcML/src'})
+                    for parameter_item in parameter_list:
+                        if len(parameter_item.xpath('./src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})) != 0:
+                            parameter_name = parameter_item.xpath('./src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
+                        else:
+                            if len(parameter_item.xpath('./src:name/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})) != 0:
+                                parameter_name = parameter_item.xpath('./src:name/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
+                            else:
+                                continue
+
+                        if parameter_name.text is None:
                             parameter_name = parameter_item.xpath('./src:name/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
+
+                        parameter_type = parameter_item.xpath('./src:type/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})
+                        parameter_type_array = False
+                        parameter_type_generic = False
+                        if len(parameter_type) != 0:
+                            parameter_type = parameter_type[0]
+                            if parameter_type.text == None:
+                                parameter_type = parameter_item.xpath('./src:type/src:name/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
+                                parameter_array = parameter_item.xpath('./src:type/src:name/src:index', namespaces={'src': 'http://www.srcML.org/srcML/src'})
+                                parameter_type_generic = True
+                                if len(parameter_array) != 0:
+                                    parameter_type_array = True
+
+                            model_parameter = Parameter(parameter_type.text, parameter_name.text, parameter_type_array, parameter_type_generic, parameter_item)
+
+                        model_method.parameters.append(model_parameter)
+
+                    for parameter_item in model_method.parameters:
+                        parameter_item.set_parent_name(model_method.get_fully_qualified_name())
+
+                    ### get (header/block) comments for the method ###
+                    xpath_strings=[]
+                    for num, parameter in enumerate(model_method.parameters, start=1):
+                        if parameter.type_is_generic:
+                            xpath_strings.append("(src:parameter_list/src:parameter["+str(num)+"]/src:decl/src:name='"+parameter.name+"' and src:parameter_list/src:parameter["+str(num)+"]/src:decl/src:type/src:name/src:name='"+parameter.type+"')")
                         else:
-                            continue
-
-                    if parameter_name.text is None:
-                        parameter_name = parameter_item.xpath('./src:name/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
-
-                    parameter_type = parameter_item.xpath('./src:type/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})
-                    parameter_type_array = False
-                    parameter_type_generic = False
-                    if len(parameter_type) != 0:
-                        parameter_type = parameter_type[0]
-                        if parameter_type.text == None:
-                            parameter_type = parameter_item.xpath('./src:type/src:name/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
-                            parameter_array = parameter_item.xpath('./src:type/src:name/src:index', namespaces={'src': 'http://www.srcML.org/srcML/src'})
-                            parameter_type_generic = True
-                            if len(parameter_array) != 0:
-                                parameter_type_array = True
-
-                        model_parameter = Parameter(parameter_type.text, parameter_name.text, parameter_type_array, parameter_type_generic, parameter_item)
-
-                    model_method.parameters.append(model_parameter)
-
-                for parameter_item in model_method.parameters:
-                    parameter_item.set_parent_name(model_method.get_fully_qualified_name())
-
-                ### get (header/block) comments for the method ###
-                xpath_strings=[]
-                for num, parameter in enumerate(model_method.parameters, start=1):
-                    if parameter.type_is_generic:
-                        xpath_strings.append("(src:parameter_list/src:parameter["+str(num)+"]/src:decl/src:name='"+parameter.name+"' and src:parameter_list/src:parameter["+str(num)+"]/src:decl/src:type/src:name/src:name='"+parameter.type+"')")
+                            xpath_strings.append("(src:parameter_list/src:parameter["+str(num)+"]/src:decl/src:name='"+parameter.name+"' and src:parameter_list/src:parameter["+str(num)+"]/src:decl/src:type/src:name='"+parameter.type+"')")
+                    xpath_string = "//src:function[src:name='"+model_method.name+"'"
+                    if len(xpath_strings) != 0:
+                        xpath_string = xpath_string + ' and ' + ' and '.join(xpath_strings) + "]/preceding-sibling::*[1][self::src:comment]"
                     else:
-                        xpath_strings.append("(src:parameter_list/src:parameter["+str(num)+"]/src:decl/src:name='"+parameter.name+"' and src:parameter_list/src:parameter["+str(num)+"]/src:decl/src:type/src:name='"+parameter.type+"')")
-                xpath_string = "//src:function[src:name='"+model_method.name+"'"
-                if len(xpath_strings) != 0:
-                    xpath_string = xpath_string + ' and ' + ' and '.join(xpath_strings) + "]/preceding-sibling::*[1][self::src:comment]"
-                else:
-                    xpath_string = xpath_string + "]/preceding-sibling::*[1][self::src:comment]"
-                method_comment = class_item.xpath(xpath_string,namespaces={'src': 'http://www.srcML.org/srcML/src'})
-                if len(method_comment) > 0:
-                    model_method.set_block_comment(method_comment[0].text)
-                else:
-                    model_method.set_block_comment(None)
-    ##----------------------------------------------------------------------------------------------------------------##
-                variable_list = method_item.xpath('*//src:decl_stmt/src:decl', namespaces={'src': 'http://www.srcML.org/srcML/src'})
-                for variable_item in variable_list:
-                    if len(variable_item.xpath('./src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})) != 0:
-                        variable_name = variable_item.xpath('./src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
+                        xpath_string = xpath_string + "]/preceding-sibling::*[1][self::src:comment]"
+                    method_comment = class_item.xpath(xpath_string,namespaces={'src': 'http://www.srcML.org/srcML/src'})
+                    if len(method_comment) > 0:
+                        model_method.set_block_comment(method_comment[0].text)
                     else:
-                        if len(variable_item.xpath('./src:name/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})) != 0:
+                        model_method.set_block_comment(None)
+        ##----------------------------------------------------------------------------------------------------------------##
+                    variable_list = method_item.xpath('*//src:decl_stmt/src:decl', namespaces={'src': 'http://www.srcML.org/srcML/src'})
+                    for variable_item in variable_list:
+                        if len(variable_item.xpath('./src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})) != 0:
+                            variable_name = variable_item.xpath('./src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
+                        else:
+                            if len(variable_item.xpath('./src:name/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})) != 0:
+                                variable_name = variable_item.xpath('./src:name/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
+                            else:
+                                continue
+
+                        if variable_name.text is None:
                             variable_name = variable_item.xpath('./src:name/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
-                        else:
-                            continue
 
-                    if variable_name.text is None:
-                        variable_name = variable_item.xpath('./src:name/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
+                        variable_type = variable_item.xpath('./src:type/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})
+                        variable_type_array = False
+                        variable_type_generic = False
 
-                    variable_type = variable_item.xpath('./src:type/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})
-                    variable_type_array = False
-                    variable_type_generic = False
+                        if len(variable_type) != 0:
+                            variable_type = variable_type[0]
+                            if variable_type.text == None:
+                                variable_type = variable_item.xpath('./src:type/src:name/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
+                                variable_array = variable_item.xpath('./src:type/src:name/src:index', namespaces={'src': 'http://www.srcML.org/srcML/src'})
+                                variable_type_generic = True
+                                if len(variable_array) != 0:
+                                    variable_type_array = True
+                            model_variable = Variable(variable_type.text, variable_name.text, variable_type_array, variable_type_generic, variable_item)
+                            variable_comment = method_item.xpath('//src:decl_stmt[src:decl/src:type/src:name=\'' + variable_type.text + '\' and src:decl/src:name=\'' + variable_name.text + '\']/preceding-sibling::*[1][self::src:comment]', namespaces={'src': 'http://www.srcML.org/srcML/src'})
+                            if len(variable_comment) > 0:
+                                model_variable.set_block_comment(variable_comment[0].text)
+                            else:
+                                model_variable.set_block_comment(None)
 
-                    if len(variable_type) != 0:
-                        variable_type = variable_type[0]
-                        if variable_type.text == None:
-                            variable_type = variable_item.xpath('./src:type/src:name/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
-                            variable_array = variable_item.xpath('./src:type/src:name/src:index', namespaces={'src': 'http://www.srcML.org/srcML/src'})
-                            variable_type_generic = True
-                            if len(variable_array) != 0:
-                                variable_type_array = True
-                        model_variable = Variable(variable_type.text, variable_name.text, variable_type_array, variable_type_generic, variable_item)
-                        variable_comment = method_item.xpath('//src:decl_stmt[src:decl/src:type/src:name=\'' + variable_type.text + '\' and src:decl/src:name=\'' + variable_name.text + '\']/preceding-sibling::*[1][self::src:comment]', namespaces={'src': 'http://www.srcML.org/srcML/src'})
-                        if len(variable_comment) > 0:
-                            model_variable.set_block_comment(variable_comment[0].text)
-                        else:
-                            model_variable.set_block_comment(None)
+                        else:  # capture the variable's type when the variables are declared in groups (e.g., String app, testFilePath;)
+                            if variable_item.xpath('./src:type/@ref', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0] == 'prev':
+                                variable_type = model_method.variables[-1].type
+                                variable_type_array = model_method.variables[-1].is_array
+                                variable_comment = model_method.variables[-1].block_comment
+                                variable_type_generic = model_method.variables[-1].type_is_generic
+                                model_variable = Variable(variable_type, variable_name.text, variable_type_array, variable_type_generic, variable_item)
+                                model_variable.set_block_comment(variable_comment)
 
-                    else:  # capture the variable's type when the variables are declared in groups (e.g., String app, testFilePath;)
-                        if variable_item.xpath('./src:type/@ref', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0] == 'prev':
-                            variable_type = model_method.variables[-1].type
-                            variable_type_array = model_method.variables[-1].is_array
-                            variable_comment = model_method.variables[-1].block_comment
-                            variable_type_generic = model_method.variables[-1].type_is_generic
-                            model_variable = Variable(variable_type, variable_name.text, variable_type_array, variable_type_generic, variable_item)
-                            model_variable.set_block_comment(variable_comment)
+                        model_method.variables.append(model_variable)
 
-                    model_method.variables.append(model_variable)
+                    for variable_item in model_method.variables:
+                        variable_item.set_parent_name(model_method.get_fully_qualified_name())
 
-                for variable_item in model_method.variables:
-                    variable_item.set_parent_name(model_method.get_fully_qualified_name())
-
-                model_class.methods.append((model_method))
+                    model_class.methods.append((model_method))
+                except:
+                    print('Error parsing method!')
+                    continue
 
             self.classes.append(model_class)
 
