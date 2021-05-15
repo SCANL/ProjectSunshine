@@ -35,14 +35,14 @@ class Project:
             self.junit_version = config[section_properties]['junit_version']
         except KeyError as error:
             error_message = "Missing key in the configuration file: %s" % str(error)
-            handle_error('ConfigReader', error_message, ErrorSeverity.Critical, False)
+            handle_error('ConfigReader', error_message, ErrorSeverity.Error, False)
 
         try:
             self.custom_code_file = config[section_files]['custom_code']
             self.custom_terms_file = config[section_files]['custom_terms']
         except KeyError as error:
             error_message = "Missing key in the configuration file: %s" % str(error)
-            handle_error('ConfigReader', error_message, ErrorSeverity.Warning, False)
+            handle_error('ConfigReader', error_message, ErrorSeverity.Error, False)
 
         if not path.exists(self.output_directory) or not path.isdir(self.output_directory):
             error_message = "Invalid \'Output Directory\': \'%s\'" % str(self.output_directory)
