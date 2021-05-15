@@ -11,3 +11,4 @@ class Issue:
         self.id = None
         self.file_type = None
         self.line_number = None
+        self.column_number = None

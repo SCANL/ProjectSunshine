@@ -13,6 +13,7 @@ class Class:
         self.name_terms = Splitter().split_heuristic(name)
         self.block_comment = None
         self.line_number = (source.attrib['{http://www.srcML.org/srcML/position}start']).split(':')[0]
+        self.column_number = (source.attrib['{http://www.srcML.org/srcML/position}start']).split(':')[1]
 
     def set_block_comment(self, comment):
         self.block_comment = comment
@@ -32,6 +33,7 @@ class Attribute:
         self.block_comment = None
         self.type_is_generic = is_generic
         self.line_number = (source.attrib['{http://www.srcML.org/srcML/position}start']).split(':')[0]
+        self.column_number = (source.attrib['{http://www.srcML.org/srcML/position}start']).split(':')[1]
 
     def set_block_comment(self, comment):
         self.block_comment = comment
@@ -53,6 +55,7 @@ class Property:
         self.block_comment = None
         self.type_is_generic = is_generic
         self.line_number = (source.attrib['{http://www.srcML.org/srcML/position}start']).split(':')[0]
+        self.column_number = (source.attrib['{http://www.srcML.org/srcML/position}start']).split(':')[1]
 
     def set_block_comment(self, comment):
         self.block_comment = comment
@@ -77,6 +80,7 @@ class Method:
         self.type_terms = Splitter().split_heuristic(return_type)
         self.block_comment = None
         self.line_number = (source.attrib['{http://www.srcML.org/srcML/position}start']).split(':')[0]
+        self.column_number = (source.attrib['{http://www.srcML.org/srcML/position}start']).split(':')[1]
 
     def set_block_comment(self, comment):
         self.block_comment = comment
@@ -125,6 +129,7 @@ class Variable:
         self.block_comment = None
         self.type_is_generic = is_generic
         self.line_number = (source.attrib['{http://www.srcML.org/srcML/position}start']).split(':')[0]
+        self.column_number = (source.attrib['{http://www.srcML.org/srcML/position}start']).split(':')[1]
 
     def set_block_comment(self, comment):
         self.block_comment = comment
@@ -150,6 +155,7 @@ class Parameter:
         self.block_comment = None
         self.type_is_generic = is_generic
         self.line_number = (source.attrib['{http://www.srcML.org/srcML/position}start']).split(':')[0]
+        self.column_number = (source.attrib['{http://www.srcML.org/srcML/position}start']).split(':')[1]
 
     def set_block_comment(self, comment):
         self.block_comment = comment

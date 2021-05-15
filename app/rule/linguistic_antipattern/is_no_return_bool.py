@@ -38,6 +38,7 @@ class IsNoReturnBool:
                 issue.analysis_datetime = datetime.now()
                 issue.file_type = self.__entity.file_type
                 issue.line_number = identifier.line_number
+                issue.column_number = identifier.column_number
                 self.__issues.append(issue)
 
     def analyze(self, project, entity):
