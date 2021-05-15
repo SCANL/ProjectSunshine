@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from app.common.enum import FileType, IdentifierType
+from app.common.error_handler import handle_error, ErrorSeverity
 from app.common.testing_list import get_null_check_test_method
 from app.common.util_parsing import get_all_function_calls
 from app.model.issue import Issue
@@ -26,22 +27,28 @@ class TestMissingNullCheck:
 
     def __process_identifier(self, identifier):
         # AntiPattern: Method name contains the term 'null' or 'not', but does not perform a null check
-        if 'null' in map(str.lower, identifier.name_terms) or 'not' in map(str.lower, identifier.name_terms):
-            method_calls = get_all_function_calls(identifier.source)
-            api_null_method = get_null_check_test_method(self.__project, self.__entity.language)
-            if not any(x in method_calls for x in api_null_method):
-                issue = Issue()
-                issue.file_path = self.__entity.path
-                issue.identifier = identifier.get_fully_qualified_name()
-                issue.identifier_type = IdentifierType.get_type(type(identifier).__name__)
-                issue.category = self.__issue_category
-                issue.details = self.__issue_description
-                issue.id = self.__id
-                issue.analysis_datetime = datetime.now()
-                issue.file_type = self.__entity.file_type
-                issue.line_number = identifier.line_number
-                issue.column_number = identifier.column_number
-                self.__issues.append(issue)
+        try:
+            if 'null' in map(str.lower, identifier.name_terms) or 'not' in map(str.lower, identifier.name_terms):
+                method_calls = get_all_function_calls(identifier.source)
+                api_null_method = get_null_check_test_method(self.__project, self.__entity.language)
+                if not any(x in method_calls for x in api_null_method):
+                    issue = Issue()
+                    issue.file_path = self.__entity.path
+                    issue.identifier = identifier.get_fully_qualified_name()
+                    issue.identifier_type = IdentifierType.get_type(type(identifier).__name__)
+                    issue.category = self.__issue_category
+                    issue.details = self.__issue_description
+                    issue.id = self.__id
+                    issue.analysis_datetime = datetime.now()
+                    issue.file_type = self.__entity.file_type
+                    issue.line_number = identifier.line_number
+                    issue.column_number = identifier.column_number
+                    self.__issues.append(issue)
+        except Exception as e:
+            error_message = "Error encountered processing %s in file %s [%s:%s]" % (
+                IdentifierType.get_type(type(identifier).__name__), self.__entity.path, identifier.line_number,
+                identifier.column_number)
+            handle_error('P.5', error_message, ErrorSeverity.Critical, False, e)
 
     def analyze(self, project, entity):
         if entity.file_type == FileType.Test:
