@@ -9,7 +9,7 @@ class ErrorSeverity(enum.Enum):
     Critical = 2
 
 
-def handle_error(module, message, severity=ErrorSeverity.Warning, exit_system=False):
+def handle_error(module, message, severity=ErrorSeverity.Warning, exit_system=False, exception=None):
     error_message = "[%s] %s: %s" % (module, severity.name, message)
     if exit_system:
         print(Fore.RED + Style.BRIGHT + error_message)
