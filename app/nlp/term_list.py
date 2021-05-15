@@ -147,7 +147,7 @@ def get_validate_terms(project):
 def get_boolean_terms(project):
     terms = []
     terms.extend(boolean_terms)
-    custom_terms = project.get_config_value(ConfigCustomFileType.Terms, 'Terms', 'boolean')
+    custom_terms = project.get_config_value(ConfigCustomFileType.Terms, 'Terms', 'boolean_terms')
     if custom_terms is not None:
         terms.extend(custom_terms)
     return terms

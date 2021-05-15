@@ -43,20 +43,20 @@ transform_terms_inner = [
     "inner"
     ]
 
-conditional = [
+conditional_terms = [
     "conditional",
     "terms"
     ]
 
-validate = [
+validate_terms = [
     "validate",
     "terms"
     ]
                   
-boolean = ["hello"
+boolean_terms = ["hello"
     ]
 
-get = [
+get_terms = [
     "get",
     "terms"
     ]
