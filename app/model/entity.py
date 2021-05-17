@@ -82,11 +82,14 @@ class Entity:
                     attribute_type = attribute_type[0]
                     if attribute_type.text == None:
                         attribute_type = attribute_item.xpath('./src:type/src:name/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
+                        if attribute_type.text == None:
+                            attribute_type = attribute_item.xpath('./src:type/src:name/src:name/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
                         attribute_array = attribute_item.xpath('./src:type/src:name/src:index', namespaces={'src': 'http://www.srcML.org/srcML/src'})
                         attribute_type_generic = True
                         if len(attribute_array) != 0:
                             attribute_type_array = True
                     model_attribute = Attribute(attribute_type.text, attribute_name.text,model_class.name, attribute_type_array, attribute_type_generic, attribute_item)
+
                     attribute_comment = class_item.xpath('//src:decl_stmt[src:decl/src:type/src:name=\''+attribute_type.text+'\' and src:decl/src:name=\''+attribute_name.text+'\']/preceding-sibling::*[1][self::src:comment]', namespaces={'src': 'http://www.srcML.org/srcML/src'})
                     if len(attribute_comment) > 0:
                         model_attribute.set_block_comment(attribute_comment[0].text)
@@ -104,34 +107,35 @@ class Entity:
 
                 model_class.attributes.append(model_attribute)
     ##----------------------------------------------------------------------------------------------------------------##
-            property_list = class_item.xpath('*/src:property', namespaces={'src': 'http://www.srcML.org/srcML/src'})
-            for property_item in property_list:
-                property_name = property_item.xpath('./src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
-                if property_name.text is None:
-                    property_name = property_item.xpath('./src:name/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
-                property_type = property_item.xpath('./src:type/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})
-                property_type_array = False
-                property_type_generic = False
-
-                property_type = property_type[0]
-                if property_type.text == None:
-                    property_type = property_item.xpath('./src:type/src:name/src:name',
-                                                        namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
-                    property_array = property_item.xpath('./src:type/src:name/src:index',
-                                                         namespaces={'src': 'http://www.srcML.org/srcML/src'})
-                    property_type_generic = True
-                    if len(property_array) != 0:
-                        property_type_array = True
-                model_property = Property(property_type.text, property_name.text, model_class.name, property_type_array, property_type_generic, property_item)
-                property_comment = class_item.xpath(
-                    '//src:property[src:type/src:name=\'' + property_type.text + '\' and src:name=\'' + property_name.text + '\']/preceding-sibling::*[1][self::src:comment]',
-                    namespaces={'src': 'http://www.srcML.org/srcML/src'})
-                if len(property_comment) > 0:
-                    model_property.set_block_comment(property_comment[0].text)
-                else:
-                    model_property.set_block_comment(None)
-
-                model_class.properties.append(model_property)
+            # property_list = class_item.xpath('*/src:property', namespaces={'src': 'http://www.srcML.org/srcML/src'})
+            # for property_item in property_list:
+            #     property_name = property_item.xpath('./src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
+            #     if property_name.text is None:
+            #         property_name = property_item.xpath('./src:name/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
+            #     property_type = property_item.xpath('./src:type/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})
+            #     property_type_array = False
+            #     property_type_generic = False
+            #
+            #     if len(property_type) != 0:
+            #         property_type = property_type[0]
+            #         if property_type.text == None:
+            #             property_type = property_item.xpath('./src:type/src:name/src:name',namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
+            #             property_array = property_item.xpath('./src:type/src:name/src:index',namespaces={'src': 'http://www.srcML.org/srcML/src'})
+            #             property_type_generic = True
+            #             if len(property_array) != 0:
+            #                 property_type_array = True
+            #
+            #         model_property = Property(property_type.text, property_name.text, model_class.name, property_type_array, property_type_generic, property_item)
+            #
+            #         property_comment = class_item.xpath(
+            #             '//src:property[src:type/src:name=\'' + property_type.text + '\' and src:name=\'' + property_name.text + '\']/preceding-sibling::*[1][self::src:comment]',
+            #             namespaces={'src': 'http://www.srcML.org/srcML/src'})
+            #         if len(property_comment) > 0:
+            #             model_property.set_block_comment(property_comment[0].text)
+            #         else:
+            #             model_property.set_block_comment(None)
+            #
+            #         model_class.properties.append(model_property)
             ##----------------------------------------------------------------------------------------------------------------##
             method_list = class_item.xpath('*/src:function', namespaces={'src': 'http://www.srcML.org/srcML/src'})
             for method_item in method_list:
