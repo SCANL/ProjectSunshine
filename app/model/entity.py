@@ -71,41 +71,45 @@ class Entity:
     ##----------------------------------------------------------------------------------------------------------------##
             attribute_list = class_item.xpath('*/src:decl_stmt/src:decl', namespaces={'src': 'http://www.srcML.org/srcML/src'})
             for i, attribute_item in enumerate(attribute_list):
-                attribute_name = attribute_item.xpath('./src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
-                if attribute_name.text is None:
-                    attribute_name = attribute_item.xpath('./src:name/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
-                attribute_type = attribute_item.xpath('./src:type/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})
-                attribute_type_array = False
-                attribute_type_generic = False
+                try:
+                    attribute_name = attribute_item.xpath('./src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
+                    if attribute_name.text is None:
+                        attribute_name = attribute_item.xpath('./src:name/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
+                    attribute_type = attribute_item.xpath('./src:type/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})
+                    attribute_type_array = False
+                    attribute_type_generic = False
 
-                if len(attribute_type) != 0:
-                    attribute_type = attribute_type[0]
-                    if attribute_type.text == None:
-                        attribute_type = attribute_item.xpath('./src:type/src:name/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
+                    if len(attribute_type) != 0:
+                        attribute_type = attribute_type[0]
                         if attribute_type.text == None:
-                            attribute_type = attribute_item.xpath('./src:type/src:name/src:name/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
-                        attribute_array = attribute_item.xpath('./src:type/src:name/src:index', namespaces={'src': 'http://www.srcML.org/srcML/src'})
-                        attribute_type_generic = True
-                        if len(attribute_array) != 0:
-                            attribute_type_array = True
-                    model_attribute = Attribute(attribute_type.text, attribute_name.text,model_class.name, attribute_type_array, attribute_type_generic, attribute_item)
+                            attribute_type = attribute_item.xpath('./src:type/src:name/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
+                            if attribute_type.text == None:
+                                attribute_type = attribute_item.xpath('./src:type/src:name/src:name/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
+                            attribute_array = attribute_item.xpath('./src:type/src:name/src:index', namespaces={'src': 'http://www.srcML.org/srcML/src'})
+                            attribute_type_generic = True
+                            if len(attribute_array) != 0:
+                                attribute_type_array = True
+                        model_attribute = Attribute(attribute_type.text, attribute_name.text,model_class.name, attribute_type_array, attribute_type_generic, attribute_item)
 
-                    attribute_comment = class_item.xpath('//src:decl_stmt[src:decl/src:type/src:name=\''+attribute_type.text+'\' and src:decl/src:name=\''+attribute_name.text+'\']/preceding-sibling::*[1][self::src:comment]', namespaces={'src': 'http://www.srcML.org/srcML/src'})
-                    if len(attribute_comment) > 0:
-                        model_attribute.set_block_comment(attribute_comment[0].text)
-                    else:
-                        model_attribute.set_block_comment(None)
+                        attribute_comment = class_item.xpath('//src:decl_stmt[src:decl/src:type/src:name=\''+attribute_type.text+'\' and src:decl/src:name=\''+attribute_name.text+'\']/preceding-sibling::*[1][self::src:comment]', namespaces={'src': 'http://www.srcML.org/srcML/src'})
+                        if len(attribute_comment) > 0:
+                            model_attribute.set_block_comment(attribute_comment[0].text)
+                        else:
+                            model_attribute.set_block_comment(None)
 
-                else:# capture the attribute's type when the attributes are declared in groups (e.g., String app, testFilePath;)
-                    if attribute_item.xpath('./src:type/@ref', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0] == 'prev':
-                        attribute_type = model_class.attributes[-1].type
-                        attribute_type_array = model_class.attributes[-1].is_array
-                        attribute_comment = model_class.attributes[-1].block_comment
-                        attribute_type_generic = model_class.attributes[-1].type_is_generic
-                        model_attribute = Attribute(attribute_type, attribute_name.text, model_class.name, attribute_type_array, attribute_type_generic, attribute_item)
-                        model_attribute.set_block_comment(attribute_comment)
+                    else:# capture the attribute's type when the attributes are declared in groups (e.g., String app, testFilePath;)
+                        if attribute_item.xpath('./src:type/@ref', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0] == 'prev':
+                            attribute_type = model_class.attributes[-1].type
+                            attribute_type_array = model_class.attributes[-1].is_array
+                            attribute_comment = model_class.attributes[-1].block_comment
+                            attribute_type_generic = model_class.attributes[-1].type_is_generic
+                            model_attribute = Attribute(attribute_type, attribute_name.text, model_class.name, attribute_type_array, attribute_type_generic, attribute_item)
+                            model_attribute.set_block_comment(attribute_comment)
 
-                model_class.attributes.append(model_attribute)
+                    model_class.attributes.append(model_attribute)
+                except:
+                    print('Error parsing attribute!')
+                    continue
     ##----------------------------------------------------------------------------------------------------------------##
             # property_list = class_item.xpath('*/src:property', namespaces={'src': 'http://www.srcML.org/srcML/src'})
             # for property_item in property_list:
