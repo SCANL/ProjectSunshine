@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pandas
 
-from app.analyzer import Analyzer
+from analyzer import Analyzer
 from app.common import util
 from app.common.error_handler import handle_error, ErrorSeverity
 from app.common.testing_list import TestingPackage
