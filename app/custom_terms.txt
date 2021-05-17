@@ -32,32 +32,21 @@ plural_terms = [
 
 [Terms]
 transform_terms_staring = [
-    "transform",
-    "terms",
-    "staring"
     ]
 
 transform_terms_inner = [
-    "transform",
-    "terms",
-    "inner"
     ]
 
 conditional_terms = [
-    "conditional",
-    "terms"
     ]
 
 validate_terms = [
-    "validate",
-    "terms"
     ]
                   
-boolean_terms = ["hello"
+boolean_terms = [
     ]
 
 get_terms = [
-    "get",
-    "terms"
+    "lookup"
     ]
 
