@@ -27,7 +27,8 @@ class POSTaggerStanford(metaclass=Singleton):
 
     def get_pos(self, term):
         self.tagger.sendline(term)
-        self.tagger.expect(term+'_[A-Z]+')
+        self.tagger.expect(term+'_(?<=_)[^\r\n]+')
+        # self.tagger.expect(term+'_[A-Z]+')
         pos = self.tagger.after.decode('utf-8').strip().split('_')[1]
         return pos
 
