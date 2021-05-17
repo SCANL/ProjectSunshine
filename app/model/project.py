@@ -33,9 +33,13 @@ class Project:
 
         try:
             self.junit_version = config[section_properties]['junit_version']
+            self.junit_version = float(self.junit_version)
+        except ValueError as error:
+            self.junit_version = None
         except KeyError as error:
             error_message = "Missing key in the configuration file: %s" % str(error)
             handle_error('ConfigReader', error_message, ErrorSeverity.Error, False)
+            self.junit_version = None
 
         try:
             self.custom_code_file = config[section_files]['custom_code']
