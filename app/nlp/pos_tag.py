@@ -18,9 +18,9 @@ def generate_tag(project, term):
         return custom_dictionary[term.lower()]
     else:
         stanford = POSTaggerStanford()
-        stanford.get_pos(term)
+        return stanford.get_pos(term)
         #tagger = stanford.tagger #initialize_stanford_tagger()
-        return None #tagger.tag([term])[0][1]
+        #tagger.tag([term])[0][1]
 
 
 # def generate_tags(term_list, append_I=False):
