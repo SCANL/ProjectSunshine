@@ -1,15 +1,11 @@
 [DataTypes]
 csharp_custom_collection_data_types = [
-    "custom1",
-    "custom2"
     ]
 java_custom_collection_data_types = [
-    "custom3",
-    "custom4"
     ]
 
 [Test]
-java_custom_testing_packages = ["java.custom.pkg"]
-csharp_custom_testing_packages = ["cs.custom.pkg1", "cs.custom.pkg2"]
-java_custom_null_check_test_methods = ["javaNull"]
-csharp_custom_null_check_test_methods = ["csNull"]
+java_custom_testing_packages = ["org.junit.jupiter.api.Test", "org.junit.jupiter.api.BeforeEach", "org.mockito.Mockito"]
+csharp_custom_testing_packages = []
+java_custom_null_check_test_methods = []
+csharp_custom_null_check_test_methods = []
