@@ -16,7 +16,7 @@ class TestNonVerbStarting:
         self.__entity = None
         self.__project = None
         self.__id = 'X.4'
-        self.__junit = 4  # None
+        self.__junit = None
         self.__issues = []
         self.__issue_category = 'Starting term must be a verb'
         self.__issue_description = 'The starting term (excluding \'test\') must be a verb'
@@ -56,6 +56,7 @@ class TestNonVerbStarting:
     def analyze(self, project, entity):
         if entity.file_type == FileType.Test:
             self.__project = project
+            self.__junit = project.junit_version
             self.__entity = entity
             for class_item in self.__entity.classes:
                 for method_item in class_item.methods:

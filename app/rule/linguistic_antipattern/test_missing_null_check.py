@@ -17,7 +17,7 @@ class TestMissingNullCheck:
         self.__entity = None
         self.__project = None
         self.__id = 'P.5'
-        self.__junit = 4  # None
+        self.__junit = None
         self.__issues = []
         self.__issue_category = 'Test method missing null check'
         self.__issue_description = 'Body of the test method is missing a null check even though the name contains the term \'null\' or \'not\' '
@@ -53,6 +53,7 @@ class TestMissingNullCheck:
     def analyze(self, project, entity):
         if entity.file_type == FileType.Test:
             self.__project = project
+            self.__junit = project.junit_version
             self.__entity = entity
             for class_item in self.__entity.classes:
                 for method_item in class_item.methods:
