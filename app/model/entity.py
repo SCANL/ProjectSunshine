@@ -1,7 +1,8 @@
 from lxml import etree
 
 from app.common import enum
-from app.common.enum import FileType, LanguageType
+from app.common.enum import FileType, LanguageType, IdentifierType
+from app.common.error_handler import handle_error, ErrorSeverity
 from app.common.testing_list import get_testing_packages
 from app.model.identifier import Class, Attribute, Method, Parameter, Variable, Property
 
@@ -107,8 +108,10 @@ class Entity:
                             model_attribute.set_block_comment(attribute_comment)
 
                     model_class.attributes.append(model_attribute)
-                except:
-                    print('Error parsing attribute!')
+                except Exception as e:
+                    error_message = "Error encountered parsing attribute in class %s in file %s" % (
+                        model_class.name, self.path)
+                    handle_error('Hierarchy', error_message, ErrorSeverity.Error, False, e)
                     continue
     ##----------------------------------------------------------------------------------------------------------------##
             # property_list = class_item.xpath('*/src:property', namespaces={'src': 'http://www.srcML.org/srcML/src'})
@@ -256,9 +259,12 @@ class Entity:
                         variable_item.set_parent_name(model_method.get_fully_qualified_name())
 
                     model_class.methods.append((model_method))
-                except:
-                    print('Error parsing method!')
+                except Exception as e:
+                    error_message = "Error encountered parsing method in class %s in file %s" % (
+                        model_class.name, self.path)
+                    handle_error('Hierarchy', error_message, ErrorSeverity.Error, False, e)
                     continue
+
 
             self.classes.append(model_class)
 
