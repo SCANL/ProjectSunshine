@@ -62,7 +62,8 @@ boolean_terms = ['is',
                  'has',
                  'have',
                  'can',
-                 'are']
+                 'are',
+                 'did']
 
 get_terms = ['get',
              'find',
