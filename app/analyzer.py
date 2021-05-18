@@ -64,6 +64,8 @@ class Analyzer:
 
     def analyze(self):
         entity = EntityFactory().construct_model(self.file_path, self.file_type, self.junit)
+        if entity is None:
+            return []
 
         for rule in self.rules:
             issue_list = rule.analyze(self.project, entity)
