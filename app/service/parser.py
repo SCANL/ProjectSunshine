@@ -18,6 +18,7 @@ class Parser:
         executable = util.get_config_setting('srcml', 'executable')
         position = '--position'
 
+        file_path = '"'+file_path+'"'
         args = [executable, position, file_path]
 
         if sys.platform.startswith("win"):
