@@ -5,14 +5,17 @@ import traceback
 
 from colorama import init, Fore, Style
 
-logging.basicConfig(
-    filename='ProjectSunshine.log',
-    filemode='a',
-    level=logging.DEBUG,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    datefmt='%Y-%m-%d %H:%M:%S'
-)
-logger = logging.getLogger()
+# logging.basicConfig(
+#     filename='ProjectSunshine-Problem.log',
+#     filemode='a',
+#     level=logging.DEBUG,
+#     format='%(asctime)s - %(levelname)s - %(message)s',
+#     datefmt='%Y-%m-%d %H:%M:%S'
+# )
+# logger = logging.getLogger('ProjectSunshine-Problem')
+from app.common.logger import setup_logger
+
+logger = setup_logger('ProjectSunshine-Problem', 'ProjectSunshine-Problem.log')
 
 
 class ErrorSeverity(enum.Enum):
