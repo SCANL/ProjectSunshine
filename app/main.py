@@ -8,6 +8,7 @@ import pandas
 from analyzer import Analyzer
 from app.common import util
 from app.common.error_handler import handle_error, ErrorSeverity
+from app.common.logger import setup_logger
 from app.common.testing_list import TestingPackage
 from app.model.input import Input
 from app.model.project import Project
@@ -17,7 +18,6 @@ from app.service.result_writer import ResultWriter
 
 
 class Main:
-
     def __init__(self):
         self.project = None
         self.files = []
@@ -67,6 +67,8 @@ class Main:
 
     def run_analysis(self):
         time_analysis_start = time.time()
+        logger = setup_logger('ProjectSunshine-FileProcessed', 'ProjectSunshine-Processed.log')
+
         results = None
         tagger = POSTaggerStanford()
         splitter = Splitter()
@@ -81,7 +83,9 @@ class Main:
             results.save_issues(a.analyze())
             time_file_end = time.time()
             print('done! (%s seconds)' %str(time_file_end - time_file_start))
+            logger.info('"%s"'%file.path)
         tagger.terminate()
+
         time_analysis_end = time.time()
         print("Analysis completed in " + str(time_analysis_end - time_analysis_start) + " seconds")
 
