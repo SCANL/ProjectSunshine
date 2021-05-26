@@ -81,6 +81,8 @@ get_terms = ['get',
              'deliver',
              'give']
 
+set_terms = ['set']
+
 
 def get_splitter_terms(project):
     terms = []
@@ -158,6 +160,15 @@ def get_get_terms(project):
     terms = []
     terms.extend(get_terms)
     custom_terms = project.get_config_value(ConfigCustomFileType.Terms, 'Terms', 'get_terms')
+    if custom_terms is not None:
+        terms.extend(custom_terms)
+    return terms
+
+
+def get_set_terms(project):
+    terms = []
+    terms.extend(set_terms)
+    custom_terms = project.get_config_value(ConfigCustomFileType.Terms, 'Terms', 'set_terms')
     if custom_terms is not None:
         terms.extend(custom_terms)
     return terms

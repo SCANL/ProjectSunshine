@@ -6,6 +6,7 @@ from app.model.issue import Issue
 
 # Impacted identifier: All
 # Impacted identifier: Method
+from app.nlp import term_list
 
 
 class SetReturns:
@@ -21,7 +22,7 @@ class SetReturns:
     def __process_identifier(self, identifier):
         # AntiPattern: The name starts with a set, but the method return type is not void
         try:
-            if identifier.name_terms[0].lower() == 'set':
+            if identifier.name_terms[0].lower() in term_list.get_set_terms(self.__project):
                 if identifier.return_type != 'void':
                     issue = Issue()
                     issue.file_path = self.__entity.path
