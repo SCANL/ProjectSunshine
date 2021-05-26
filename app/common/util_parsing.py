@@ -77,6 +77,10 @@ def get_all_conditional_statements(method):
     statements['switch'] = statement_switch
     statements_total += len(statement_switch)
 
+    statement_ternary = method.xpath('.//src:ternary', namespaces={'src': 'http://www.srcML.org/srcML/src'})
+    statements['ternary'] = statement_ternary
+    statements_total += len(statement_ternary)
+
     return statements, statements_total
 
 
