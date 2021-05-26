@@ -35,16 +35,16 @@ class Entity:
         testing_packages = get_testing_packages(None, self.language)
 
         if self.language == enum.LanguageType.Java:
-            all_imports = source.xpath('//src:import',namespaces={'src': 'http://www.srcML.org/srcML/src'})
-            for i in range(len(all_imports)):
+            all_imports = source.xpath('//src:import/src:name',namespaces={'src': 'http://www.srcML.org/srcML/src'})
+            for i in range(len(all_imports)+1):
                 partial_name = source.xpath('//src:import['+str(i)+']/src:name//text()', namespaces={'src': 'http://www.srcML.org/srcML/src'})
                 if ''.join(partial_name) in testing_packages:
                     self.file_type = enum.FileType.Test
                     break
 
         if self.language == enum.LanguageType.CSharp:
-            all_imports = source.xpath('//src:using',namespaces={'src': 'http://www.srcML.org/srcML/src'})
-            for i in range(len(all_imports)):
+            all_imports = source.xpath('//src:using/src:name',namespaces={'src': 'http://www.srcML.org/srcML/src'})
+            for i in range(len(all_imports)+1):
                 partial_name = source.xpath('//src:using['+str(i)+']/src:name//text()', namespaces={'src': 'http://www.srcML.org/srcML/src'})
                 if ''.join(partial_name) in testing_packages:
                     self.file_type = enum.FileType.Test
