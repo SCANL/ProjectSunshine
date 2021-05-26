@@ -21,11 +21,12 @@ class TestNonVerbStarting:
         self.__issue_category = 'Starting term must be a verb'
         self.__issue_description = 'The starting term (excluding \'test\') must be a verb'
 
-    def __get_junit_version(self):
-        pass
-
     def __process_identifier(self, identifier):
         try:
+            if self.__junit is not None:
+                if self.__junit < 4:
+                    return
+
             starting_term = identifier.name_terms[0] if identifier.name_terms[0].lower() != 'test' else ''
 
             if len(identifier.name_terms) > 1:
