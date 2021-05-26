@@ -1,3 +1,7 @@
+from app.common.enum import FileType
+from app.common.testing_list import get_test_method_annotations
+
+
 def get_class_attribute_names(entity_class):
     names = []
     for attribute_item in entity_class.attributes:
@@ -74,3 +78,13 @@ def get_all_conditional_statements(method):
     statements_total += len(statement_switch)
 
     return statements, statements_total
+
+
+def is_test_method(project, entity, identifier):
+    if entity.file_type == FileType.Test:
+        annotation_list = get_test_method_annotations(project, entity.language)
+        if any(item in annotation_list for item in identifier.annotations):
+            return True
+        if identifier.name_terms[0].lower() == 'test':
+            return True
+    return False
