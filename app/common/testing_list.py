@@ -31,6 +31,36 @@ __csharp_null_check_test_methods = [
     'IsNotNull'
 ]
 
+__java_test_method_annotation = [
+    'Test'
+]
+
+__csharp_test_method_annotation = [
+    'TestMethod',
+    'Test',
+    'TestCase'
+    'Fact',
+    'Theory'
+]
+
+
+def __get_java_test_method_annotations(project):
+    annotations = []
+    annotations.extend(__java_test_method_annotation)
+    custom_annotations = project.get_config_value(ConfigCustomFileType.Code, 'Test', 'java_custom_test_method_annotation')
+    if custom_annotations is not None:
+        annotations.extend(custom_annotations)
+    return annotations
+
+
+def __get_csharp_test_method_annotations(project):
+    annotations = []
+    annotations.extend(__csharp_test_method_annotation)
+    custom_annotations = project.get_config_value(ConfigCustomFileType.Code, 'Test', 'csharp_custom_test_method_annotation')
+    if custom_annotations is not None:
+        annotations.extend(custom_annotations)
+    return annotations
+
 
 def __get_java_testing_packages(project):
     packages = []
@@ -87,6 +117,14 @@ def get_testing_packages(project, language):
     else:
         return None
 
+
+def get_test_method_annotations(project, language):
+    if language == LanguageType.Java:
+        return __get_java_test_method_annotations(project)
+    elif language == LanguageType.CSharp:
+        return __get_csharp_test_method_annotations(project)
+    else:
+        return None
 
 class TestingPackage(metaclass=Singleton):
     def __init__(self):
