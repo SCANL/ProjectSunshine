@@ -12,7 +12,6 @@ splitter_terms = [
     'TTL',
     'ASCII',
     'Endpoint',
-    'Url',
     'TLS',
     'SUT',
     'XML',

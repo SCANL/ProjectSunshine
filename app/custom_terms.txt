@@ -16,7 +16,8 @@ splitter_terms = [
     "SLA", 
     "H5", 
     "PATCH",
-    "Urls"
+    "Urls",
+    "Url"
     ]
 
 [POS]
