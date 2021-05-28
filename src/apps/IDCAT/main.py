@@ -35,9 +35,13 @@ class Main:
             handle_error('Main', error_message, ErrorSeverity.Critical, True)
 
         self.project = Project(args.arg_file)
+
+        print("Identifying source files: ...", end='', flush=True)
+        time_file_start = time.time()
         self.files = read_input(self.project.input_file)
-
-
+        time_file_end = time.time()
+        print('done! (%s seconds)' % str(time_file_end - time_file_start))
+        print('Files identified: %s ' % str(len(self.files)))
 
     def run_analysis(self):
         time_analysis_start = time.time()
@@ -49,9 +53,11 @@ class Main:
         splitter.set_project(self.project)
         testing_package = TestingPackage()
         testing_package.set_project(self.project)
-        for file in self.files:
+        total_files = len(self.files)
+        for i in range(total_files):
+            file = self.files[i]
             time_file_start = time.time()
-            print("Analyzing: %s ..." % (file.path), end='', flush=True)
+            print("[%s of %s (%% %s)]Analyzing: %s ..." % (str(i), str(total_files), str(i / total_files), file.path), end='', flush=True)
             a = Analyzer(self.project, file.path, file.type)
             methods, entity = a.analyze()
             results = ResultWriter(self.project)
