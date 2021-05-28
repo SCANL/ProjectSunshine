@@ -12,7 +12,7 @@ class Analyzer:
     def analyze(self):
         entity = EntityFactory().construct_model(self.file_path, self.file_type, self.junit)
         if entity is None:
-            return []
+            return [], None
 
         # Get all methods in a class
         methods = []

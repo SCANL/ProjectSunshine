@@ -60,11 +60,12 @@ class Main:
             print("[%s of %s (%% %s)]Analyzing: %s ..." % (str(i), str(total_files), str(i / total_files), file.path), end='', flush=True)
             a = Analyzer(self.project, file.path, file.type)
             methods, entity = a.analyze()
-            results = ResultWriter(self.project)
-            results.save_issues(entity, methods)
-            time_file_end = time.time()
-            print('done! (%s seconds)' %str(time_file_end - time_file_start))
-            logger.info('"%s"'%file.path)
+            if entity is not None:
+                results = ResultWriter(self.project)
+                results.save_issues(entity, methods)
+                time_file_end = time.time()
+                print('done! (%s seconds)' %str(time_file_end - time_file_start))
+                logger.info('"%s"'%file.path)
         tagger.terminate()
 
         time_analysis_end = time.time()
