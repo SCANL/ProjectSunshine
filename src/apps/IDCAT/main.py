@@ -1,4 +1,4 @@
-# IDEAL (IDentifiEr AppraisaL)
+# IDCAT (IDentifier CATalog)
 
 import os
 import time
@@ -7,8 +7,8 @@ from pathlib import Path
 
 import pandas
 
-from analyzer import Analyzer
-from result_writer import ResultWriter
+from src.apps.IDCAT.analyzer import Analyzer
+from src.apps.IDCAT.result_writer import ResultWriter
 from src.common import util
 from src.common.error_handler import handle_error, ErrorSeverity
 from src.common.logger import setup_logger
@@ -18,12 +18,12 @@ from src.model.input import Input
 from src.model.project import Project
 from src.nlp.pos_tagger_stanford import POSTaggerStanford
 from src.nlp.splitter import Splitter
+from src.service.factory import EntityFactory
 
 
 class Main:
     def __init__(self):
         self.project = None
-        self.files = []
 
         parser = ArgumentParser(util.get_config_setting('general', 'name'))
         parser.add_argument("-f", "--file", dest="arg_file", required=True,
@@ -37,36 +37,7 @@ class Main:
         self.project = Project(args.arg_file)
         self.files = read_input(self.project.input_file)
 
-    # def __read_input(self):
-    #     path_string = self.project.input_file
-    #     input_data = pandas.read_csv(path_string)
-    #     if len(input_data) == 0:
-    #         error_message = "Input CSV file cannot be empty: \'%s\'" % str(path_string)
-    #         handle_error('Main', error_message, ErrorSeverity.Critical, True)
-    #
-    #     self.files = []
-    #     file_extensions = util.get_supported_file_extensions()
-    #     for i, item in input_data.iterrows():
-    #         path = Path(item[0])
-    #         path_string = str(path)
-    #
-    #         if os.path.isdir(path_string):
-    #             source_files = [p for p in path.rglob('*') if p.suffix in file_extensions]
-    #             for file in source_files:
-    #                 input_item = Input(str(file), item[1], item[2])
-    #                 self.files.append(input_item)
-    #
-    #         elif os.path.isfile(path_string):
-    #             if path_string.lower().endswith(tuple(file_extensions)):
-    #                 input_item = Input(path_string, item[1], item[2])
-    #                 self.files.append(input_item)
-    #         else:
-    #             error_message = "Invalid files provided in input CSV file: \'%s\'" % str(path_string)
-    #             handle_error('Main', error_message, ErrorSeverity.Critical, True)
-    #
-    #     if len(self.files) == 0:
-    #         error_message = "Invalid files provided in input CSV file: \'%s\'" % str(path_string)
-    #         handle_error('Main', error_message, ErrorSeverity.Critical, True)
+
 
     def run_analysis(self):
         time_analysis_start = time.time()
@@ -82,8 +53,9 @@ class Main:
             time_file_start = time.time()
             print("Analyzing: %s ..." % (file.path), end='', flush=True)
             a = Analyzer(self.project, file.path, file.type)
-            results = ResultWriter(self.project.output_directory)
-            results.save_issues(a.analyze())
+            methods, entity = a.analyze()
+            results = ResultWriter(self.project)
+            results.save_issues(entity, methods)
             time_file_end = time.time()
             print('done! (%s seconds)' %str(time_file_end - time_file_start))
             logger.info('"%s"'%file.path)
