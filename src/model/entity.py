@@ -73,6 +73,11 @@ class Entity:
             attribute_list = class_item.xpath('*/src:decl_stmt/src:decl', namespaces={'src': 'http://www.srcML.org/srcML/src'})
             for i, attribute_item in enumerate(attribute_list):
                 try:
+                    attribute_specifier = attribute_item.xpath('./src:type/src:specifier', namespaces={'src': 'http://www.srcML.org/srcML/src'})
+                    if len(attribute_specifier) == 0:
+                        attribute_specifier = None
+                    else:
+                        attribute_specifier = attribute_specifier[0].text
                     attribute_name = attribute_item.xpath('./src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
                     if attribute_name.text is None:
                         attribute_name = attribute_item.xpath('./src:name/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
@@ -90,7 +95,7 @@ class Entity:
                             attribute_type_generic = True
                             if len(attribute_array) != 0:
                                 attribute_type_array = True
-                        model_attribute = Attribute(attribute_type.text, attribute_name.text,model_class.name, attribute_type_array, attribute_type_generic, attribute_item)
+                        model_attribute = Attribute(attribute_specifier, attribute_type.text, attribute_name.text,model_class.name, attribute_type_array, attribute_type_generic, attribute_item)
 
                         attribute_comment = class_item.xpath('//src:decl_stmt[src:decl/src:type/src:name=\''+attribute_type.text+'\' and src:decl/src:name=\''+attribute_name.text+'\']/preceding-sibling::*[1][self::src:comment]', namespaces={'src': 'http://www.srcML.org/srcML/src'})
                         if len(attribute_comment) > 0:
@@ -100,11 +105,12 @@ class Entity:
 
                     else:# capture the attribute's type when the attributes are declared in groups (e.g., String app, testFilePath;)
                         if attribute_item.xpath('./src:type/@ref', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0] == 'prev':
+                            attribute_specifier = model_class.attributes[-1].specifier
                             attribute_type = model_class.attributes[-1].type
                             attribute_type_array = model_class.attributes[-1].is_array
                             attribute_comment = model_class.attributes[-1].block_comment
                             attribute_type_generic = model_class.attributes[-1].type_is_generic
-                            model_attribute = Attribute(attribute_type, attribute_name.text, model_class.name, attribute_type_array, attribute_type_generic, attribute_item)
+                            model_attribute = Attribute(attribute_specifier, attribute_type, attribute_name.text, model_class.name, attribute_type_array, attribute_type_generic, attribute_item)
                             model_attribute.set_block_comment(attribute_comment)
 
                     model_class.attributes.append(model_attribute)
@@ -147,6 +153,11 @@ class Entity:
             method_list = class_item.xpath('*/src:function', namespaces={'src': 'http://www.srcML.org/srcML/src'})
             for method_item in method_list:
                 try:
+                    method_specifier = method_item.xpath('./src:type/src:specifier', namespaces={'src': 'http://www.srcML.org/srcML/src'})
+                    if len(method_specifier) == 0:
+                        method_specifier = None
+                    else:
+                        method_specifier = method_specifier[0].text
                     method_name = method_item.xpath('./src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
                     if method_name.text is None:
                         method_name = method_item.xpath('./src:name/src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
@@ -160,7 +171,7 @@ class Entity:
                         if len(method_array) != 0:
                             method_type_array = True
 
-                    model_method = Method(method_name.text, method_annotation, model_class.name, method_return_type.text, method_type_array, method_item)
+                    model_method = Method(method_specifier, method_name.text, method_annotation, model_class.name, method_return_type.text, method_type_array, method_item)
         ##----------------------------------------------------------------------------------------------------------------##
                     parameter_list = method_item.xpath('*/src:parameter/src:decl', namespaces={'src': 'http://www.srcML.org/srcML/src'})
                     for parameter_item in parameter_list:
@@ -214,6 +225,12 @@ class Entity:
         ##----------------------------------------------------------------------------------------------------------------##
                     variable_list = method_item.xpath('*//src:decl_stmt/src:decl', namespaces={'src': 'http://www.srcML.org/srcML/src'})
                     for variable_item in variable_list:
+                        variable_specifier = variable_item.xpath('./src:type/src:specifier',namespaces={'src': 'http://www.srcML.org/srcML/src'})
+                        if len(variable_specifier) == 0:
+                            variable_specifier = None
+                        else:
+                            variable_specifier = variable_specifier[0].text
+
                         if len(variable_item.xpath('./src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})) != 0:
                             variable_name = variable_item.xpath('./src:name', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0]
                         else:
@@ -237,7 +254,7 @@ class Entity:
                                 variable_type_generic = True
                                 if len(variable_array) != 0:
                                     variable_type_array = True
-                            model_variable = Variable(variable_type.text, variable_name.text, variable_type_array, variable_type_generic, variable_item)
+                            model_variable = Variable(variable_specifier, variable_type.text, variable_name.text, variable_type_array, variable_type_generic, variable_item)
                             variable_comment = method_item.xpath('//src:decl_stmt[src:decl/src:type/src:name=\'' + variable_type.text + '\' and src:decl/src:name=\'' + variable_name.text + '\']/preceding-sibling::*[1][self::src:comment]', namespaces={'src': 'http://www.srcML.org/srcML/src'})
                             if len(variable_comment) > 0:
                                 model_variable.set_block_comment(variable_comment[0].text)
@@ -246,11 +263,12 @@ class Entity:
 
                         else:  # capture the variable's type when the variables are declared in groups (e.g., String app, testFilePath;)
                             if variable_item.xpath('./src:type/@ref', namespaces={'src': 'http://www.srcML.org/srcML/src'})[0] == 'prev':
+                                variable_specifier = model_method.variables[-1].specifier
                                 variable_type = model_method.variables[-1].type
                                 variable_type_array = model_method.variables[-1].is_array
                                 variable_comment = model_method.variables[-1].block_comment
                                 variable_type_generic = model_method.variables[-1].type_is_generic
-                                model_variable = Variable(variable_type, variable_name.text, variable_type_array, variable_type_generic, variable_item)
+                                model_variable = Variable(variable_specifier, variable_type, variable_name.text, variable_type_array, variable_type_generic, variable_item)
                                 model_variable.set_block_comment(variable_comment)
 
                         model_method.variables.append(model_variable)

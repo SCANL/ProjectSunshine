@@ -21,8 +21,9 @@ class Class:
 
 class Attribute:
 
-    def __init__(self, type, name, parent_name, is_array, is_generic, source):
+    def __init__(self, specifier, type, name, parent_name, is_array, is_generic, source):
         # splitter = Splitter()
+        self.specifier = specifier if specifier is not None else 'default'
         self.type = type
         self.name = name
         self.source = source
@@ -66,8 +67,9 @@ class Property:
 
 class Method:
 
-    def __init__(self, name, annotations, parent_name, return_type, is_array, source):
+    def __init__(self, specifier, name, annotations, parent_name, return_type, is_array, source):
         # splitter = Splitter()
+        self.specifier = self.specifier = specifier if specifier is not None else 'default'
         self.name = name
         self.source = source
         self.annotations = annotations
@@ -117,8 +119,9 @@ class Method:
 
 class Variable:
 
-    def __init__(self, type, name, is_array, is_generic, source):
+    def __init__(self, specifier, type, name, is_array, is_generic, source):
         # splitter = Splitter()
+        self.specifier = self.specifier = specifier if specifier is not None else 'default'
         self.type = type
         self.name = name
         self.source = source
