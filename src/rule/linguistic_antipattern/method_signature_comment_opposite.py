@@ -18,9 +18,9 @@ class MethodSignatureCommentOpposite:
         self.__issue_description = 'The documentation of a method is in contradiction with its declaration.'
 
     def __process_identifier(self, identifier):
-        # AntiPattern: The method name or retrun type and comment contain antonyms
+        # AntiPattern: The method name or return type and comment contain antonyms
         try:
-            matched_terms = ''
+            matched_terms = 'Return Type: %s;' % identifier.return_type
             comment = identifier.block_comment
             if comment is not None:
                 comment_cleansed_terms = clean_text(comment, True)
@@ -29,16 +29,18 @@ class MethodSignatureCommentOpposite:
 
                 result_antonyms = False
                 for combination in unique_combinations_type:
-                    if are_antonyms(combination[0], combination[1]):
-                        result_antonyms = True
-                        matched_terms = 'Antonyms: \'%s\' and \'%s\'' %(combination[0], combination[1])
-                        break
+                    if combination[0].lower() != combination[1].lower():
+                        if are_antonyms(combination[0], combination[1]):
+                            result_antonyms = True
+                            matched_terms = matched_terms + 'Antonyms: \'%s\' and \'%s\'' %(combination[0], combination[1])
+                            break
 
                 for combination in unique_combinations_name:
-                    if are_antonyms(combination[0], combination[1]):
-                        result_antonyms = True
-                        matched_terms = 'Antonyms: \'%s\' and \'%s\'' % (combination[0], combination[1])
-                        break
+                    if combination[0].lower() != combination[1].lower():
+                        if are_antonyms(combination[0], combination[1]):
+                            result_antonyms = True
+                            matched_terms = matched_terms + 'Antonyms: \'%s\' and \'%s\'' % (combination[0], combination[1])
+                            break
 
                 if result_antonyms:
                     issue = Issue()
