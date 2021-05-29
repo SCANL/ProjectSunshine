@@ -23,24 +23,25 @@ class ExpectingNotGettingSingle:
         self.__issue_description = 'The name of a method indicates that a single object is returned but the return type is a collection.'
 
     def __process_identifier(self, identifier):
-        # AntiPattern: if the last term is singular and the return type is a collection
+        # AntiPattern: if the last term is singular and the name does not contain a collection term and the return type is a collection
         try:
             if not is_test_method(self.__project, self.__entity, identifier):
                 if is_singular(self.__project, identifier.name_terms[-1]):
-                    if identifier.return_type in get_collection_types(self.__project, self.__entity.language) or identifier.is_array == True:
-                        issue = Issue()
-                        issue.file_path = self.__entity.path
-                        issue.identifier = identifier.get_fully_qualified_name()
-                        issue.identifier_type = IdentifierType.get_type(type(identifier).__name__)
-                        issue.category = self.__issue_category
-                        issue.details = self.__issue_description
-                        issue.additional_details = 'Return type: %s' % identifier.return_type
-                        issue.id = self.__id
-                        issue.analysis_datetime = datetime.now()
-                        issue.file_type = self.__entity.file_type
-                        issue.line_number = identifier.line_number
-                        issue.column_number = identifier.column_number
-                        self.__issues.append(issue)
+                    if not any(item in map(str.lower, identifier.name_terms) for item in map(str.lower, get_collection_types(self.__project, self.__entity.language))):
+                        if identifier.return_type in get_collection_types(self.__project, self.__entity.language) or identifier.is_array == True:
+                            issue = Issue()
+                            issue.file_path = self.__entity.path
+                            issue.identifier = identifier.get_fully_qualified_name()
+                            issue.identifier_type = IdentifierType.get_type(type(identifier).__name__)
+                            issue.category = self.__issue_category
+                            issue.details = self.__issue_description
+                            issue.additional_details = 'Return type: %s' % identifier.return_type
+                            issue.id = self.__id
+                            issue.analysis_datetime = datetime.now()
+                            issue.file_type = self.__entity.file_type
+                            issue.line_number = identifier.line_number
+                            issue.column_number = identifier.column_number
+                            self.__issues.append(issue)
         except Exception as e:
             error_message = "Error encountered processing %s in file %s [%s:%s]" % (
                 IdentifierType.get_type(type(identifier).__name__), self.__entity.path, identifier.line_number,
