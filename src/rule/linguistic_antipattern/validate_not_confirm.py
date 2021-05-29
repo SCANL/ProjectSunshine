@@ -2,7 +2,7 @@ from datetime import datetime
 
 from src.common.enum import IdentifierType
 from src.common.error_handler import ErrorSeverity, handle_error
-from src.common.util_parsing import get_all_exception_throws, is_test_method
+from src.common.util_parsing import get_all_exception_throws, is_test_method, is_boolean_type
 from src.model.issue import Issue
 # Impacted identifier: All
 # Impacted identifier: Method
@@ -20,12 +20,11 @@ class ValidateNotConfirm:
         self.__issue_description = 'A validation method does not provide a return value informing whether the validation was successful.'
 
     def __process_identifier(self, identifier):
-        # AntiPattern: The name starts with validate and return type is not boolean and no exception thrown. Not applicable to test methods
+        # AntiPattern: The name starts with validate and return type is not void and no exception thrown. Not applicable to test methods
         try:
             if not is_test_method(self.__project, self.__entity, identifier):
                 if identifier.name_terms[0].lower() in term_list.get_validate_terms(self.__project):
-                    if (identifier.return_type != 'boolean' or identifier.return_type != 'Boolean') and \
-                            (len(get_all_exception_throws(identifier.source)) == 0):
+                    if (identifier.return_type == 'void') and (len(get_all_exception_throws(identifier.source)) == 0):
                         issue = Issue()
                         issue.file_path = self.__entity.path
                         issue.identifier = identifier.get_fully_qualified_name()
