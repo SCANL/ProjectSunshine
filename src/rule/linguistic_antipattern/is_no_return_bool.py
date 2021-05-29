@@ -2,7 +2,7 @@ from datetime import datetime
 
 from src.common.enum import IdentifierType
 from src.common.error_handler import handle_error, ErrorSeverity
-from src.common.util_parsing import get_all_return_statements
+from src.common.util_parsing import get_all_return_statements, is_boolean_type
 from src.model.issue import Issue
 from src.nlp import term_list
 
@@ -21,21 +21,14 @@ class IsNoReturnBool:
         # AntiPattern: starting term is a boolean term, but the method does not have a boolean return statement (i.e., true/false not returned)
         try:
             if identifier.name_terms[0].lower() in term_list.get_boolean_terms(self.__project):
-                returns = get_all_return_statements(identifier.source)
-                return_boolean = 0
-                for item in returns:
-                    if len(item.xpath('.//src:expr/src:literal[@type="boolean"]',
-                                      namespaces={'src': 'http://www.srcML.org/srcML/src'})) != 0:
-                        return_boolean += 1
-
-                if len(returns) != return_boolean:
+                if not is_boolean_type(self.__entity, identifier):
                     issue = Issue()
                     issue.file_path = self.__entity.path
                     issue.identifier = identifier.get_fully_qualified_name()
                     issue.identifier_type = IdentifierType.get_type(type(identifier).__name__)
                     issue.category = self.__issue_category
                     issue.details = self.__issue_description
-                    issue.additional_details = 'Starting term: %s' % identifier.name_terms[0]
+                    issue.additional_details = 'Starting term: %s; Return type: %s' % (identifier.name_terms[0], identifier.return_type)
                     issue.id = self.__id
                     issue.analysis_datetime = datetime.now()
                     issue.file_type = self.__entity.file_type
