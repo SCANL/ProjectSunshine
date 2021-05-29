@@ -1,4 +1,4 @@
-from src.common.enum import FileType, IdentifierType
+from src.common.enum import FileType, IdentifierType, LanguageType
 from src.common.testing_list import get_test_method_annotations
 
 
@@ -92,4 +92,20 @@ def is_test_method(project, entity, identifier):
                 return True
             if identifier.name_terms[0].lower() == 'test':
                 return True
+    return False
+
+
+def is_boolean_type(entity, identifier):
+    if entity.language == LanguageType.Java:
+        if identifier.return_type == 'boolean' or identifier.return_type == 'Boolean':
+            return True
+        else:
+            return False
+
+    if entity.language == LanguageType.CSharp:
+        if identifier.return_type == 'bool' or identifier.return_type == 'Boolean':
+            return True
+        else:
+            return False
+
     return False
