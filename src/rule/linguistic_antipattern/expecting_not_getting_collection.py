@@ -28,7 +28,7 @@ class ExpectingNotGettingCollection:
         try:
             if not is_test_method(self.__project, self.__entity, identifier):
                 if identifier.name_terms[0].lower() in term_list.get_get_terms(self.__project):
-                    if any(is_plural(self.__project, c) for c in identifier.name_terms[1:]) or any(item in identifier.name_terms[1:] for item in get_collection_types(self.__project, self.__entity.language)):
+                    if any(is_plural(self.__project, c) for c in identifier.name_terms[1:]) or any(item in map(str.lower, identifier.name_terms[1:]) for item in map(str.lower, get_collection_types(self.__project, self.__entity.language))):
                         if identifier.return_type not in get_collection_types(self.__project, self.__entity.language) and identifier.is_array != True:
                             issue = Issue()
                             issue.file_path = self.__entity.path
