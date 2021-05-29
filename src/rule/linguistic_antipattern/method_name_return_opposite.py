@@ -20,7 +20,7 @@ class MethodNameReturnOpposite:
     def __process_identifier(self, identifier):
         # AntiPattern: The method name and return type name contain antonyms
         try:
-            matched_terms = 'Retrun Type: %s;' %identifier.return_type
+            matched_terms = 'Return Type: %s;' % identifier.return_type
             unique_combinations = list(itertools.product(identifier.name_terms, identifier.type_terms))
             result_antonyms = False
             for combination in unique_combinations:
