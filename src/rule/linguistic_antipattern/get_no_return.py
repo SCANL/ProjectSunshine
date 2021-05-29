@@ -22,9 +22,7 @@ class GetNoReturn:
         try:
             if not is_test_method(self.__project, self.__entity, identifier):
                 if identifier.name_terms[0].lower() in term_list.get_get_terms(self.__project):
-                    return_statements = get_all_return_statements(identifier.source)
-
-                    if len(return_statements) == 0:
+                    if identifier.return_type == 'void':
                         issue = Issue()
                         issue.file_path = self.__entity.path
                         issue.identifier = identifier.get_fully_qualified_name()
