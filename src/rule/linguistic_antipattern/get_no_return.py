@@ -18,7 +18,7 @@ class GetNoReturn:
         self.__issue_description = 'The name suggests that the method returns something (e.g., name starts with \'get\' or \'return\').'
 
     def __process_identifier(self, identifier):
-        # AntiPattern: The name starts with a get term, but there are no return statements
+        # AntiPattern: The name starts with a get term, but the return type is void
         try:
             if not is_test_method(self.__project, self.__entity, identifier):
                 if identifier.name_terms[0].lower() in term_list.get_get_terms(self.__project):
