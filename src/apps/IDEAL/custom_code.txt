@@ -1,7 +1,7 @@
 [DataTypes]
 csharp_custom_collection_data_types = [
     ]
-java_custom_collection_data_types = ["Headers"
+java_custom_collection_data_types = ["Headers", "Enumeration"
     ]
 
 [Test]
