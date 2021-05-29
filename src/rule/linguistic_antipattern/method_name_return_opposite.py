@@ -24,11 +24,12 @@ class MethodNameReturnOpposite:
             unique_combinations = list(itertools.product(identifier.name_terms, identifier.type_terms))
             result_antonyms = False
             for combination in unique_combinations:
-                if combination[0].lower() != combination[1].lower():
-                    if are_antonyms(combination[0], combination[1]):
-                        result_antonyms = True
-                        matched_terms = matched_terms + 'Antonyms: \'%s\' and \'%s\'' % (combination[0], combination[1])
-                        break
+                if combination[0].isalpha() and combination[1].isalpha():
+                    if combination[0].lower() != combination[1].lower():
+                        if are_antonyms(combination[0], combination[1]):
+                            result_antonyms = True
+                            matched_terms = matched_terms + 'Antonyms: \'%s\' and \'%s\'' % (combination[0], combination[1])
+                            break
 
             if result_antonyms:
                 issue = Issue()
