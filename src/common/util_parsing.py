@@ -65,9 +65,9 @@ def get_all_conditional_statements(method):
     statements['for'] = statement_for
     statements_total += len(statement_for)
 
-    statement_if = method.xpath('.//src:if', namespaces={'src': 'http://www.srcML.org/srcML/src'})
-    statements['if'] = statement_if
-    statements_total += len(statement_if)
+    # statement_if = method.xpath('.//src:if', namespaces={'src': 'http://www.srcML.org/srcML/src'})
+    # statements['if'] = statement_if
+    # statements_total += len(statement_if)
 
     statement_if2 = method.xpath('.//src:if_stmt', namespaces={'src': 'http://www.srcML.org/srcML/src'})
     statements['if_stmt'] = statement_if2
