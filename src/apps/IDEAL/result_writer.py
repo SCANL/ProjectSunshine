@@ -14,7 +14,7 @@ class ResultWriter:
         else:
             self.results_file = open(results_file, 'w', encoding="utf-8")
             self.results_file.write(
-                '"FilePath","FileType","Identifier","IdentifierType","LineNumber","ColumnNumber","IssueID", "IssueAdditionalDetail", "IssueCategory","IssueDetail", "AnalysisDateTime"\n')
+                '"FilePath","FileType","Identifier","IdentifierType","LineNumber","ColumnNumber","IssueID","IssueAdditionalDetail","IssueCategory","IssueDetail","AnalysisDateTime"\n')
             self.results_file.flush()
 
     def save_issues(self, issues):
