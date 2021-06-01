@@ -175,3 +175,12 @@ def get_numeric_types(language):
         return __get_csharp_numeric_data_types()
     else:
         return None
+
+
+def get_bool_types(language):
+    if language == LanguageType.Java:
+        return ['boolean', 'Boolean']
+    elif language == LanguageType.CSharp:
+        return ['bool', 'Boolean']
+    else:
+        return None
