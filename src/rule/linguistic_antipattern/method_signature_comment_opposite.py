@@ -27,7 +27,10 @@ class MethodSignatureCommentOpposite:
                 if comment is not None:
                     comment_cleansed_terms = clean_text(comment, True)
                     unique_combinations_type = list(itertools.product(comment_cleansed_terms, identifier.type_terms))
-                    unique_combinations_name = list(itertools.product(comment_cleansed_terms, identifier.name_terms))
+                    if identifier.name_terms[0] == 'get':
+                        unique_combinations_name = list(itertools.product(comment_cleansed_terms, identifier.name_terms[1:]))
+                    else:
+                        unique_combinations_name = list(itertools.product(comment_cleansed_terms, identifier.name_terms))
 
                     result_antonyms = False
                     for combination in unique_combinations_type:
