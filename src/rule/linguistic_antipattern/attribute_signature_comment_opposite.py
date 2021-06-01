@@ -21,7 +21,7 @@ class AttributeSignatureCommentOpposite:
     def __process_identifier(self, identifier):
         # AntiPattern: The identifier name or retrun type and comment contain antonyms
         try:
-            matched_terms = 'Date Type: %s;' % identifier.type
+            matched_terms = 'Date Type: %s%s;' % (identifier.type, '(array)' if identifier.is_array else '')
             comment = identifier.block_comment
             if comment is not None:
                 comment_cleansed_terms = clean_text(comment, True)

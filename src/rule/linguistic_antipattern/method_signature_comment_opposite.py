@@ -22,7 +22,7 @@ class MethodSignatureCommentOpposite:
         # AntiPattern: The method name or return type and comment contain antonyms
         try:
             if not is_test_method(self.__project, self.__entity, identifier):
-                matched_terms = 'Return Type: %s;' % identifier.return_type
+                matched_terms = 'Return Type: %s%s;' % (identifier.return_type,'(array)' if identifier.is_array else '')
                 comment = identifier.block_comment
                 if comment is not None:
                     comment_cleansed_terms = clean_text(comment, True)

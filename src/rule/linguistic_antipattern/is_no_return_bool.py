@@ -29,7 +29,7 @@ class IsNoReturnBool:
                         issue.identifier_type = IdentifierType.get_type(type(identifier).__name__)
                         issue.category = self.__issue_category
                         issue.details = self.__issue_description
-                        issue.additional_details = 'Starting term: %s; Return type: %s' % (identifier.name_terms[0], identifier.return_type)
+                        issue.additional_details = 'Starting term: %s; Return type: %s%s' % (identifier.name_terms[0], identifier.return_type, '(array)' if identifier.is_array else '')
                         issue.id = self.__id
                         issue.analysis_datetime = datetime.now()
                         issue.file_type = self.__entity.file_type
