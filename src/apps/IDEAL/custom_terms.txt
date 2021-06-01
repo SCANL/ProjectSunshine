@@ -1,35 +1,16 @@
 [Splitter]
 splitter_terms = [
-    "noop",
-    "Exp4j",
-    "Neo4j",
-    "Dom4j",
-    "BOS",
-    "IP",
-    "M3", 
-    "IO", 
-    "Bag", 
-    "KO", 
-    "IGNORE", 
-    "TRACE", 
-    "DNC",
-    "SLA", 
-    "H5", 
-    "PATCH",
-    "Urls",
-    "Url"
+
     ]
 
 [POS]
 pos_terms = {
-    "tabs": "NNS"
     }
 
 
 [Plural]
 plural_terms = [
-    "columns",
-    "tabs"
+
     ]
 
 [Terms]
@@ -49,7 +30,6 @@ boolean_terms = [
     ]
 
 get_terms = [
-    "lookup"
     ]
 
 set_terms = [

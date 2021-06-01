@@ -16,16 +16,21 @@ splitter_terms = [
     'SUT',
     'XML',
     'Pojo',
-    'URL'
+    "Urls",
+    "Url",
+    "URL"
 ]
 
 pos_terms = {
-    "setup": "VB",
-    "teardown": "VB"
+    'setup': 'VB',
+    'teardown': 'VB',
+    'tabs': 'NNS'
 }
 
-plural_terms = ["apps"
-                ]
+plural_terms = [
+    'apps', 
+    'columns', 
+    'tabs']
 
 transform_terms_staring = ['to',
                            'convert',
@@ -78,7 +83,8 @@ get_terms = ['get',
              'render',
              'yield',
              'deliver',
-             'give']
+             'give',
+             'lookup']
 
 set_terms = ['set']
 
