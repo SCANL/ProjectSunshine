@@ -29,6 +29,8 @@ __cplusplus_collection_data_types = [
 __csharp_primitive_data_types = ['bool', 'byte', 'sbyte', 'char', 'decimal', 'double', 'float', 'int', 'uint', 'long',
                                  'ulong', 'short', 'ushort', 'object', 'string', 'dynamic']
 
+__csharp_numeric_data_types = ['byte', 'sbyte',  'decimal', 'double', 'float', 'int', 'uint', 'long', 'ulong', 'short', 'ushort']
+
 # https://docs.microsoft.com/en-us/dotnet/standard/collections/commonly-used-collection-types
 __csharp_collection_data_types = [
     'Dictionary',
@@ -53,6 +55,8 @@ __csharp_collection_data_types = [
 
 # https://docs.oracle.com/javase/tutorial/java/nutsandbolts/datatypes.html
 __java_primitive_data_types = ['byte', 'short', 'int', 'long', 'float', 'double', 'boolean', 'char']
+
+__java_numeric_data_types = ['byte', 'short', 'int', 'long', 'float', 'double', 'Byte', 'Float', 'Integer', 'Long', 'Number', 'Short']
 
 # https://docs.oracle.com/javase/8/docs/technotes/guides/collections/overview.html
 __java_collection_data_types = [
@@ -116,6 +120,14 @@ def __get_csharp_primitive_data_types():
     return __csharp_primitive_data_types
 
 
+def __get_java_numeric_data_types():
+    return __java_numeric_data_types
+
+
+def __get_csharp_numeric_data_types():
+    return __csharp_numeric_data_types
+
+
 def __get_csharp_collection_data_types(project):
     types = []
     types.extend(__csharp_collection_data_types)
@@ -152,5 +164,14 @@ def get_primitive_types(language):
         return __get_cplusplus_primitive_data_types()
     elif language == LanguageType.CSharp:
         return __get_csharp_primitive_data_types()
+    else:
+        return None
+
+
+def get_numeric_types(language):
+    if language == LanguageType.Java:
+        return __get_java_numeric_data_types()
+    elif language == LanguageType.CSharp:
+        return __get_csharp_numeric_data_types()
     else:
         return None
