@@ -1,18 +1,11 @@
 [DataTypes]
 csharp_custom_collection_data_types = [
     ]
-java_custom_collection_data_types = ["Headers","Enumeration","Iterable"
+java_custom_collection_data_types = [
     ]
 
 [Test]
-java_custom_testing_packages = [
-    "org.junit.jupiter.api.Test",
-    "org.junit.rules.TestRule",
-    "org.junit.runner.Description",
-    "org.junit.runners.model.Statement",
-    "org.junit.jupiter.api.BeforeEach",
-    "org.mockito.Mockito",
-    "org.assertj.core.api.Assertions.assertThat"]
+java_custom_testing_packages = []
 csharp_custom_testing_packages = []
 java_custom_null_check_test_methods = []
 csharp_custom_null_check_test_methods = []

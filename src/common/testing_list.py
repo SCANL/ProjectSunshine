@@ -9,7 +9,14 @@ __java_testing_packages = [
     'android.test.AndroidTestCase',
     'android.test.InstrumentationTestCase',
     'android.test.ActivityInstrumentationTestCase2',
-    'org.junit.Assert'
+    'org.junit.Assert',
+    'org.junit.jupiter.api.Test',
+    'org.junit.rules.TestRule',
+    'org.junit.runner.Description',
+    'org.junit.runners.model.Statement',
+    'org.junit.jupiter.api.BeforeEach',
+    'org.mockito.Mockito',
+    'org.assertj.core.api.Assertions.assertThat'
 ]
 
 __csharp_testing_packages = [
