@@ -23,7 +23,11 @@ class MethodNameReturnOpposite:
         try:
             if not is_test_method(self.__project, self.__entity, identifier):
                 matched_terms = 'Return Type: %s%s;' % (identifier.return_type, '(array)' if identifier.is_array else '')
-                unique_combinations = list(itertools.product(identifier.name_terms, identifier.type_terms))
+                if identifier.name_terms[0] == 'get':
+                    unique_combinations = list(itertools.product(identifier.name_terms[1:], identifier.type_terms))
+                else:
+                    unique_combinations = list(itertools.product(identifier.name_terms, identifier.type_terms))
+
                 result_antonyms = False
                 for combination in unique_combinations:
                     if combination[0].isalpha() and combination[1].isalpha():
