@@ -31,8 +31,8 @@ class ExpectingNotGettingCollection:
                     if any(is_plural(self.__project, c) for c in identifier.name_terms[1:]) or any(item in map(str.lower, identifier.name_terms[1:]) for item in map(str.lower, get_collection_types(self.__project, self.__entity.language))):
                         if identifier.return_type not in get_collection_types(self.__project, self.__entity.language) and identifier.is_array != True:
                             message = 'Return type: %s' % identifier.return_type
-                            if identifier.return_type in get_numeric_types(self.__project):
-                                message = message + 'Return type is numeric, this might be a false-positive'
+                            if identifier.return_type in get_numeric_types(self.__entity.language):
+                                message = message + '; Return type is numeric, this might be a false-positive'
                             issue = Issue()
                             issue.file_path = self.__entity.path
                             issue.identifier = identifier.get_fully_qualified_name()

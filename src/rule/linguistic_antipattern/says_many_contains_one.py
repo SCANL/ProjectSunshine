@@ -24,8 +24,8 @@ class SaysManyContainsOne:
             if is_plural(self.__project, identifier.name_terms[-1]):
                 if identifier.type not in get_collection_types(self.__project, self.__entity.language) and identifier.is_array != True:
                     message = 'Last term: \'%s\' Data type: \'%s\'' % (identifier.name_terms[-1], identifier.type)
-                    if identifier.type in get_numeric_types(self.__project):
-                        message = message + 'Data type is numeric, this might be a false-positive'
+                    if identifier.type in get_numeric_types(self.__entity.language):
+                        message = message + '; Data type is numeric, this might be a false-positive'
                     issue = Issue()
                     issue.file_path = self.__entity.path
                     issue.identifier = identifier.get_fully_qualified_name()
