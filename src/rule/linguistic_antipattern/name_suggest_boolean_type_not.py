@@ -2,7 +2,7 @@ from datetime import datetime
 
 from src.common.enum import IdentifierType
 from src.common.error_handler import handle_error, ErrorSeverity
-from src.common.util_parsing import get_all_class_fields
+from src.common.util_parsing import get_all_class_fields, is_boolean_type
 from src.model.issue import Issue
 from src.nlp import term_list
 
@@ -21,7 +21,7 @@ class NameSuggestBooleanTypeNot:
         # AntiPattern: The starting term in the name should be a boolean term AND the data type is not a boolean
         try:
             if identifier.name_terms[0].lower() in term_list.get_boolean_terms(self.__project):
-                if identifier.type != 'boolean' and identifier.type != 'Boolean':
+                if not is_boolean_type(self.__entity, identifier):
                     issue = Issue()
                     issue.file_path = self.__entity.path
                     issue.identifier = identifier.get_fully_qualified_name()
