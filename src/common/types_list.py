@@ -179,8 +179,8 @@ def get_numeric_types(language):
 
 def get_bool_types(language):
     if language == LanguageType.Java:
-        return ['boolean', 'Boolean']
+        return ['boolean', 'Boolean', 'Predicate']
     elif language == LanguageType.CSharp:
-        return ['bool', 'Boolean']
+        return ['bool', 'Boolean', 'Predicate']
     else:
         return None

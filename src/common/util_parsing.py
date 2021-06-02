@@ -97,13 +97,13 @@ def is_test_method(project, entity, identifier):
 
 def is_boolean_type(entity, identifier):
     if entity.language == LanguageType.Java:
-        if identifier.return_type == 'boolean' or identifier.return_type == 'Boolean':
+        if identifier.return_type == 'boolean' or identifier.return_type == 'Boolean' or identifier.return_type == 'Predicate':
             return True
         else:
             return False
 
     if entity.language == LanguageType.CSharp:
-        if identifier.return_type == 'bool' or identifier.return_type == 'Boolean':
+        if identifier.return_type == 'bool' or identifier.return_type == 'Boolean' or identifier.return_type == 'Predicate':
             return True
         else:
             return False
