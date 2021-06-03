@@ -50,7 +50,18 @@ __csharp_collection_data_types = [
     'BlockingCollection',
     'ConcurrentQueue',
     'ConcurrentStack',
-    'ConcurrentBag'
+    'ConcurrentBag',
+    'ICollection',
+    'IComparer',
+    'IDictionary',
+    'IDictionaryEnumerator',
+    'IEnumerable',
+    'IEnumerator',
+    'IEqualityComparer',
+    'IHashCodeProvider',
+    'IList',
+    'IStructuralComparable',
+    'IStructuralEquatable'
 ]
 
 # https://docs.oracle.com/javase/tutorial/java/nutsandbolts/datatypes.html
