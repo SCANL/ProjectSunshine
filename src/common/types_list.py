@@ -61,7 +61,12 @@ __csharp_collection_data_types = [
     'IHashCodeProvider',
     'IList',
     'IStructuralComparable',
-    'IStructuralEquatable'
+    'IStructuralEquatable',
+    'Collection',
+    'ReadOnlyObservableCollection',
+    'KeyedCollection',
+    'ReadOnlyCollection',
+    'ReadOnlyDictionary'
 ]
 
 # https://docs.oracle.com/javase/tutorial/java/nutsandbolts/datatypes.html
