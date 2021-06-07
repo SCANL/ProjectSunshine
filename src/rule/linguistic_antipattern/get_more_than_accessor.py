@@ -20,7 +20,7 @@ class GetMoreThanAccessor:
     def __process_identifier(self, identifier):
         # AntiPattern: The method name starts with 'get' AND the method is a getter for an attribute AND the method body contains conditional statements (if, loops, switch)
         try:
-            if identifier.name_terms[0].lower() == 'get' and identifier.specifier == 'public':
+            if identifier.name_terms[0].lower() == 'get' and (identifier.specifier == 'public' or identifier.specifier == 'protected'):
                 for attribute in self.__class_attributes:
                     if identifier.name[3:].lower() == (attribute.name.lower()) and identifier.return_type == attribute.type:
                         conditional_statements, conditional_statements_total = get_all_conditional_statements(identifier.source)
