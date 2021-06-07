@@ -116,7 +116,8 @@ __java_collection_data_types = [
     'TransferQueue',
     'TreeMap',
     'TreeSet',
-    'Vector'
+    'Vector',
+    'BitSet'
 ]
 
 
