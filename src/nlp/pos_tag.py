@@ -32,7 +32,7 @@ def generate_tag(project, term):
 
 
 def get_tag_text(tag):
-    verbs = ['VB', 'VBD', 'VBG', 'VBN', 'VBP', 'VBZ']
+    verbs = ['VB', 'VBD', 'VBG', 'VBN', 'VBP', 'VBZ', 'MD']
     if tag in verbs:
         return POSType.Verb
 
