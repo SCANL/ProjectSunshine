@@ -15,7 +15,7 @@ C. [Configure and Run IDEAL For Project](#Configure-and-Run-IDEAL-For-Project)
 3. Install [Python 3.7.1](https://www.python.org/downloads/release/python-371/)
 4. Install [srcML 1.0.0](https://www.srcml.org/#download)
 5. Download [Stanford JARs 4.2.0](https://nlp.stanford.edu/software/tagger.shtml#Download)
-6. Clone/Download [IDEAL repository](#)
+6. Clone/Download [IDEAL repository 1.0.0](https://github.com/SCANL/ProjectSunshine/releases)
 
 ## Setup IDEAL
 
