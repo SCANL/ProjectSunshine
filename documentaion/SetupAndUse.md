@@ -36,11 +36,11 @@ C. [Configure and Run IDEAL For Project](#Configure-and-Run-IDEAL-For-Project)
    <img src="images\setup\package_install.png"  style="zoom:40%;" />
 
 5. Download NLTK data. Enter the following commands:
-		a. `python`
-		b. `import nltk`
-		c. `nltk.download('wordnet')`
-		d. `nltk.download('punkt')`
-		e. `quit()`
+    1. `python`
+	2. `import nltk`
+	3. `nltk.download('wordnet')`
+	4. `nltk.download('punkt')`
+	5. `quit()`
 
    <img src="images\setup\nltk_download.png"  style="zoom:40%;" />
 
