@@ -53,11 +53,11 @@ class Analyzer:
             GetNoReturn(),
             ###### peruma ######
             TestAnnotationTest(),
-            TestAnnotationSetup(),
-            TestAnnotationTeardown(),
-            TestNonVerbStarting(),
-            TestMissingNullCheck(),
-            StartsWithSpecialCharacter(),
+            # TestAnnotationSetup(),
+            # TestAnnotationTeardown(),
+            # TestNonVerbStarting(),
+            # TestMissingNullCheck(),
+            # StartsWithSpecialCharacter(),
             ContainsOnlySpecialCharacters()
         ]
         self.issues = []
