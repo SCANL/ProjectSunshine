@@ -19,7 +19,7 @@ Details around setting up and using IDEAL are available [here](documentaion/Setu
 
 ### Naming Violation Examples
 
-Examples of naming violations currently detected by IDEAL are available [here](documentaion/ViolationExamples.md).
+Examples of naming violations currently detected by IDEAL are available [here](documentaion/NamingViolationExamples.md).
 
 ### Naming Violations
 - ### [Arnaoudova et al.](documentaion/AntiPatternRules_Arnaoudova.md)
