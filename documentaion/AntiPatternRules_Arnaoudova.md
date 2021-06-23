@@ -21,6 +21,8 @@
 | F.1 | Attribute name and type are opposite         | The name of an attribute is in contradiction with its type as they contain antonyms.                                                                                                                                                                  | [attribute_name_type_opposite.py](../src/rule/linguistic_antipattern/attribute_name_type_opposite.py)                 |
 | F.2 | Attribute signature and comment are opposite | The declaration of an attribute is in contradiction with its documentation.                                                                                                                                                                           | [attribute_signature_comment_opposite.py](../src/rule/linguistic_antipattern/attribute_signature_comment_opposite.py) |
 
+Definitions for the above anti-patterns are available [here](http://veneraarnaoudova.com/wp-content/uploads/2014/10/2014-EMSE-Arnaodova-et-al-Perception-LAs.pdf)
+
 
 ###### References
 [1] Arnaoudova, V., Di Penta, M., & Antoniol, G. (2016). Linguistic antipatterns: What they are and how developers
