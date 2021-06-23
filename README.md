@@ -17,6 +17,9 @@ available at: [https://youtu.be/fVoOYGe50zg](https://youtu.be/fVoOYGe50zg)
 
 Details around setting up and using IDEAL are available [here](documentaion/SetupAndUse.md).
 
+### Naming Violation Examples
+
+Examples of naming violations currently detected by IDEAL are available [here](documentaion/ViolationExamples.md).
 
 ### Naming Violations
 - ### [Arnaoudova et al.](documentaion/AntiPatternRules_Arnaoudova.md)
