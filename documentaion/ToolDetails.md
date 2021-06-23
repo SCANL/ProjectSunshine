@@ -33,10 +33,10 @@ This document provides details (functional and technical) around our linguistic 
   - Part-of-Speech tagging - Stanford tagger (4.2.0)
 
 
-
-
-
 ## References
 
 [1] Arnaoudova, V., Di Penta, M., & Antoniol, G. (2016). Linguistic antipatterns: What they are and how developers
 perceive them. Empirical Software Engineering, 21(1), 104-158.
+
+
+##### [Back To ReadMe](../README.md)
