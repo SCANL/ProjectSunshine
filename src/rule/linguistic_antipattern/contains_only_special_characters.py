@@ -12,7 +12,7 @@ class ContainsOnlySpecialCharacters:
     def __init__(self):
         self.__entity = None
         self.__project = None
-        self.__id = 'X.6'
+        self.__id = 'G.1'
         self.__issues = []
         self.__issue_category = 'Name contains only special characters'
         self.__issue_description = 'The name of an identifier is composed of only special characters.'
