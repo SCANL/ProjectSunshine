@@ -26,3 +26,7 @@ Contained in this layer are the modules that provide the core functionality of d
 ## Interface
 
 As a console application, IDEAL permits developers and build systems to perform offline analysis of the source code. IDEAL requires an input file that contains the list of files (or directories containing files) for analysis along with project-specific configurations and customizations such as custom types and terms.
+
+
+
+[Back To ReadMe](../README.md)
