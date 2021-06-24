@@ -347,7 +347,7 @@ private string[] computername;
 private readonly int[] _isPatternPositionVisitedMarker;
 ```
 
-**Explanation:** 
+**Explanation:** In this example, the attribute name starts with a predicate (i.e., "is"), indicating that the attribute value should be either true or false. However, in this case, the associated type is not boolean.
 
 **Source:** https://github.com/PowerShell/PowerShell/blob/ea5c8e3c4dfa002e74e7e3d81f5ca489daf3f097/src/System.Management.Automation/engine/regex.cs#L1008
 
