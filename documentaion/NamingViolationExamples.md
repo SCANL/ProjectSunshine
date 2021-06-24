@@ -29,7 +29,7 @@ public Set<Cloud> getClouds() {
 }
 ```
 
-**Explaination:** This is a getter method as it returns an attribute (i.e., `clouds`). However, in addition to returning the attribute, the method also contains conditional statements (i.e., if checks and for loop). A getter method should not manipulate the attribute.
+**Explanation:** This is a getter method as it returns an attribute (i.e., `clouds`). However, in addition to returning the attribute, the method also contains conditional statements (i.e., if checks and for loop). A getter method should not manipulate the attribute.
 
 **Source:** https://github.com/jenkinsci/jenkins/blob/180de86abb6ff02f45f10f676d3d358a81dc95c8/core/src/main/java/hudson/model/Label.java#L253
 
@@ -58,7 +58,7 @@ internal static Expression IsStrictMode(int version, Expression executionContext
 }
 ```
 
-**Explaination:** 
+**Explanation:** 
 
 **Source:** https://github.com/PowerShell/PowerShell/blob/ea5c8e3c4dfa002e74e7e3d81f5ca489daf3f097/src/System.Management.Automation/engine/parser/Compiler.cs#L1103
 
@@ -81,7 +81,7 @@ public static String setCurrentDescriptorByNameUrl(String value) {
 }
 ```
 
-**Explaination:** 
+**Explanation:** 
 
 **Source:** https://github.com/jenkinsci/jenkins/blob/180de86abb6ff02f45f10f676d3d358a81dc95c8/core/src/main/java/hudson/Functions.java#L2177
 
@@ -102,7 +102,7 @@ internal override PSObject[] GetParameter(string pattern)
 }
 ```
 
-**Explaination:** 
+**Explanation:** 
 
 **Source:** https://github.com/PowerShell/PowerShell/blob/ea5c8e3c4dfa002e74e7e3d81f5ca489daf3f097/src/System.Management.Automation/help/ProviderCommandHelpInfo.cs#L46
 
@@ -131,7 +131,7 @@ public @Nullable Converter<?, RequestBody> requestBodyConverter(
 }
 ```
 
-**Explaination:** 
+**Explanation:** 
 
 **Source:** https://github.com/square/retrofit/blob/bd33a5da186aa6f5365e78e27eb0292b1b8b1bff/retrofit/src/main/java/retrofit2/Converter.java#L63
 
@@ -155,7 +155,7 @@ private void CheckClose()
 }
 ```
 
-**Explaination:** 
+**Explanation:** 
 
 **Source:** https://github.com/shadowsocks/shadowsocks-windows/blob/ac0fcdfc8c615d62e56a30c9583e3dca51ff93d4/shadowsocks-csharp/Controller/Service/TCPRelay.cs#L283
 
@@ -187,7 +187,7 @@ public static void GetBytes(byte[] buf, int len)
 }
 ```
 
-**Explaination:** 
+**Explanation:** 
 
 **Source:** https://github.com/shadowsocks/shadowsocks-windows/blob/ac0fcdfc8c615d62e56a30c9583e3dca51ff93d4/shadowsocks-csharp/Encryption/RNG.cs#L32
 
@@ -212,7 +212,7 @@ private void IsDisposed()
 }
 ```
 
-**Explaination:** 
+**Explanation:** 
 
 **Source:** https://github.com/PowerShell/PowerShell/blob/ea5c8e3c4dfa002e74e7e3d81f5ca489daf3f097/src/Microsoft.PowerShell.ScheduledJob/ScheduledJobDefinition.cs#L555
 
@@ -238,7 +238,7 @@ public void translate(String markup, @NonNull Writer output) throws IOException 
 }
 ```
 
-**Explaination:** 
+**Explanation:** 
 
 **Source:** https://github.com/jenkinsci/jenkins/blob/180de86abb6ff02f45f10f676d3d358a81dc95c8/test/src/test/java/hudson/model/ParametersTest.java#L271
 
@@ -259,7 +259,7 @@ public static void GetBytes(byte[] buf)
 }
 ```
 
-**Explaination:** 
+**Explanation:** 
 
 **Source:** https://github.com/shadowsocks/shadowsocks-windows/blob/ac0fcdfc8c615d62e56a30c9583e3dca51ff93d4/shadowsocks-csharp/Encryption/RNG.cs#L27
 
@@ -280,7 +280,7 @@ private void validateServiceInterface(Class<?> service) {
     }
 ```
 
-**Explaination:** 
+**Explanation:** 
 
 **Source:** https://github.com/square/retrofit/blob/bd33a5da186aa6f5365e78e27eb0292b1b8b1bff/retrofit/src/main/java/retrofit2/Retrofit.java#L165
 
@@ -311,7 +311,7 @@ public byte[] Get(int count)
 }
 ```
 
-**Explaination:** 
+**Explanation:** 
 
 **Source:** https://github.com/shadowsocks/shadowsocks-windows/blob/ac0fcdfc8c615d62e56a30c9583e3dca51ff93d4/shadowsocks-csharp/Encryption/CircularBuffer/ByteCircularBuffer.cs#L245
 
@@ -329,7 +329,7 @@ public byte[] Get(int count)
 private string[] computername;
 ```
 
-**Explaination:** 
+**Explanation:** 
 
 **Source:** https://github.com/PowerShell/PowerShell/blob/ea5c8e3c4dfa002e74e7e3d81f5ca489daf3f097/src/Microsoft.Management.Infrastructure.CimCmdlets/RemoveCimInstanceCommand.cs#L111
 
@@ -347,7 +347,7 @@ private string[] computername;
 private readonly int[] _isPatternPositionVisitedMarker;
 ```
 
-**Explaination:** 
+**Explanation:** 
 
 **Source:** https://github.com/PowerShell/PowerShell/blob/ea5c8e3c4dfa002e74e7e3d81f5ca489daf3f097/src/System.Management.Automation/engine/regex.cs#L1008
 
@@ -368,7 +368,7 @@ private readonly int[] _isPatternPositionVisitedMarker;
 private String variables = "";
 ```
 
-**Explaination:** 
+**Explanation:** 
 
 **Source:** https://github.com/jenkinsci/jenkins/blob/180de86abb6ff02f45f10f676d3d358a81dc95c8/core/src/main/java/jenkins/tasks/filters/impl/RetainVariablesLocalRule.java#L73
 
@@ -386,7 +386,7 @@ private String variables = "";
 final FreeStyleProject restrictedProject = createLongRunningProject(TEST_JOB_NAME);
 ```
 
-**Explaination:** 
+**Explanation:** 
 
 **Source:** https://github.com/jenkinsci/jenkins/blob/180de86abb6ff02f45f10f676d3d358a81dc95c8/test/src/test/java/jenkins/cli/StopBuildsCommandTest.java#L147
 
@@ -405,7 +405,7 @@ final FreeStyleProject restrictedProject = createLongRunningProject(TEST_JOB_NAM
 public boolean enabled = SystemProperties.getBoolean(ConnectionActivityMonitor.class.getName()+".enabled");
 ```
 
-**Explaination:** 
+**Explanation:** 
 
 **Source:** https://github.com/jenkinsci/jenkins/blob/180de86abb6ff02f45f10f676d3d358a81dc95c8/core/src/main/java/hudson/slaves/ConnectionActivityMonitor.java#L106
 
@@ -428,7 +428,7 @@ private void HandleCreateAndInvokePowerShell(object _, RemoteDataEventArgs<Remot
 }
 ```
 
-**Explaination:** 
+**Explanation:** 
 
 **Source:** https://github.com/PowerShell/PowerShell/blob/ea5c8e3c4dfa002e74e7e3d81f5ca489daf3f097/src/System.Management.Automation/engine/remoting/server/ServerRunspacePoolDriver.cs#L709
 
@@ -455,7 +455,7 @@ public void test() {
 }
 ```
 
-**Explaination:** 
+**Explanation:** 
 
 **Source:** https://github.com/square/retrofit/blob/bd33a5da186aa6f5365e78e27eb0292b1b8b1bff/retrofit/src/test/java/retrofit2/Java8DefaultStaticMethodsInValidationTest.java#L44
 
