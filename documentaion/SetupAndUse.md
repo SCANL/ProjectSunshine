@@ -1,5 +1,7 @@
 # IDEAL Setup and Use
 
+Note: The following steps have been verified on a Windows 10 operating system.
+
 A. [Prerequisites](#Prerequisites)
 
 B. [Setup IDEAL](#Setup-IDEAL)
