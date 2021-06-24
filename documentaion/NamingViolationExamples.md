@@ -368,7 +368,7 @@ private readonly int[] _isPatternPositionVisitedMarker;
 private String variables = "";
 ```
 
-**Explanation:** 
+**Explanation:** The term in the attribute's names is plural (i.e., "variables"), but the associated type is not a collection (i.e., `String`), thereby creating an inconsistency.
 
 **Source:** https://github.com/jenkinsci/jenkins/blob/180de86abb6ff02f45f10f676d3d358a81dc95c8/core/src/main/java/jenkins/tasks/filters/impl/RetainVariablesLocalRule.java#L73
 
