@@ -455,7 +455,7 @@ public void test() {
 }
 ```
 
-**Explanation:** 
+**Explanation:** In this example, the test method's name is "test", and the method also utilizes the @Test annotation. When using this specific annotation, it is unnecessary to start the method's name with the term "test".
 
 **Source:** https://github.com/square/retrofit/blob/bd33a5da186aa6f5365e78e27eb0292b1b8b1bff/retrofit/src/test/java/retrofit2/Java8DefaultStaticMethodsInValidationTest.java#L44
 
