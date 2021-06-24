@@ -311,7 +311,7 @@ public byte[] Get(int count)
 }
 ```
 
-**Explanation:** 
+**Explanation:** In this example, a term in the method's comment (i.e., "Remove") is an antonym for a term in the method's name (i.e., "Get").
 
 **Source:** https://github.com/shadowsocks/shadowsocks-windows/blob/ac0fcdfc8c615d62e56a30c9583e3dca51ff93d4/shadowsocks-csharp/Encryption/CircularBuffer/ByteCircularBuffer.cs#L245
 
@@ -329,7 +329,7 @@ public byte[] Get(int count)
 private string[] computername;
 ```
 
-**Explanation:** 
+**Explanation:** The data type of this attribute is a collection (i.e., array) of a `string` type. However, the term in the attribute's names is singular (i.e., "name"), thereby creating an inconsistency.
 
 **Source:** https://github.com/PowerShell/PowerShell/blob/ea5c8e3c4dfa002e74e7e3d81f5ca489daf3f097/src/Microsoft.Management.Infrastructure.CimCmdlets/RemoveCimInstanceCommand.cs#L111
 
