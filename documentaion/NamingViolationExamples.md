@@ -58,7 +58,7 @@ internal static Expression IsStrictMode(int version, Expression executionContext
 }
 ```
 
-**Explanation:** 
+**Explanation:** In this example, the method name starts with the term "Is", a predicate term, which means that the method should either return true or false. However, the return type is a custom complex type.
 
 **Source:** https://github.com/PowerShell/PowerShell/blob/ea5c8e3c4dfa002e74e7e3d81f5ca489daf3f097/src/System.Management.Automation/engine/parser/Compiler.cs#L1103
 
@@ -81,7 +81,7 @@ public static String setCurrentDescriptorByNameUrl(String value) {
 }
 ```
 
-**Explanation:** 
+**Explanation:** The purpose of setter methods is to assign values and do not return anything. In this example, the method returns a string. 
 
 **Source:** https://github.com/jenkinsci/jenkins/blob/180de86abb6ff02f45f10f676d3d358a81dc95c8/core/src/main/java/hudson/Functions.java#L2177
 
@@ -102,7 +102,7 @@ internal override PSObject[] GetParameter(string pattern)
 }
 ```
 
-**Explanation:** 
+**Explanation:** This method returns a collection (i.e., array) of objects (specifically, `PSObject`). However, the last term in the method name is singular (i.e., "Parameter"). This inconsistency is a linguistic anti-pattern.
 
 **Source:** https://github.com/PowerShell/PowerShell/blob/ea5c8e3c4dfa002e74e7e3d81f5ca489daf3f097/src/System.Management.Automation/help/ProviderCommandHelpInfo.cs#L46
 
@@ -131,7 +131,7 @@ public @Nullable Converter<?, RequestBody> requestBodyConverter(
 }
 ```
 
-**Explanation:** 
+**Explanation:** In this example, the method comment indicates that the method checks for a condition (i.e., "...or null if..."). However, the method body does not contain any conditional statements.
 
 **Source:** https://github.com/square/retrofit/blob/bd33a5da186aa6f5365e78e27eb0292b1b8b1bff/retrofit/src/main/java/retrofit2/Converter.java#L63
 
