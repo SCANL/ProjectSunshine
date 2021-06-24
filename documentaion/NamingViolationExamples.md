@@ -212,7 +212,7 @@ private void IsDisposed()
 }
 ```
 
-**Explanation:** 
+**Explanation:** The method name starts with a predicate (i.e., "Is") and is supposed to return either true or false. However, this method does not return a boolean value. 
 
 **Source:** https://github.com/PowerShell/PowerShell/blob/ea5c8e3c4dfa002e74e7e3d81f5ca489daf3f097/src/Microsoft.PowerShell.ScheduledJob/ScheduledJobDefinition.cs#L555
 
@@ -224,7 +224,7 @@ private void IsDisposed()
 
 **Description:** The name of a method suggests the transformation of an object but there is no return value and it is not clear from the documentation where the result is stored.
 
-**Example:**
+**Example:** The term (i.e., "translate") in this method name means that the method performs data transformation. For such transformation methods, the transformed data should be returned, but in this case, the method does not return data.
 
 ```java
 public void translate(String markup, @NonNull Writer output) throws IOException {
