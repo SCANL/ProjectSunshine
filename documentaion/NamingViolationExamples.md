@@ -8,7 +8,7 @@
 
 ## "Get" more than accessor
 
-**Id:** A.1
+**Id:**  A.1
 
 **Description:** A getter that performs actions other than returning the corresponding attribute.
 
@@ -155,7 +155,7 @@ private void CheckClose()
 }
 ```
 
-**Explanation:** 
+**Explanation:** In this method, the starting term (i.e., "Check") indicates that this method should perform some form of validation. Such methods should return the result of the check, which is either true or false. However, in this case, this method does not return any value.
 
 **Source:** https://github.com/shadowsocks/shadowsocks-windows/blob/ac0fcdfc8c615d62e56a30c9583e3dca51ff93d4/shadowsocks-csharp/Controller/Service/TCPRelay.cs#L283
 
@@ -167,7 +167,7 @@ private void CheckClose()
 
 **Description:** The name suggests that the method returns something (e.g., name starts with get or return) but the return type is void.
 
-**Example:**
+**Example:** The first term in this method (i.e., "Get") indicates that this method should be returning a value. However, this method does not return anything.
 
 ```C#
 public static void GetBytes(byte[] buf, int len)
