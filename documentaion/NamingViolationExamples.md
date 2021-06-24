@@ -224,7 +224,7 @@ private void IsDisposed()
 
 **Description:** The name of a method suggests the transformation of an object but there is no return value and it is not clear from the documentation where the result is stored.
 
-**Example:** The term (i.e., "translate") in this method name means that the method performs data transformation. For such transformation methods, the transformed data should be returned, but in this case, the method does not return data.
+**Example:**
 
 ```java
 public void translate(String markup, @NonNull Writer output) throws IOException {
@@ -238,7 +238,7 @@ public void translate(String markup, @NonNull Writer output) throws IOException 
 }
 ```
 
-**Explanation:** 
+**Explanation:** The term (i.e., "translate") in this method name means that the method performs data transformation. For such transformation methods, the transformed data should be returned, but in this case, the method does not return data.
 
 **Source:** https://github.com/jenkinsci/jenkins/blob/180de86abb6ff02f45f10f676d3d358a81dc95c8/test/src/test/java/hudson/model/ParametersTest.java#L271
 
@@ -259,7 +259,7 @@ public static void GetBytes(byte[] buf)
 }
 ```
 
-**Explanation:** 
+**Explanation:** The first term in this method (i.e., "Get") means that this method should return data. Furthermore, the last term in this method name (i.e., "Bytes") is plural, meaning that the returned data should be a collection. However, in this case, the method does not return a collection.
 
 **Source:** https://github.com/shadowsocks/shadowsocks-windows/blob/ac0fcdfc8c615d62e56a30c9583e3dca51ff93d4/shadowsocks-csharp/Encryption/RNG.cs#L27
 
@@ -280,7 +280,7 @@ private void validateServiceInterface(Class<?> service) {
     }
 ```
 
-**Explanation:** 
+**Explanation:** In this example, the name of the method's return type (i.e., "void") is an antonym for a term in the method's name (i.e., "validate").
 
 **Source:** https://github.com/square/retrofit/blob/bd33a5da186aa6f5365e78e27eb0292b1b8b1bff/retrofit/src/main/java/retrofit2/Retrofit.java#L165
 
