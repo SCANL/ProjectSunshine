@@ -2,6 +2,10 @@
 
 
 
+[TOC]
+
+
+
 ## "Get" more than accessor
 
 **Id:** A.1
@@ -456,4 +460,5 @@ public void test() {
 **Source:** https://github.com/square/retrofit/blob/bd33a5da186aa6f5365e78e27eb0292b1b8b1bff/retrofit/src/test/java/retrofit2/Java8DefaultStaticMethodsInValidationTest.java#L44
 
 
-##### [Back To ReadMe](../README.md)
+
+[Back To ReadMe](../README.md)
