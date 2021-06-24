@@ -21,6 +21,11 @@ Details around setting up and using IDEAL are available [here](documentaion/Setu
 
 Examples of naming violations currently detected by IDEAL are available [here](documentaion/NamingViolationExamples.md).
 
+### IDEAL Architecture
+
+Details around the architecture of IDEAL is available [here](documentaion/Architecture.md).
+
 ### Naming Violations
+
 - ### [Arnaoudova et al.](documentaion/AntiPatternRules_Arnaoudova.md)
 - ### [SCANL](documentaion/AntiPatternRules_SCANL.md)
