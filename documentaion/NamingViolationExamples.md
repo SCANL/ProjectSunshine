@@ -386,7 +386,7 @@ private String variables = "";
 final FreeStyleProject restrictedProject = createLongRunningProject(TEST_JOB_NAME);
 ```
 
-**Explanation:** 
+**Explanation:** In this example, a term in the name of the attribute's data type (i.e., "Free") is an antonym for a term in the attribute's name (i.e., "restricted").
 
 **Source:** https://github.com/jenkinsci/jenkins/blob/180de86abb6ff02f45f10f676d3d358a81dc95c8/test/src/test/java/jenkins/cli/StopBuildsCommandTest.java#L147
 
@@ -405,7 +405,7 @@ final FreeStyleProject restrictedProject = createLongRunningProject(TEST_JOB_NAM
 public boolean enabled = SystemProperties.getBoolean(ConnectionActivityMonitor.class.getName()+".enabled");
 ```
 
-**Explanation:** 
+**Explanation:** In this example, a term in the name of the attribute's comment (i.e., "disabled") is an antonym for a term in the attribute's name (i.e., "enabled").
 
 **Source:** https://github.com/jenkinsci/jenkins/blob/180de86abb6ff02f45f10f676d3d358a81dc95c8/core/src/main/java/hudson/slaves/ConnectionActivityMonitor.java#L106
 
@@ -428,7 +428,7 @@ private void HandleCreateAndInvokePowerShell(object _, RemoteDataEventArgs<Remot
 }
 ```
 
-**Explanation:** 
+**Explanation:** In this example, the name of the parameter in the method is composed of only an underscore.
 
 **Source:** https://github.com/PowerShell/PowerShell/blob/ea5c8e3c4dfa002e74e7e3d81f5ca489daf3f097/src/System.Management.Automation/engine/remoting/server/ServerRunspacePoolDriver.cs#L709
 
