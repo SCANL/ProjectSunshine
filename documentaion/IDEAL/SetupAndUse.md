@@ -73,4 +73,4 @@ C. [Configure and Run IDEAL For Project](#Configure-and-Run-IDEAL-For-Project)
    <img src="images\setup\results.png"  style="zoom:40%;" />
 
 
-##### [Back To ReadMe](../README.md)
+##### [Back To ReadMe](../../README.md)
