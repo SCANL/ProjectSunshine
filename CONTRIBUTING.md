@@ -25,11 +25,11 @@ Any line of the commit message cannot be longer 100 characters! This allows the 
 The **header** is mandatory and the **scope** of the header must be omitted if the change is common among the packages, otherwise it's mandatory. Use the summary field to provide a succinct description of the change:
 
 ```
-<type>(<scope>): <short summary>
-  │       │             │
-  │       │             └─⫸ Summary in present tense. Not capitalized. No period at the end.
-  │       │
-  │       └─⫸ Commit Scope: server | app | desktop-app
+<type>: <short summary>
+  │           │
+  │           └─⫸ Summary in present tense. Not capitalized. No period at the end.
+  │       
+  │       
   │
   └─⫸ Commit Type: build|ci|docs|feat|fix|perf|refactor|test
 ```
