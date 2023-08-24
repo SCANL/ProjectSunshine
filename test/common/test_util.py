@@ -78,13 +78,17 @@ class TestUtil:
         with pytest.raises(FileNotFoundError):
             read_input("")
 
-    def test_read_input_fail_2(self, create_empty_csv):
+    def test_read_input_fail_2(self, create_empty_csv, capfd):
         with pytest.raises(SystemExit):
             read_input(f"{self.PATH}/input_test.csv")
+        out, err = capfd.readouterr()
+        assert "[Main] Critical: Input CSV file cannot be empty: " in out
 
-    def test_read_input_fail_3(self, create_wrong_files):
+    def test_read_input_fail_3(self, create_wrong_files, capfd):
         with pytest.raises(SystemExit):
             read_input(f"{self.PATH}/input_test.csv")
+        out, err = capfd.readouterr()
+        assert "[Main] Critical: Invalid files provided in input CSV file: " in out
 
     def test_remove_list_nesting(self):
         """
