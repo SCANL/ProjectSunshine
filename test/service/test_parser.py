@@ -3,6 +3,18 @@ from unittest.mock import patch
 from src.service.parser import Parser
 
 
+def new_run_srcml_for_valid_input(*args, **kwargs):
+    return b'', ""
+
+
+def new_run_srcml_for_invalid_input(*args, **kwargs):
+    return b'', "error"
+
+
+def parser_init(*args, **kwargs):
+    pass
+
+
 class TestParser:
     """
         Test case specification for these test cases can be found here:
@@ -23,32 +35,28 @@ class TestParser:
         yield file_path
         file_path.remove()
 
-    @pytest.fixture
-    def mock_parser(self, mocker):
-        """
-            src.service.parser.Parser (used in src.service.parser.Parser.parse_file)
-        """
-        return mocker.patch("src.service.parser.Parser")
-
-    def test_parse_file_with_valid_input(self, temp_input_file, mock_parser):
-        """
-            ID: TC-SRV-3.2
-        """
-        mock_parser.__run_srcml.return_value = [0, True]
-        parser = Parser()
-        valid_file_path = str(temp_input_file)
-        result = parser.parse_file(valid_file_path)
-
-        assert result == True
-
-    def test_parse_file_with_invalid_input(self, mock_parser):
+    def test_parse_file_with_invalid_input(self):
         """
             ID: TC-SRV-3.1
         """
-        mock_parser.__run_srcml.return_value = [0, False]
-        parser = Parser()
-        invalid_file_path = "path/to/invalid/file.java"
-        assert parser.parse_file(invalid_file_path) == False
+        with patch.object(Parser, '_Parser__run_srcml', new=new_run_srcml_for_invalid_input):
+            with patch.object(Parser, '__init__', new=parser_init):
+                parser = Parser()
+                result = parser.parse_file("path/to/invalid/file.java")
+
+        assert result == False
+
+    def test_parse_file_with_valid_input(self, temp_input_file):
+        """
+            ID: TC-SRV-3.2
+        """
+        with patch.object(Parser, '_Parser__run_srcml', new=new_run_srcml_for_valid_input):
+            with patch.object(Parser, '__init__', new=parser_init):
+                parser = Parser()
+                valid_file_path = str(temp_input_file)
+                result = parser.parse_file(valid_file_path)
+
+        assert result == True
 
     def test_run_srcml_invalid(self):
         """
