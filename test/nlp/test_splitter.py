@@ -2,6 +2,10 @@ from src.nlp.splitter import Splitter
 
 
 class TestSplitter:
+    """
+        Test case specification for these test cases can be found here:
+        https://t.ly/0CCGA
+    """
 
     def test_split_word_tokens(self):
         """
