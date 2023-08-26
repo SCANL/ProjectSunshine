@@ -3,18 +3,58 @@ from src.common.error_handler import handle_error, ErrorSeverity
 
 class TestErrorHandler:
 
-    def test_error_handler(self, capfd):
-        handle_error("util.py", "error in main process", ErrorSeverity.Warning)
-        out, err = capfd.readouterr()
-        assert "[util.py] Warning: error in main process. Exception: None. Stacktrace: NoneType: None" in out, "not the error we expecteed"
+    @pytest.fixture
+    def mock_logger(self, mocker):
+        return mocker.patch('src.common.error_handler.logger')
+    
+    @pytest.fixture
+    def mock_sys(self, mocker):
+        return mocker.patch('src.common.error_handler.sys') 
 
-    def test_error_handler_with_system_exit(self, capfd):
-        with pytest.raises(SystemExit):
-            handle_error("util.py", "error in main process", ErrorSeverity.Warning, True)
-        out, err = capfd.readouterr()
-        assert "[util.py] Warning: error in main process. Exception: None. Stacktrace: NoneType: None" in out, "not the error we expecteed"
+    def test_handle_error_critical(self, mock_sys, mock_logger):
+        # Arrange
+        module = 'test_module'
+        message = 'test_message'
+        severity = ErrorSeverity.Critical
+        exception = Exception('test_exception')
 
-    def test_error_handler_with_exception(self, capfd):
-        handle_error("util.py", "error in main process", ErrorSeverity.Critical, False, Exception)
-        out, err = capfd.readouterr()
-        assert "[util.py] Critical: error in main process. Exception: <class 'Exception'>. Stacktrace: NoneType: None" in out, "not the error we expecteed "     
+        # Act
+        handle_error(module, message, severity, True, exception)
+
+        # Assert
+        mock_logger.critical.assert_called_once_with(
+            f"[{module}] {severity.name}: {message}. Exception: {str(exception)}. Stacktrace: NoneType: None\n"
+        )
+        mock_sys.exit.assert_called_once()
+
+
+    def test_handle_error_warning(self, mock_sys, mock_logger):
+        # Arrange
+        module = 'test_module'
+        message = 'test_message'
+        severity = ErrorSeverity.Warning
+        exception = Exception('test_exception')
+
+        # Act
+        handle_error(module, message, severity, False, exception)
+
+        # Assert
+        mock_logger.warning.assert_called_once_with(
+            f"[{module}] {severity.name}: {message}. Exception: {str(exception)}. Stacktrace: NoneType: None\n"
+        )
+        mock_sys.exit.assert_not_called()
+
+    def test_handle_error_no_exception(self, mock_sys, mock_logger):
+        # Arrange
+        module = 'test_module'
+        message = 'test_message'
+        severity = ErrorSeverity.Error
+
+        # Act
+        handle_error(module, message, severity)
+
+        # Assert
+        mock_logger.warning.assert_called_once_with(
+            f"[{module}] {severity.name}: {message}. Exception: None. Stacktrace: NoneType: None\n"
+        )
+        mock_sys.exit.assert_not_called()
