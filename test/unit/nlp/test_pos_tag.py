@@ -22,6 +22,7 @@ def mock_get_pos(*args, **kwargs):
         return "UNKNOWN"
 
 
+@pytest.mark.unit
 class TestPosTag:
     """
         Test case specification for these test cases can be found here:

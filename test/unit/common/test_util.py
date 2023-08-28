@@ -4,6 +4,7 @@ import shutil
 from src.common.util import get_file_name, read_input, remove_list_nestings, get_config_setting
 
 
+@pytest.mark.unit
 class TestUtil:
 
     PATH = "./test/temp/"

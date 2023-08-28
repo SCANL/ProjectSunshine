@@ -1,9 +1,9 @@
 import pytest
 from unittest.mock import patch, Mock
 from src.nlp.term_property import is_singular, is_plural
-from src.nlp import term_list, pos_tag
 
 
+@pytest.mark.unit
 class TestTermProperty:
     """
         Test case specification for these test cases can be found here:

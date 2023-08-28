@@ -3,12 +3,14 @@ from unittest.mock import patch
 from src.service.factory import EntityFactory
 
 
+@pytest.mark.unit
 class TestFactory:
     """
         Test case specification for these test cases can be found here:
         https://t.ly/0CCGA
     """
 
+    # util.get_file_name mock ?
     @pytest.fixture
     def temp_input_file(self, tmpdir):
         content = '''
@@ -60,4 +62,4 @@ class TestFactory:
 
         assert factory.entity is not None
         assert factory.entity.path == valid_file_path
-        assert factory.entity.name == "temp_input.java"
+        assert factory.entity.name == "temp_input.java"  # integration test?

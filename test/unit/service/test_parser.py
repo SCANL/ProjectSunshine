@@ -4,10 +4,16 @@ from src.service.parser import Parser
 
 
 def new_run_srcml_for_valid_input(*args, **kwargs):
+    """
+        Mock srcML process returning a valid result
+    """
     return b'', ""
 
 
 def new_run_srcml_for_invalid_input(*args, **kwargs):
+    """
+        Mock srcML process returning an error
+    """
     return b'', "error"
 
 

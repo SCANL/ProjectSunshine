@@ -1,6 +1,8 @@
 from src.nlp.splitter import Splitter
+import pytest
 
 
+@pytest.mark.unit
 class TestSplitter:
     """
         Test case specification for these test cases can be found here:
@@ -23,3 +25,10 @@ class TestSplitter:
         result = Splitter.split_word_tokens("1231,-.#$%")
         assert result == []
 
+    def test_split_word_tokens_non_alpha(self):
+        """
+            ID: TC-NLP-6.3
+            Note: not sure if this is the desired behaviour
+        """
+        result = Splitter.split_word_tokens("Happy,dog|Another sentence")
+        assert result == []
