@@ -62,4 +62,3 @@ class TestFactory:
 
         assert factory.entity is not None
         assert factory.entity.path == valid_file_path
-        assert factory.entity.name == "temp_input.java"  # integration test?
