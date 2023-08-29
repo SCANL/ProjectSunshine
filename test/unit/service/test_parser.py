@@ -18,6 +18,9 @@ def new_run_srcml_for_invalid_input(*args, **kwargs):
 
 
 def parser_init(*args, **kwargs):
+    """
+        Mock parser constructor
+    """
     pass
 
 

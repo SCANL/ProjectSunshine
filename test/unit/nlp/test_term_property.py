@@ -13,6 +13,8 @@ class TestTermProperty:
     CUSTOM_PLURAL_TERMS_MOCK = {"apples": "NNS",
                                 "oranges": "NNS", "bananas": "NNS"}
 
+    MOCK_PATH = "src.nlp.term_property.generate_tag"
+
     @pytest.fixture
     def mock_get_plural_terms(self, mocker):
         """
@@ -31,7 +33,7 @@ class TestTermProperty:
         """
             ID: TC-NLP-7.2
         """
-        with patch("src.nlp.term_property.generate_tag", return_value="NNP"):
+        with patch(self.MOCK_PATH, return_value="NNP"):
             result = is_singular(None, "Paris")
             assert result == True
 
@@ -39,7 +41,7 @@ class TestTermProperty:
         """
             ID: TC-NLP-7.3
         """
-        with patch("src.nlp.term_property.generate_tag", return_value="NNS"):
+        with patch(self.MOCK_PATH, return_value="NNS"):
             result = is_singular(None, "rooms")
             assert result == False
 
@@ -54,7 +56,7 @@ class TestTermProperty:
         """
             ID: TC-NLP-8.2
         """
-        with patch("src.nlp.term_property.generate_tag", return_value="NNP"):
+        with patch(self.MOCK_PATH, return_value="NNP"):
             result = is_plural(None, "Chris")
             assert result == False
 
@@ -62,7 +64,7 @@ class TestTermProperty:
         """
             ID: TC-NLP-8.3
         """
-        with patch("src.nlp.term_property.generate_tag", return_value="NNS"):
+        with patch(self.MOCK_PATH, return_value="NNS"):
             # "buildings" is not in CUSTOM_PLURAL_TERMS_MOCK
             result = is_plural(None, "buildings")
             assert result == True

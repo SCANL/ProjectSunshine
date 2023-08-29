@@ -3,7 +3,7 @@ from src.nlp.pos_tag import generate_tag, POSTaggerStanford
 from unittest.mock import patch
 
 
-def mock_POSTaggerStanford__init__(*args, **kwargs):
+def mock_pos_tagger_stanford__init__(*args, **kwargs):
     """
         Mock for src.nlp.pos_tag.POSTaggerStanford.__init__
         This mock is used to avoid calling the constructor of the POSTaggerStanford class
@@ -61,7 +61,7 @@ class TestPosTag:
             ID: TC-NLP-5.3
             Note: The two `with` statements are used to mock the constructor and the `get_pos` method of the `POSTaggerStanford` class
         """
-        with patch.object(POSTaggerStanford, "__init__", new=mock_POSTaggerStanford__init__), patch.object(POSTaggerStanford, "get_pos", new=mock_get_pos):
+        with patch.object(POSTaggerStanford, "__init__", new=mock_pos_tagger_stanford__init__), patch.object(POSTaggerStanford, "get_pos", new=mock_get_pos):
             # None passed as Project instance as it is not used in the function (mocked)
             result = generate_tag(None, term="your")
             # This means the mocked function was called so the function uses the POSTaggerStanford class to generate the tag
