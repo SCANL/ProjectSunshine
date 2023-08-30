@@ -2,23 +2,25 @@ import pytest
 from src.common.util_parsing import get_class_attribute_names, get_all_items_in_class, get_all_class_fields, is_test_method, is_boolean_type
 from src.common.enum import IdentifierType, FileType, LanguageType
 
+
 @pytest.mark.unit
 class TestUtilParsing:
-    
+
     def __mock_attribute(self, mocker, type, name, parent_name, is_array, is_generic, source=""):
         """
-            La funzione permette di creare dei mock della classe src.model.identifier.Attribute
+            Creates mock instances of the class src.model.identifier.Attribute.
+
             Args:
-                mocker: per la creazione del mock
-                name: nome dell'attributo
-                type: tipo di costrutto che si sta andando a creare, si assegna un valore della enumerazione src.common.enum.IdentifierType
-                specifier
-                parent_name: nome della classe di appartenenza
-                is_array: se si tratta di un array
-                is_generic: se può assumere valori generici
-                source: il codice sorgente da cui è ottenuto (impostato a "" come valore di default)
-            Return:
-                il mock di src.model.identifier.Attribute
+                mocker: Mocking framework instance for creating the mock.
+                name: Name of the attribute.
+                identifier_type: Type of the construct being created, assigned a value from the enumeration src.common.enum.IdentifierType specifier.
+                parent_name: Name of the parent class.
+                is_array: Indicates if the attribute is an array (default is False).
+                is_generic: Indicates if the attribute can take generic values (default is False).
+                source: The source code from which it's obtained (default is "").
+
+            Returns:
+                Mock of src.model.identifier.Attribute.
         """
         mock = mocker.patch('src.model.identifier.Attribute')
         mock.name = name
@@ -33,19 +35,21 @@ class TestUtilParsing:
 
     def __mock_method(self, mocker, name, annotations, parent_name, return_type, is_array, variables, parameters, source=""):
         """
-            La funzione permette di creare dei mock della classe src.model.identifier.Method
+            Creates mock instances of the class src.model.identifier.Method.
+
             Args:
-                mocker: per la creazione del mock
-                name: nome del metodo
-                annotations: array di annotazioni del metodo
-                parent_name: nome della classe di appartenenza
-                return_type: il tipo restituito dal metodo
-                is_array: se si tratta di un array
-                variables: variabili presenti all'interno del metodo
-                parameters: i parametri che il metodo prende in input
-                source: il codice sorgente da cui è ottenuto (impostato a "" come valore di default)
-            Return:
-                il mock di src.model.identifier.Method
+                mocker: Mocking framework instance for creating the mock.
+                name: Name of the method.
+                annotations: Array of method annotations.
+                parent_name: Name of the parent class.
+                return_type: The return type of the method.
+                is_array: Indicates if the return type is an array (default is False).
+                variables: Variables present within the method (default is None).
+                parameters: Parameters that the method takes as input (default is None).
+                source: The source code from which it's obtained (default is "").
+
+            Returns:
+                Mock of src.model.identifier.Method.
         """
         mock = mocker.patch('src.model.identifier.Method')
         mock.name = name
@@ -59,19 +63,21 @@ class TestUtilParsing:
         mock.parameters = parameters
 
         return mock
-    
+
     def __mock_variable(self, mocker, type, name, is_array, is_generic, source=""):
         """
-            La funzione permette di creare dei mock della classe src.model.identifier.Variable
+            Creates mock instances of the class src.model.identifier.Variable.
+
             Args:
-                mocker: per la creazione del mock
-                type: tipo di costrutto che si sta andando a creare, si assegna un valore della enumerazione src.common.enum.IdentifierType
-                name: nome del metodo
-                is_array: se si tratta di un array
-                is_generic: se può assumere valori generici
-                source: il codice sorgente da cui è ottenuto (impostato a "" come valore di default)
-            Return:
-                il mock di src.model.identifier.Variable
+                mocker: Mocking framework instance for creating the mock.
+                identifier_type: Type of the construct being created, assigned a value from the enumeration src.common.enum.IdentifierType.
+                name: Name of the variable.
+                is_array: Indicates if the variable is an array (default is False).
+                is_generic: Indicates if the variable can take generic values (default is False).
+                source: The source code from which it's obtained (default is "").
+
+            Returns:
+                Mock of src.model.identifier.Variable.
         """
         mock = mocker.patch('src.model.identifier.Variable')
         mock.name = name
@@ -82,19 +88,21 @@ class TestUtilParsing:
         mock.source = source
 
         return mock
-    
+
     def __mock_parameter(self, mocker, type, name, is_array, is_generic, source=""):
         """
-            La funzione permette di creare dei mock della classe src.model.identifier.Parameter
+            Creates mock instances of the class src.model.identifier.Parameter.
+
             Args:
-                mocker: per la creazione del mock
-                type: tipo di costrutto che si sta andando a creare, si assegna un valore della enumerazione src.common.enum.IdentifierType
-                name: nome del metodo
-                is_array: se si tratta di un array
-                is_generic: se può assumere valori generici
-                source: il codice sorgente da cui è ottenuto (impostato a "" come valore di default)
+                mocker: Mocking framework instance for creating the mock.
+                identifier_type: Type of the construct being created, assigned a value from the enumeration src.common.enum.IdentifierType.
+                name: Name of the parameter.
+                is_array: Indicates if the parameter is an array (default is False).
+                is_generic: Indicates if the parameter can take generic values (default is False).
+                source: The source code from which it's obtained (default is "").
+
             Return:
-                il mock di src.model.identifier.Parameter
+                Mock of src.model.identifier.Parameter.
         """
         mock = mocker.patch('src.model.identifier.Parameter')
         mock.name = name
@@ -105,50 +113,56 @@ class TestUtilParsing:
         mock.source = source
 
         return mock
-    
+
     @pytest.fixture
     def mock_entity_attributes(self, mocker):
         """
-            La funzione effettua il mock di una classe contentete due attributi
+            Mocks a class containing two attributes.
         """
 
         mock = mocker.patch('src.model.identifier.Class')
         mock.attributes = [
-            self.__mock_attribute(mocker, type=IdentifierType.Attribute, name="attr1", parent_name="Class", is_array=False, is_generic=False), 
-            self.__mock_attribute(mocker, type=IdentifierType.Attribute, name="attr2", parent_name="Class2", is_array=False, is_generic=False)
+            self.__mock_attribute(mocker, type=IdentifierType.Attribute, name="attr1",
+                                  parent_name="Class", is_array=False, is_generic=False),
+            self.__mock_attribute(mocker, type=IdentifierType.Attribute, name="attr2",
+                                  parent_name="Class2", is_array=False, is_generic=False)
         ]
         return mock
-    
+
     @pytest.fixture
     def mock_class_items(self, mocker, mock_entity_attributes):
         """
-            La funzione effettua il mock di una classe contenente un metodo
+            Mocks a class containing a method.
         """
-        params = [
-            self.__mock_parameter(mocker, type=IdentifierType.Parameter, name='param1', is_array=False, is_generic=False),
-            self.__mock_parameter(mocker, type=IdentifierType.Parameter, name='param2', is_array=True, is_generic=False)
+        parsed_parameters = [
+            self.__mock_parameter(mocker, type=IdentifierType.Parameter,
+                                  name='param1', is_array=False, is_generic=False),
+            self.__mock_parameter(mocker, type=IdentifierType.Parameter,
+                                  name='param2', is_array=True, is_generic=False)
         ]
 
-        vars = [
-            self.__mock_variable(mocker, type=IdentifierType.Variable, name='var1', is_array=False, is_generic=False),
-            self.__mock_variable(mocker, type=IdentifierType.Variable, name='var2', is_array=True, is_generic=False)
+        parsed_vars = [
+            self.__mock_variable(mocker, type=IdentifierType.Variable,
+                                 name='var1', is_array=False, is_generic=False),
+            self.__mock_variable(mocker, type=IdentifierType.Variable,
+                                 name='var2', is_array=True, is_generic=False)
         ]
 
-        method = self.__mock_method(mocker, 'method1', '', 'Class', 'string', False, vars, params)
+        method = self.__mock_method(
+            mocker, 'method1', '', 'Class', 'string', False, parsed_vars, parsed_parameters)
 
         mock = mock_entity_attributes
         mock.methods = [method]
 
         return mock
 
-    
     def test_get_class_attribute_names(self, mock_entity_attributes):
         """
             TC-CMM-6.1
         """
         # Act
         names = get_class_attribute_names(mock_entity_attributes)
-        
+
         # Assert
         assert names == ['attr1', 'attr2']
 
@@ -159,7 +173,7 @@ class TestUtilParsing:
 
         # Act
         items = get_all_items_in_class(mock_class_items)
-        
+
         # Assert
         assert len(items) == 8
 
@@ -167,10 +181,10 @@ class TestUtilParsing:
         """
             TC-CMM-8.1
         """
-        
+
         # Act
         fields = get_all_class_fields(mock_class_items)
-        
+
         # Assert
         assert len(fields) == 6
 
@@ -185,21 +199,21 @@ class TestUtilParsing:
     @pytest.fixture
     def mock_test_method(self, mocker):
         """
-            La funzione effettua il mock di un metodo avente un annotazione di Test
+            Mocks a method having a Test annotation.
         """
         return self.__mock_method(mocker, name='MyTest', annotations=['Test'], parent_name='MyClass', return_type='', is_array=False, parameters=[], variables=[])
 
     @pytest.fixture
     def mock_method(self, mocker):
         """
-            La funzione effettua il mock di un metodo normale
+            Mocks a regular method.
         """
         return self.__mock_method(mocker, name='MyTest', annotations=[''], parent_name='MyClass', return_type='', is_array=False, parameters=[], variables=[])
 
     @pytest.fixture
     def mock_test_method_annotations(self, mocker):
         return mocker.patch('src.common.testing_list.get_test_method_annotations')
-    
+
     @pytest.fixture
     def mock_attribute(self, mocker):
         return mocker.patch('src.model.identifier.Attribute')
@@ -212,7 +226,7 @@ class TestUtilParsing:
         """
             TC-CMM-9.1
         """
-        
+
         # Arrange
         mock_entity.file_type = FileType.Test
         mock_entity.language = LanguageType.Java
@@ -221,7 +235,7 @@ class TestUtilParsing:
 
         # Act
         val = is_test_method(mock_project, mock_entity, mock_test_method)
-        
+
         # Assert
         assert val == True
 
@@ -229,7 +243,7 @@ class TestUtilParsing:
         """
             TC-CMM-9.2
         """
-        
+
         # Arrange
         mock_entity.file_type = FileType.NonTest
         mock_entity.language = LanguageType.Java
@@ -238,15 +252,15 @@ class TestUtilParsing:
 
         # Act
         val = is_test_method(mock_project, mock_entity, mock_test_method)
-        
+
         # Assert
         assert val == False
-    
+
     def test_is_test_method_fail_not_test_method(self, mock_method, mock_entity, mock_project, mock_identifier_type, mock_test_method_annotations):
         """
             TC-CMM-9.3
         """
-        
+
         # Arrange
         mock_entity.file_type = FileType.Test
         mock_entity.language = LanguageType.Java
@@ -255,7 +269,7 @@ class TestUtilParsing:
 
         # Act
         val = is_test_method(mock_project, mock_entity, mock_method)
-        
+
         # Assert
         assert val == False
 
@@ -263,7 +277,7 @@ class TestUtilParsing:
         """
             TC-CMM-9.4
         """
-        
+
         # Arrange
         mock_entity.file_type = FileType.Test
         mock_entity.language = LanguageType.Java
@@ -271,7 +285,7 @@ class TestUtilParsing:
 
         # Act
         val = is_test_method(mock_project, mock_entity, mock_attribute)
-        
+
         # Assert
         assert val == False
 
@@ -283,7 +297,7 @@ class TestUtilParsing:
         """
             TC-CMM-10.1
         """
-        
+
         # Arrange
         mock_entity.language = LanguageType.Java
         mock_identifier_type.return_value = IdentifierType.Method
@@ -291,7 +305,7 @@ class TestUtilParsing:
 
         # Act
         val = is_boolean_type(mock_entity, mock_is_bool_method)
-        
+
         # Assert
         assert val == True
 
@@ -299,7 +313,7 @@ class TestUtilParsing:
         """
             TC-CMM-10.2
         """
-        
+
         # Arrange
         mock_entity.language = LanguageType.Java
         mock_identifier_type.return_value = IdentifierType.Method
@@ -307,7 +321,7 @@ class TestUtilParsing:
 
         # Act
         val = is_boolean_type(mock_entity, mock_is_bool_method)
-        
+
         # Assert
         assert val == False
 
@@ -315,7 +329,7 @@ class TestUtilParsing:
         """
             TC-CMM-10.3
         """
-        
+
         # Arrange
         mock_entity.language = LanguageType.CSharp
         mock_identifier_type.return_value = IdentifierType.Method
@@ -323,7 +337,7 @@ class TestUtilParsing:
 
         # Act
         val = is_boolean_type(mock_entity, mock_is_bool_method)
-        
+
         # Assert
         assert val == True
 
@@ -339,7 +353,7 @@ class TestUtilParsing:
 
         # Act
         val = is_boolean_type(mock_entity, mock_is_bool_method)
-        
+
         # Assert
         assert val == False
 
@@ -354,6 +368,6 @@ class TestUtilParsing:
 
         # Act
         val = is_boolean_type(mock_entity, mock_attribute)
-        
+
         # Assert
         assert val == False
