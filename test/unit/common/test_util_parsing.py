@@ -177,7 +177,7 @@ class TestUtilParsing:
         # Assert
         assert len(items) == 8
 
-    def test_get_all_class_fileds(self, mock_class_items):
+    def test_get_all_class_fields(self, mock_class_items):
         """
             TC-CMM-8.1
         """
