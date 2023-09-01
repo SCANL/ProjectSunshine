@@ -18,7 +18,7 @@ class TestRelatedTerms:
 
     def test_clean_text_empty_string(self, mock_word_tokenize):
         """
-            ID: TC-NLP-1.1
+            ID: TC-NLP-1.1 [unit]
         """
         mock_word_tokenize.return_value = []
         result = clean_text("")
