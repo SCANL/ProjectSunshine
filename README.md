@@ -2,6 +2,34 @@
 
 #### _An Open-Source Identifier Name Appraisal Tool_
 
+## Usage
+
+<details>
+	<summary><b> 🔵 Docker (recommended)</b></summary>
+	<br><b>🚧🚧🚧 IMPORTANT</b>: Currently through the Dockerfile you will only be able to run tests. <br> 
+	<br>
+	<ol>
+		<li>Clone the repo</li>
+		<li>
+		Build the Dockerfile<br>
+		<code>docker build . -t ideal</code>
+		</li>
+		<li>
+		Run the Dockerfile<br>
+		<code>docker run -it ideal</code><br>
+    <b>Optionally</b>, you can mount the root folder when running the container to use files from the host directly in the container with the following command (assumed to be run from the root project folder):<br>
+      <code>docker run -v ./:/app/ -it ideal</code>
+    </li>
+    </ol>
+  This ensures all the required executables and dependencies are installed, and runs unit and integration tests inside the container.<br>
+  The image is also available on DockerHub <a href="https://hub.docker.com/r/xrenegade100/ideal">at this link</a>.
+</details>
+<details>
+  <summary><b>Manual Installation</b></summary>
+  <a href="./documentation/IDEAL/SetupAndUse.md">Here</a> you can find some detailed instructions on how to setup and run the software.
+</details>
+<hr>
+
 ### Abstract
 
 Developers must comprehend the code they will maintain, meaning that the code must be legible and reasonably
@@ -15,7 +43,7 @@ available at: [https://youtu.be/fVoOYGe50zg](https://youtu.be/fVoOYGe50zg)
 
 ### Setup and Use
 
-Details around setting up and using IDEAL are available [here](documentaion/IDEAL/SetupAndUse.md).
+Details around setting up and using IDEAL are available [here](documentation/IDEAL/SetupAndUse.md).
 
 ### Evaluation Results
 
@@ -23,16 +51,16 @@ The results of our evaluation of IDEAL is available [here](https://drive.google.
 
 ### Naming Violation Examples
 
-Examples of naming violations currently detected by IDEAL are available [here](documentaion/IDEAL/NamingViolationExamples.md).
+Examples of naming violations currently detected by IDEAL are available [here](documentation/IDEAL/NamingViolationExamples.md).
 
 ### IDEAL Architecture
 
-Details around the architecture of IDEAL is available [here](documentaion/IDEAL/Architecture.md).
+Details around the architecture of IDEAL is available [here](documentation/IDEAL/Architecture.md).
 
 ### Naming Violations
 
-- ### [Arnaoudova et al.](documentaion/IDEAL/AntiPatternRules_Arnaoudova.md)
-- ### [SCANL](documentaion/IDEAL/AntiPatternRules_SCANL.md)
+-   ### [Arnaoudova et al.](documentaion/IDEAL/AntiPatternRules_Arnaoudova.md)
+-   ### [SCANL](documentaion/IDEAL/AntiPatternRules_SCANL.md)
 
 ### Cite IDEAL
 

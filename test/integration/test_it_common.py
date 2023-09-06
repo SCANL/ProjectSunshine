@@ -30,7 +30,6 @@ def setup():
     # remove the temp directory
     os.remove(f'{root}/integration/temp/config.txt')
     os.rmdir(f'{root}/integration/temp/')
-
 class CommonTestUtils: 
 
     def __create_test_dir(self):
@@ -475,4 +474,3 @@ class TestItCommon:
         
         # Assert
         assert null_check_methods == None
-    
