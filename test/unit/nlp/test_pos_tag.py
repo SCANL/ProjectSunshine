@@ -1,5 +1,5 @@
 import pytest
-from src.nlp.pos_tag import generate_tag, POSTaggerStanford
+from src.nlp.pos_tag import POSType, generate_tag, POSTaggerStanford, get_tag_text
 from unittest.mock import patch
 
 
@@ -66,3 +66,33 @@ class TestPosTag:
             result = generate_tag(None, term="your")
             # This means the mocked function was called so the function uses the POSTaggerStanford class to generate the tag
             assert result == "PRP"
+
+    def test_get_tag_text_verb_uppercase(self):
+        """
+            ID: TC-NLP-5.4
+        """
+        assert get_tag_text("VB") == POSType.Verb
+
+    def test_get_tag_text_verb_lowercase(self):
+        """
+            ID: TC-NLP-5.5
+        """
+        assert get_tag_text("vb") == POSType.Verb
+
+    def test_get_tag_text_verb_mixed_case(self):
+        """
+            ID: TC-NLP-5.6
+        """
+        assert get_tag_text("Vb") == POSType.Verb
+
+    def test_get_tag_text_conjunction(self):
+        """
+            ID: TC-NLP-5.7
+        """
+        assert get_tag_text("CC") == POSType.Conjunction
+
+    def test_get_tag_text_unknown(self):
+        """
+            ID: TC-NLP-5.8
+        """
+        assert get_tag_text("XY") == POSType.Unknown
