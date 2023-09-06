@@ -3,7 +3,7 @@ from src.model.project import Project
 from src.common.testing_list import get_test_method_annotations, get_testing_packages, get_null_check_test_method
 from src.common.enum import LanguageType
 import src.common.util as util
-from src.common.util import get_config_setting
+from src.common.util import get_config_setting, read_input
 
 __current_dir = os.path.dirname(os.path.abspath(__file__))
 root = os.path.dirname(os.path.realpath(__current_dir))
@@ -30,7 +30,7 @@ def setup():
     # remove the temp directory
     os.remove(f'{root}/integration/temp/config.txt')
     os.rmdir(f'{root}/integration/temp/')
-class CommonTestUtils: 
+class TestingListUtils: 
 
     def __create_test_dir(self):
         """
@@ -88,11 +88,135 @@ class CommonTestUtils:
             config.write("[Properties]\n")
             config.write("junit_version=4\n")
 
-
-utils = CommonTestUtils()
+testing_list_utils = TestingListUtils()
 
 @pytest.mark.integration
 class TestItCommon:
+
+    def __create_test_dir(self):
+        """
+            The function deals with the creation of folders
+            that will contain the files created specifically for function testing
+        """
+        if not os.path.exists(PATH):
+            os.mkdir(PATH)
+
+        if not os.path.exists(f"{PATH}/code"):
+            os.mkdir(f"{PATH}/code")
+
+        if not os.path.exists(f"{PATH}/code/project"):
+            os.mkdir(f"{PATH}/code/project")
+
+    def __delete_files(self):
+        """
+            The function completely deletes all files and folders created for testing
+        """
+        shutil.rmtree(PATH)
+
+    @pytest.fixture
+    def create_correct_files(self):
+        """
+            the function takes care of the creation of a project file and an input.csv file
+            containing the path to the previous file, in order to simulate
+            the existence of an input to the system that is correct
+        """
+        self.__create_test_dir()
+
+        with open(f"{PATH}/code/project/Main.java", "a") as code:
+            code.write("public class Main {\n")
+            code.write("    public static void main(String[] args){\n")
+            code.write("        system.out.println(\"hello world\");\n")
+            code.write("    }\n}")
+
+        with open(f"{PATH}/input_test.csv", "a") as input:
+            input.write("file,type,junit\n")
+            input.write(f"{PATH}/code/project")
+
+        yield
+
+        self.__delete_files()
+
+    @pytest.fixture
+    def create_empty_csv(self):
+        """
+            The function takes care of creating an empty dummy input.csv file,
+            in order to simulate an incorrect input to the system
+        """
+        self.__create_test_dir()
+
+        with open(f"{PATH}/input_test.csv", "a") as csv:
+            csv.write("file,type,junit")
+
+        yield
+
+        self.__delete_files()
+
+    @pytest.fixture
+    def create_wrong_files(self):
+        """
+            The function takes care of the creation of a project file with an extension that cannot be analyzed by the system,
+            and of an input.csv file containing the path to it,
+            in order to simulate an incorrect input to the system
+        """
+        self.__create_test_dir()
+
+        js = open(f"{PATH}/code/project/Main.js", "a")
+        js.close()
+
+        with open(f"{PATH}/input_test.csv", "a") as input:
+            input.write("file,type,junit\n")
+            input.write(f"{PATH}/code/project")
+
+        yield
+
+        self.__delete_files()
+
+    def test_read_input(self, create_correct_files):
+        """
+            TC-CMM-4.1
+        """
+        
+        # Act
+        files = read_input(f"{PATH}/input_test.csv")
+        
+        # Assert
+        assert len(files) == 1, "expected 1, given " + str(len(files))
+
+
+    def test_read_input_fail_2(self, create_empty_csv, capfd):
+        """
+            TC-CMM-4.2
+        """
+
+        # Act
+        with pytest.raises(SystemExit):
+            read_input(f"{PATH}/input_test.csv")
+        out, err = capfd.readouterr()
+        
+        # Assert
+        assert "[Main] Critical: Input CSV file cannot be empty: " in out
+
+    def test_read_input_fail_3(self, create_wrong_files, capfd):
+        """
+            TC-CMM-4.3
+        """
+        
+        # Act
+        with pytest.raises(SystemExit):
+            read_input(f"{PATH}/input_test.csv")
+        out, err = capfd.readouterr()
+        
+        # Assert
+        assert "[Main] Critical: Invalid files provided in input CSV file: " in out
+
+    def test_read_input_fail_1(self):
+        """
+            TC-CMM-4.4
+        """
+
+        # Assert
+        with pytest.raises(FileNotFoundError):
+            read_input("")
 
     @pytest.fixture
     def mock_os_path_join(self, monkeypatch):
@@ -140,14 +264,14 @@ class TestItCommon:
             The fixture creates a project instance using a configuration file without any kind of custom term
         """
 
-        utils.create_config_file()
+        testing_list_utils.create_config_file()
 
         if os.path.exists(f"{PATH}project1.config"):
             yield Project(f"{PATH}project1.config")
         else:
             yield     
 
-        utils.delete_files()   
+        testing_list_utils.delete_files()   
 
     def test_get_test_method_annotations_java(self, mock_project):
         """
@@ -166,14 +290,14 @@ class TestItCommon:
             The fixture creates a project instance using a configuration file containing custom annotations for projects written in Java code
         """
 
-        utils.create_config_file(java_test_annotations="[\"UnitTest\", \"IntegrationTest\", \"SystemTest\"]")
+        testing_list_utils.create_config_file(java_test_annotations="[\"UnitTest\", \"IntegrationTest\", \"SystemTest\"]")
 
         if os.path.exists(f"{PATH}project1.config"):
             yield Project(f"{PATH}project1.config")
         else:
             yield
 
-        utils.delete_files()
+        testing_list_utils.delete_files()
 
     def test_get_test_method_annotations_with_custom_java(self, mock_project_with_custom_java):
         """
@@ -203,14 +327,14 @@ class TestItCommon:
             The fixture creates a project instance using a configuration file containing custom annotations for projects written in C# code
         """
         
-        utils.create_config_file(csharp_test_annotations="[\"UnitTest\", \"IntegrationTest\", \"SystemTest\"]")
+        testing_list_utils.create_config_file(csharp_test_annotations="[\"UnitTest\", \"IntegrationTest\", \"SystemTest\"]")
 
         if os.path.exists(f"{PATH}project1.config"):
             yield Project(f"{PATH}project1.config")
         else:
             yield
 
-        utils.delete_files()
+        testing_list_utils.delete_files()
 
     def test_get_test_method_annotations_with_custom_csharp(self, mock_project_with_custom_csharp):
         """
@@ -269,14 +393,14 @@ class TestItCommon:
             custom packages for testing projects written in Java code
         """
 
-        utils.create_config_file(java_testing_packages="[\"Serenity\", \"TestNG\", \"JBehave\"]")
+        testing_list_utils.create_config_file(java_testing_packages="[\"Serenity\", \"TestNG\", \"JBehave\"]")
 
         if os.path.exists(f"{PATH}project1.config"):
             yield Project(f"{PATH}project1.config")
         else:
             yield
 
-        utils.delete_files()
+        testing_list_utils.delete_files()
 
     def test_get_testing_packages_java_with_custom(self, mock_project_packages_java_with_custom):
         """
@@ -332,14 +456,14 @@ class TestItCommon:
             custom packages for testing projects written in C# code
         """
 
-        utils.create_config_file(csharp_testing_packages="[\"MSTest\", \"MbUnit\"]")
+        testing_list_utils.create_config_file(csharp_testing_packages="[\"MSTest\", \"MbUnit\"]")
 
         if os.path.exists(f"{PATH}project1.config"):
             yield Project(f"{PATH}project1.config")
         else:
             yield
 
-        utils.delete_files()
+        testing_list_utils.delete_files()
 
     def test_get_testing_packages_csharp_with_custom(self, mock_project_packages_csharp_with_custom):
         """
@@ -393,14 +517,14 @@ class TestItCommon:
             in which annotations are inserted for checking whether or not null values 
             are returned by methods of a project written in Java code
         """
-        utils.create_config_file(java_null_check_methods="[\"assertEmpty\", \"isNull\"]")
+        testing_list_utils.create_config_file(java_null_check_methods="[\"assertEmpty\", \"isNull\"]")
 
         if os.path.exists(f"{PATH}project1.config"):
             yield Project(f"{PATH}project1.config")
         else:
             yield
 
-        utils.delete_files()
+        testing_list_utils.delete_files()
 
     def test_get_null_check_test_method_java_with_custom(self, mock_project_null_check_test_methods_java_with_custom):
         """
@@ -439,14 +563,14 @@ class TestItCommon:
             in which annotations are inserted for checking whether or not null values 
             are returned by methods of a project written in C# code
         """
-        utils.create_config_file(csharp_null_check_methods="[\"isEmpty\", \"assertNull\"]")
+        testing_list_utils.create_config_file(csharp_null_check_methods="[\"isEmpty\", \"assertNull\"]")
 
         if os.path.exists(f"{PATH}project1.config"):
             yield Project(f"{PATH}project1.config")
         else:
             yield
 
-        utils.delete_files()
+        testing_list_utils.delete_files()
 
     def test_get_null_check_test_method_csharp_with_custom(self, mock_project_null_check_test_methods_csharp_with_custom):
         """
