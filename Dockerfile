@@ -11,7 +11,7 @@ RUN  apt-get update && apt-get install -y --no-install-recommends \
     libbz2-dev libarchive13 libcurl4-openssl-dev \
     # install python3.7
     && add-apt-repository ppa:deadsnakes/ppa \
-    && apt-get install -y --no-install-recommends python3.7  \
+    && apt-get install -y python3.7  \
     # install srcml and stanford tagger
     && wget --progress=dot:giga http://131.123.42.38/lmcrs/v1.0.0/srcml_1.0.0-1_ubuntu20.04.deb \
     && wget --progress=dot:giga https://nlp.stanford.edu/software/stanford-tagger-4.2.0.zip \
@@ -26,7 +26,7 @@ RUN  apt-get update && apt-get install -y --no-install-recommends \
     && apt install -f --no-install-recommends  \
     && rm srcml_1.0.0-1_ubuntu20.04.deb \
     # install pip
-    && apt-get install -y --no-install-recommends python3-pip \
+    && apt-get install -y python3-pip \
     && pip install --upgrade pip \
     && mkdir /app \
     && apt-get clean \
