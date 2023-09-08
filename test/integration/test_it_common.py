@@ -1,6 +1,7 @@
 import pytest, os, shutil
 from src.model.project import Project
 from src.common.testing_list import get_test_method_annotations, get_testing_packages, get_null_check_test_method
+from src.common.types_list import get_bool_types, get_collection_types, get_numeric_types, get_primitive_types
 from src.common.enum import LanguageType
 import src.common.util as util
 from src.common.util import get_config_setting, read_input
@@ -91,7 +92,7 @@ class TestingListUtils:
 testing_list_utils = TestingListUtils()
 
 @pytest.mark.integration
-class TestItCommon:
+class TestItUtils:
 
     def __create_test_dir(self):
         """
@@ -252,11 +253,7 @@ class TestItCommon:
         get_config_setting("general", "not existing param")
         assert "not available" in caplog.text, "Not the error message expected"
 
-    """
-    ------------------------ testing_list.py ------------------------------------
-    """
-
-    # get_test_method_annotations
+class TestItTestingList:
 
     @pytest.fixture
     def mock_project(self):
@@ -598,3 +595,347 @@ class TestItCommon:
         
         # Assert
         assert null_check_methods == None
+
+
+class TypesListUtils: 
+
+    def __create_test_dir(self):
+        """
+            this function creates the folder where the temporary test files will be stored
+        """
+        if not os.path.exists(PATH):
+            os.mkdir(PATH)
+
+    def delete_files(self):
+        """
+            this function deletes the temporary folder created for testing with its contents
+        """
+        shutil.rmtree(PATH)
+
+    def create_config_file(self,
+                            csharp_custom_collection_data_types = "[]",
+                            java_custom_collection_data_types = "[]"):
+        """
+            this function creates the configuration files needed to run the tests
+            Args:
+                csharp_custom_collection_data_types: The list of custom collection data types used for testing a project written in C# code to be included in the configuration file
+                java_custom_collection_data_types: The list of custom collection data types used for testing a project written in Java code to be included in the configuration file
+        """
+
+        self.__create_test_dir()
+
+        # creates the custom_code.txt file, inside which the custom packages and annotations used by the user in the project will be inserted
+        with open(f"{PATH}custom_code.txt", "a", encoding='utf-8') as code_file:
+            code_file.write("[DataTypes]\n")
+            code_file.write(f"csharp_custom_collection_data_types = {csharp_custom_collection_data_types}\n")
+            code_file.write(f"java_custom_collection_data_types = {java_custom_collection_data_types}\n")
+            code_file.write("\n[Test]\n")
+            code_file.write(f"java_custom_testing_packages = []\n")
+            code_file.write(f"csharp_custom_testing_packages = []\n")
+            code_file.write(f"java_custom_null_check_test_methods = []\n")
+            code_file.write(f"csharp_custom_null_check_test_methods = []\n")
+            code_file.write(f"java_custom_test_method_annotation = []\n")
+            code_file.write(f"csharp_custom_test_method_annotation = []\n")
+
+        # create the project1.config file, in which the path to our file with the custom code will be inserted
+        with open(f"{PATH}project1.config", "a", encoding="utf-8") as config:
+            config.write("[Files]\n")
+            config.write("input_file=./src/apps/IDEAL/input.csv\n")
+            config.write("output_directory=./src/apps/IDEAL\n")
+            config.write("custom_code=" + PATH + "custom_code.txt\n")
+            config.write("custom_terms=custom_terms.txt\n")
+
+            config.write("[Properties]\n")
+            config.write("junit_version=4\n")
+
+types_list_utils = TypesListUtils()
+
+class TestItTypesList:
+
+    @pytest.fixture
+    def mock_project(self):
+        """
+            The fixture creates a project instance using a configuration file without any kind of custom type
+        """
+
+        types_list_utils.create_config_file()
+
+        if os.path.exists(f"{PATH}project1.config"):
+            yield Project(f"{PATH}project1.config")
+        else:
+            yield     
+
+        types_list_utils.delete_files()   
+
+    def test_get_collection_types_java(self, mock_project):
+        """
+            TC-CMM-14.1
+        """
+        
+        # Act
+        collection_types = get_collection_types(mock_project, LanguageType.Java)
+        
+        # Assert
+        assert collection_types == [
+            'ArrayBlockingQueue',
+            'ArrayDeque',
+            'ArrayList',
+            'BlockingDeque',
+            'BlockingQueue',
+            'Collection',
+            'ConcurrentHashMap',
+            'ConcurrentMap',
+            'ConcurrentNavigableMap',
+            'ConcurrentSkipListMap',
+            'ConcurrentSkipListSet',
+            'CopyOnWriteArrayList',
+            'CopyOnWriteArraySet',
+            'DelayQueue',
+            'Deque',
+            'HashMap',
+            'HashSet',
+            'Hashtable',
+            'Iterator ',
+            'LinkedBlockingDeque',
+            'LinkedBlockingQueue',
+            'LinkedHashMap',
+            'LinkedHashSet',
+            'LinkedList',
+            'LinkedTransferQueue',
+            'List',
+            'ListIterator',
+            'Map',
+            'NavigableMap',
+            'NavigableSet',
+            'PriorityBlockingQueue',
+            'PriorityQueue',
+            'Queue',
+            'Set',
+            'SortedMap',
+            'SortedSet',
+            'SynchronousQueue',
+            'TransferQueue',
+            'TreeMap',
+            'TreeSet',
+            'Vector',
+            'BitSet'
+        ]
+
+    @pytest.fixture
+    def mock_project_with_custom_java(self):
+        """
+            The fixture creates a project instance using a configuration file containing custom collection types for projects written in Java code
+        """
+
+        types_list_utils.create_config_file(java_custom_collection_data_types="[\"BigCollection\", \"Matrix\"]")
+
+        if os.path.exists(f"{PATH}project1.config"):
+            yield Project(f"{PATH}project1.config")
+        else:
+            yield
+
+        types_list_utils.delete_files()
+
+    def test_get_collection_types_with_custom_java(self, mock_project_with_custom_java):
+        """
+            TC-CMM-14.2
+        """
+        
+        # Act
+        collection_types = get_collection_types(mock_project_with_custom_java, LanguageType.Java)
+        
+        # Assert
+        assert collection_types == [
+            'ArrayBlockingQueue',
+            'ArrayDeque',
+            'ArrayList',
+            'BlockingDeque',
+            'BlockingQueue',
+            'Collection',
+            'ConcurrentHashMap',
+            'ConcurrentMap',
+            'ConcurrentNavigableMap',
+            'ConcurrentSkipListMap',
+            'ConcurrentSkipListSet',
+            'CopyOnWriteArrayList',
+            'CopyOnWriteArraySet',
+            'DelayQueue',
+            'Deque',
+            'HashMap',
+            'HashSet',
+            'Hashtable',
+            'Iterator ',
+            'LinkedBlockingDeque',
+            'LinkedBlockingQueue',
+            'LinkedHashMap',
+            'LinkedHashSet',
+            'LinkedList',
+            'LinkedTransferQueue',
+            'List',
+            'ListIterator',
+            'Map',
+            'NavigableMap',
+            'NavigableSet',
+            'PriorityBlockingQueue',
+            'PriorityQueue',
+            'Queue',
+            'Set',
+            'SortedMap',
+            'SortedSet',
+            'SynchronousQueue',
+            'TransferQueue',
+            'TreeMap',
+            'TreeSet',
+            'Vector',
+            'BitSet',
+            'BigCollection',
+            'Matrix'
+        ]
+
+    def test_collection_types_csharp(self, mock_project):
+        """
+            TC-CMM-14.3
+        """
+        
+        # Act
+        collection_types = get_collection_types(mock_project, LanguageType.CSharp)
+        
+        # Assert
+        assert collection_types == [
+            'Dictionary',
+            'List',
+            'Queue',
+            'Stack',
+            'LinkedList',
+            'ObservableCollection',
+            'SortedList',
+            'HashSet',
+            'SortedSet',
+            'Hashtable',
+            'Array',
+            'ArrayList',
+            'ConcurrentDictionary',
+            'BitArray',
+            'BlockingCollection',
+            'ConcurrentQueue',
+            'ConcurrentStack',
+            'ConcurrentBag',
+            'ICollection',
+            'IComparer',
+            'IDictionary',
+            'IDictionaryEnumerator',
+            'IEnumerable',
+            'IEnumerator',
+            'IEqualityComparer',
+            'IHashCodeProvider',
+            'IList',
+            'IStructuralComparable',
+            'IStructuralEquatable',
+            'Collection',
+            'ReadOnlyObservableCollection',
+            'KeyedCollection',
+            'ReadOnlyCollection',
+            'ReadOnlyDictionary'
+        ]
+
+    @pytest.fixture
+    def mock_project_with_custom_csharp(self):
+        """
+            The fixture creates a project instance using a configuration file containing custom collection types for projects written in C# code
+        """
+        
+        types_list_utils.create_config_file(csharp_custom_collection_data_types="[\"PriorityQueue\", \"Matrix\"]")
+
+        if os.path.exists(f"{PATH}project1.config"):
+            yield Project(f"{PATH}project1.config")
+        else:
+            yield
+
+        types_list_utils.delete_files()
+
+    def test_get_collection_types_with_custom_csharp(self, mock_project_with_custom_csharp):
+        """
+            TC-CMM-14.4
+        """
+        
+        # Act
+        collection_types = get_collection_types(mock_project_with_custom_csharp, LanguageType.CSharp)
+        
+        # Assert
+        assert collection_types == [
+            'Dictionary',
+            'List',
+            'Queue',
+            'Stack',
+            'LinkedList',
+            'ObservableCollection',
+            'SortedList',
+            'HashSet',
+            'SortedSet',
+            'Hashtable',
+            'Array',
+            'ArrayList',
+            'ConcurrentDictionary',
+            'BitArray',
+            'BlockingCollection',
+            'ConcurrentQueue',
+            'ConcurrentStack',
+            'ConcurrentBag',
+            'ICollection',
+            'IComparer',
+            'IDictionary',
+            'IDictionaryEnumerator',
+            'IEnumerable',
+            'IEnumerator',
+            'IEqualityComparer',
+            'IHashCodeProvider',
+            'IList',
+            'IStructuralComparable',
+            'IStructuralEquatable',
+            'Collection',
+            'ReadOnlyObservableCollection',
+            'KeyedCollection',
+            'ReadOnlyCollection',
+            'ReadOnlyDictionary',
+            'PriorityQueue',
+            'Matrix'
+        ]
+    
+    def test_get_collection_types_unknown(self, mock_project):
+        """
+            TC-CMM-14.5
+        """
+        
+        # Act
+        collection_types = get_collection_types(mock_project, LanguageType.Unknown)
+        
+        # Assert
+        assert collection_types == None
+
+    def test_collection_types_cpp(self, mock_project):
+        """
+            TC-CMM-14.6
+        """
+        
+        # Act
+        collection_types = get_collection_types(mock_project, LanguageType.CPP)
+        
+        # Assert
+        assert collection_types == [
+            'array',
+            'vector',
+            'deque',
+            'forward_list',
+            'list',
+            'stack',
+            'queue',
+            'priority_queue',
+            'set',
+            'multiset',
+            'map',
+            'multimap',
+            'unordered_set',
+            'unordered_multiset',
+            'unordered_map',
+            'unordered_multimap'
+        ]
