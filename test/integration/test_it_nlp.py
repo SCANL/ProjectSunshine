@@ -1,6 +1,22 @@
 import pytest
 from src.nlp.related_terms import clean_text, remove_stopwords, are_antonyms, get_synonyms
 from src.nlp.splitter import Splitter
+from src.nlp.pos_tagger_stanford import POSTaggerStanford
+
+
+@pytest.mark.integration
+class TestItPOSTaggerStanford:
+
+    @pytest.fixture
+    def tagger(self):
+        return POSTaggerStanford()
+
+    def test_get_pos_empty_string(self, tagger: POSTaggerStanford):
+        """
+            ID: TC-NLP-5.1
+        """
+        result = tagger.get_pos("apple")
+        assert result == "NN"
 
 
 @pytest.mark.integration
@@ -142,14 +158,14 @@ class TestItNlp:
         result = Splitter.split_word_tokens("1231,-.#$%")
         assert result == []
 
-    # def test_split_word_tokens_non_alpha(self):
-    #     """
-    #         ID: TC-NLP-6.3
-    #         Note: not sure if this is the desired behaviour
-    #     """
-    #     result = Splitter.split_word_tokens("Happy,dog|Another sentence")
-    #     assert result == ["Happy", "dog", "Another", "sentence"]
-    #     ------------------------------------------------------------
+    def test_split_word_tokens_mixed(self):
+        """
+            ID: TC-NLP-6.3
+            Note: not sure if this is the desired behaviour
+        """
+        result = Splitter.split_word_tokens("Happy,dog|Another sentence")
+        assert result == ["Happy", "dog", "Another", "sentence"]
+        # ------------------------------------------------------------
     #     AssertionError: assert ['Happy', 'sentence', 'Another', 'sentence'] == []
     # E         Left contains 2 more items, first extra item: 'Happy'
     # E         Full diff:
