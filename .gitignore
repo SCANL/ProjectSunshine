@@ -140,7 +140,7 @@ coverage.xml
 .pytest_cache/
 cover/
 
-# IDEAL input files
+# IDEAL Input Files
 IDEAL_Results.csv
 IDEAL_Results.xlsx
 input.csv

@@ -1,0 +1,6 @@
+[run]
+omit =
+	src/apps/*
+	src/rule/*
+	src/model/*
+	*/__init__.py
