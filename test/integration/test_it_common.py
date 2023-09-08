@@ -1,4 +1,6 @@
-import pytest, os, shutil
+import pytest
+import os
+import shutil
 from src.model.project import Project
 from src.common.testing_list import get_test_method_annotations, get_testing_packages, get_null_check_test_method
 from src.common.types_list import get_bool_types, get_collection_types, get_numeric_types, get_primitive_types
@@ -31,7 +33,9 @@ def setup():
     # remove the temp directory
     os.remove(f'{root}/integration/temp/config.txt')
     os.rmdir(f'{root}/integration/temp/')
-class TestingListUtils: 
+
+
+class TestingListUtils:
 
     def __create_test_dir(self):
         """
@@ -47,12 +51,12 @@ class TestingListUtils:
         shutil.rmtree(PATH)
 
     def create_config_file(self,
-                            java_testing_packages = "[]",
-                            csharp_testing_packages = "[]",
-                            java_null_check_methods = "[]",
-                            csharp_null_check_methods = "[]", 
-                            java_test_annotations = "[]", 
-                            csharp_test_annotations = "[]"):
+                           java_testing_packages="[]",
+                           csharp_testing_packages="[]",
+                           java_null_check_methods="[]",
+                           csharp_null_check_methods="[]",
+                           java_test_annotations="[]",
+                           csharp_test_annotations="[]"):
         """
             this function creates the configuration files needed to run the tests
             Args:
@@ -71,12 +75,18 @@ class TestingListUtils:
             code_file.write("[DataTypes]\n")
             code_file.write("csharp_custom_collection_data_types = []\n")
             code_file.write("\n[Test]\n")
-            code_file.write(f"java_custom_testing_packages = {java_testing_packages}\n")
-            code_file.write(f"csharp_custom_testing_packages = {csharp_testing_packages}\n")
-            code_file.write(f"java_custom_null_check_test_methods = {java_null_check_methods}\n")
-            code_file.write(f"csharp_custom_null_check_test_methods = {csharp_null_check_methods}\n")
-            code_file.write(f"java_custom_test_method_annotation = {java_test_annotations}\n")
-            code_file.write(f"csharp_custom_test_method_annotation = {csharp_test_annotations}\n")
+            code_file.write(
+                f"java_custom_testing_packages = {java_testing_packages}\n")
+            code_file.write(
+                f"csharp_custom_testing_packages = {csharp_testing_packages}\n")
+            code_file.write(
+                f"java_custom_null_check_test_methods = {java_null_check_methods}\n")
+            code_file.write(
+                f"csharp_custom_null_check_test_methods = {csharp_null_check_methods}\n")
+            code_file.write(
+                f"java_custom_test_method_annotation = {java_test_annotations}\n")
+            code_file.write(
+                f"csharp_custom_test_method_annotation = {csharp_test_annotations}\n")
 
         # create the project1.config file, in which the path to our file with the custom code will be inserted
         with open(f"{PATH}project1.config", "a", encoding="utf-8") as config:
@@ -89,7 +99,9 @@ class TestingListUtils:
             config.write("[Properties]\n")
             config.write("junit_version=4\n")
 
+
 testing_list_utils = TestingListUtils()
+
 
 @pytest.mark.integration
 class TestItUtils:
@@ -176,13 +188,12 @@ class TestItUtils:
         """
             TC-CMM-4.1
         """
-        
+
         # Act
         files = read_input(f"{PATH}/input_test.csv")
-        
+
         # Assert
         assert len(files) == 1, "expected 1, given " + str(len(files))
-
 
     def test_read_input_fail_2(self, create_empty_csv, capfd):
         """
@@ -192,8 +203,8 @@ class TestItUtils:
         # Act
         with pytest.raises(SystemExit):
             read_input(f"{PATH}/input_test.csv")
-        out, err = capfd.readouterr()
-        
+        out, _ = capfd.readouterr()
+
         # Assert
         assert "[Main] Critical: Input CSV file cannot be empty: " in out
 
@@ -201,12 +212,12 @@ class TestItUtils:
         """
             TC-CMM-4.3
         """
-        
+
         # Act
         with pytest.raises(SystemExit):
             read_input(f"{PATH}/input_test.csv")
-        out, err = capfd.readouterr()
-        
+        out, _ = capfd.readouterr()
+
         # Assert
         assert "[Main] Critical: Invalid files provided in input CSV file: " in out
 
@@ -266,18 +277,19 @@ class TestItTestingList:
         if os.path.exists(f"{PATH}project1.config"):
             yield Project(f"{PATH}project1.config")
         else:
-            yield     
+            yield
 
-        testing_list_utils.delete_files()   
+        testing_list_utils.delete_files()
 
     def test_get_test_method_annotations_java(self, mock_project):
         """
             TC-CMM-11.1
         """
-        
+
         # Act
-        annotations = get_test_method_annotations(mock_project, LanguageType.Java)
-        
+        annotations = get_test_method_annotations(
+            mock_project, LanguageType.Java)
+
         # Assert
         assert annotations == ['Test']
 
@@ -287,7 +299,8 @@ class TestItTestingList:
             The fixture creates a project instance using a configuration file containing custom annotations for projects written in Java code
         """
 
-        testing_list_utils.create_config_file(java_test_annotations="[\"UnitTest\", \"IntegrationTest\", \"SystemTest\"]")
+        testing_list_utils.create_config_file(
+            java_test_annotations="[\"UnitTest\", \"IntegrationTest\", \"SystemTest\"]")
 
         if os.path.exists(f"{PATH}project1.config"):
             yield Project(f"{PATH}project1.config")
@@ -300,31 +313,36 @@ class TestItTestingList:
         """
             TC-CMM-11.2
         """
-        
+
         # Act
-        annotations = get_test_method_annotations(mock_project_with_custom_java, LanguageType.Java)
-        
+        annotations = get_test_method_annotations(
+            mock_project_with_custom_java, LanguageType.Java)
+
         # Assert
-        assert annotations == ['Test', 'UnitTest', 'IntegrationTest', 'SystemTest']
+        assert annotations == ['Test', 'UnitTest',
+                               'IntegrationTest', 'SystemTest']
 
     def test_get_test_method_annotations_csharp(self, mock_project):
         """
             TC-CMM-11.3
         """
-        
+
         # Act
-        annotations = get_test_method_annotations(mock_project, LanguageType.CSharp)
-        
+        annotations = get_test_method_annotations(
+            mock_project, LanguageType.CSharp)
+
         # Assert
-        assert annotations == ['TestMethod', 'Test', 'TestCase' 'Fact', 'Theory']
+        assert annotations == ['TestMethod',
+                               'Test', 'TestCase' 'Fact', 'Theory']
 
     @pytest.fixture
     def mock_project_with_custom_csharp(self):
         """
             The fixture creates a project instance using a configuration file containing custom annotations for projects written in C# code
         """
-        
-        testing_list_utils.create_config_file(csharp_test_annotations="[\"UnitTest\", \"IntegrationTest\", \"SystemTest\"]")
+
+        testing_list_utils.create_config_file(
+            csharp_test_annotations="[\"UnitTest\", \"IntegrationTest\", \"SystemTest\"]")
 
         if os.path.exists(f"{PATH}project1.config"):
             yield Project(f"{PATH}project1.config")
@@ -337,21 +355,24 @@ class TestItTestingList:
         """
             TC-CMM-11.4
         """
-        
+
         # Act
-        annotations = get_test_method_annotations(mock_project_with_custom_csharp, LanguageType.CSharp)
-        
+        annotations = get_test_method_annotations(
+            mock_project_with_custom_csharp, LanguageType.CSharp)
+
         # Assert
-        assert annotations == ['TestMethod', 'Test', 'TestCase' 'Fact', 'Theory', 'UnitTest', 'IntegrationTest', 'SystemTest']
-    
+        assert annotations == ['TestMethod', 'Test', 'TestCase' 'Fact',
+                               'Theory', 'UnitTest', 'IntegrationTest', 'SystemTest']
+
     def test_get_test_method_annotations_unknown(self, mock_project):
         """
             TC-CMM-11.5
         """
-        
+
         # Act
-        annotations = get_test_method_annotations(mock_project, LanguageType.Unknown)
-        
+        annotations = get_test_method_annotations(
+            mock_project, LanguageType.Unknown)
+
         # Assert
         assert annotations == None
 
@@ -361,10 +382,10 @@ class TestItTestingList:
         """
             TC-CMM-12.1
         """
-        
+
         # Act
         packages = get_testing_packages(mock_project, LanguageType.Java)
-        
+
         # Assert
         assert packages == [
             'junit.framework.Test',
@@ -390,7 +411,8 @@ class TestItTestingList:
             custom packages for testing projects written in Java code
         """
 
-        testing_list_utils.create_config_file(java_testing_packages="[\"Serenity\", \"TestNG\", \"JBehave\"]")
+        testing_list_utils.create_config_file(
+            java_testing_packages="[\"Serenity\", \"TestNG\", \"JBehave\"]")
 
         if os.path.exists(f"{PATH}project1.config"):
             yield Project(f"{PATH}project1.config")
@@ -403,10 +425,11 @@ class TestItTestingList:
         """
             TC-CMM-12.2
         """
-        
+
         # Act
-        packages = get_testing_packages(mock_project_packages_java_with_custom, LanguageType.Java)
-        
+        packages = get_testing_packages(
+            mock_project_packages_java_with_custom, LanguageType.Java)
+
         # Assert
         assert packages == [
             'junit.framework.Test',
@@ -435,7 +458,7 @@ class TestItTestingList:
 
         # Act
         packages = get_testing_packages(mock_project, LanguageType.CSharp)
-        
+
         # Assert
         assert packages == [
             'Microsoft.VisualStudio.TestTools.UnitTesting',
@@ -453,7 +476,8 @@ class TestItTestingList:
             custom packages for testing projects written in C# code
         """
 
-        testing_list_utils.create_config_file(csharp_testing_packages="[\"MSTest\", \"MbUnit\"]")
+        testing_list_utils.create_config_file(
+            csharp_testing_packages="[\"MSTest\", \"MbUnit\"]")
 
         if os.path.exists(f"{PATH}project1.config"):
             yield Project(f"{PATH}project1.config")
@@ -468,8 +492,9 @@ class TestItTestingList:
         """
 
         # Act
-        packages = get_testing_packages(mock_project_packages_csharp_with_custom, LanguageType.CSharp)
-        
+        packages = get_testing_packages(
+            mock_project_packages_csharp_with_custom, LanguageType.CSharp)
+
         # Assert
         assert packages == [
             'Microsoft.VisualStudio.TestTools.UnitTesting',
@@ -486,10 +511,10 @@ class TestItTestingList:
         """
             TC-CMM-12.5
         """
-        
+
         # Act
         packages = get_testing_packages(mock_project, LanguageType.Unknown)
-        
+
         # Assert
         assert packages == None
 
@@ -497,10 +522,11 @@ class TestItTestingList:
         """
             TC-CMM-13.1
         """
-        
+
         # Act
-        null_check_methods = get_null_check_test_method(mock_project, LanguageType.Java)
-        
+        null_check_methods = get_null_check_test_method(
+            mock_project, LanguageType.Java)
+
         # Assert
         assert null_check_methods == [
             'assertNotNull',
@@ -514,7 +540,8 @@ class TestItTestingList:
             in which annotations are inserted for checking whether or not null values 
             are returned by methods of a project written in Java code
         """
-        testing_list_utils.create_config_file(java_null_check_methods="[\"assertEmpty\", \"isNull\"]")
+        testing_list_utils.create_config_file(
+            java_null_check_methods="[\"assertEmpty\", \"isNull\"]")
 
         if os.path.exists(f"{PATH}project1.config"):
             yield Project(f"{PATH}project1.config")
@@ -529,8 +556,9 @@ class TestItTestingList:
         """
 
         # Act
-        null_check_methods = get_null_check_test_method(mock_project_null_check_test_methods_java_with_custom, LanguageType.Java)
-        
+        null_check_methods = get_null_check_test_method(
+            mock_project_null_check_test_methods_java_with_custom, LanguageType.Java)
+
         # Assert
         assert null_check_methods == [
             'assertNotNull',
@@ -543,10 +571,11 @@ class TestItTestingList:
         """
             TC-CMM-13.3
         """
-        
+
         # Act
-        null_check_methods = get_null_check_test_method(mock_project, LanguageType.CSharp)
-        
+        null_check_methods = get_null_check_test_method(
+            mock_project, LanguageType.CSharp)
+
         # Assert
         assert null_check_methods == [
             'IsNull',
@@ -560,7 +589,8 @@ class TestItTestingList:
             in which annotations are inserted for checking whether or not null values 
             are returned by methods of a project written in C# code
         """
-        testing_list_utils.create_config_file(csharp_null_check_methods="[\"isEmpty\", \"assertNull\"]")
+        testing_list_utils.create_config_file(
+            csharp_null_check_methods="[\"isEmpty\", \"assertNull\"]")
 
         if os.path.exists(f"{PATH}project1.config"):
             yield Project(f"{PATH}project1.config")
@@ -573,10 +603,11 @@ class TestItTestingList:
         """
             TC-CMM-13.4
         """
-        
+
         # Act
-        null_check_methods = get_null_check_test_method(mock_project_null_check_test_methods_csharp_with_custom, LanguageType.CSharp)
-        
+        null_check_methods = get_null_check_test_method(
+            mock_project_null_check_test_methods_csharp_with_custom, LanguageType.CSharp)
+
         # Assert
         assert null_check_methods == [
             'IsNull',
@@ -589,13 +620,13 @@ class TestItTestingList:
         """
             TC-CMM-13.5
         """
-        
+
         # Act
-        null_check_methods = get_null_check_test_method(mock_project, LanguageType.Unknown)
-        
+        null_check_methods = get_null_check_test_method(
+            mock_project, LanguageType.Unknown)
+
         # Assert
         assert null_check_methods == None
-
 
 class TypesListUtils: 
 
