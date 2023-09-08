@@ -1,6 +1,12 @@
 import pytest
-from src.nlp.pos_tag import generate_tag, POSTaggerStanford
+from src.nlp.pos_tag import (
+    POSType,
+    generate_tag,
+    POSTaggerStanford,
+    get_tag_text
+)
 from src.nlp import pos_tag
+
 
 @pytest.mark.unit
 class TestPosTag:
