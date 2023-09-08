@@ -264,6 +264,7 @@ class TestItUtils:
         get_config_setting("general", "not existing param")
         assert "not available" in caplog.text, "Not the error message expected"
 
+
 class TestItTestingList:
 
     @pytest.fixture
@@ -628,7 +629,8 @@ class TestItTestingList:
         # Assert
         assert null_check_methods == None
 
-class TypesListUtils: 
+
+class TypesListUtils:
 
     def __create_test_dir(self):
         """
@@ -644,8 +646,8 @@ class TypesListUtils:
         shutil.rmtree(PATH)
 
     def create_config_file(self,
-                            csharp_custom_collection_data_types = "[]",
-                            java_custom_collection_data_types = "[]"):
+                           csharp_custom_collection_data_types="[]",
+                           java_custom_collection_data_types="[]"):
         """
             this function creates the configuration files needed to run the tests
             Args:
@@ -658,15 +660,17 @@ class TypesListUtils:
         # creates the custom_code.txt file, inside which the custom packages and annotations used by the user in the project will be inserted
         with open(f"{PATH}custom_code.txt", "a", encoding='utf-8') as code_file:
             code_file.write("[DataTypes]\n")
-            code_file.write(f"csharp_custom_collection_data_types = {csharp_custom_collection_data_types}\n")
-            code_file.write(f"java_custom_collection_data_types = {java_custom_collection_data_types}\n")
+            code_file.write(
+                f"csharp_custom_collection_data_types = {csharp_custom_collection_data_types}\n")
+            code_file.write(
+                f"java_custom_collection_data_types = {java_custom_collection_data_types}\n")
             code_file.write("\n[Test]\n")
-            code_file.write(f"java_custom_testing_packages = []\n")
-            code_file.write(f"csharp_custom_testing_packages = []\n")
-            code_file.write(f"java_custom_null_check_test_methods = []\n")
-            code_file.write(f"csharp_custom_null_check_test_methods = []\n")
-            code_file.write(f"java_custom_test_method_annotation = []\n")
-            code_file.write(f"csharp_custom_test_method_annotation = []\n")
+            code_file.write("java_custom_testing_packages = []\n")
+            code_file.write("csharp_custom_testing_packages = []\n")
+            code_file.write("java_custom_null_check_test_methods = []\n")
+            code_file.write("csharp_custom_null_check_test_methods = []\n")
+            code_file.write("java_custom_test_method_annotation = []\n")
+            code_file.write("csharp_custom_test_method_annotation = []\n")
 
         # create the project1.config file, in which the path to our file with the custom code will be inserted
         with open(f"{PATH}project1.config", "a", encoding="utf-8") as config:
@@ -679,7 +683,9 @@ class TypesListUtils:
             config.write("[Properties]\n")
             config.write("junit_version=4\n")
 
+
 types_list_utils = TypesListUtils()
+
 
 class TestItTypesList:
 
@@ -694,18 +700,19 @@ class TestItTypesList:
         if os.path.exists(f"{PATH}project1.config"):
             yield Project(f"{PATH}project1.config")
         else:
-            yield     
+            yield
 
-        types_list_utils.delete_files()   
+        types_list_utils.delete_files()
 
     def test_get_collection_types_java(self, mock_project):
         """
             TC-CMM-14.1
         """
-        
+
         # Act
-        collection_types = get_collection_types(mock_project, LanguageType.Java)
-        
+        collection_types = get_collection_types(
+            mock_project, LanguageType.Java)
+
         # Assert
         assert collection_types == [
             'ArrayBlockingQueue',
@@ -758,7 +765,8 @@ class TestItTypesList:
             The fixture creates a project instance using a configuration file containing custom collection types for projects written in Java code
         """
 
-        types_list_utils.create_config_file(java_custom_collection_data_types="[\"BigCollection\", \"Matrix\"]")
+        types_list_utils.create_config_file(
+            java_custom_collection_data_types="[\"BigCollection\", \"Matrix\"]")
 
         if os.path.exists(f"{PATH}project1.config"):
             yield Project(f"{PATH}project1.config")
@@ -771,10 +779,11 @@ class TestItTypesList:
         """
             TC-CMM-14.2
         """
-        
+
         # Act
-        collection_types = get_collection_types(mock_project_with_custom_java, LanguageType.Java)
-        
+        collection_types = get_collection_types(
+            mock_project_with_custom_java, LanguageType.Java)
+
         # Assert
         assert collection_types == [
             'ArrayBlockingQueue',
@@ -827,10 +836,11 @@ class TestItTypesList:
         """
             TC-CMM-14.3
         """
-        
+
         # Act
-        collection_types = get_collection_types(mock_project, LanguageType.CSharp)
-        
+        collection_types = get_collection_types(
+            mock_project, LanguageType.CSharp)
+
         # Assert
         assert collection_types == [
             'Dictionary',
@@ -874,8 +884,9 @@ class TestItTypesList:
         """
             The fixture creates a project instance using a configuration file containing custom collection types for projects written in C# code
         """
-        
-        types_list_utils.create_config_file(csharp_custom_collection_data_types="[\"PriorityQueue\", \"Matrix\"]")
+
+        types_list_utils.create_config_file(
+            csharp_custom_collection_data_types="[\"PriorityQueue\", \"Matrix\"]")
 
         if os.path.exists(f"{PATH}project1.config"):
             yield Project(f"{PATH}project1.config")
@@ -888,10 +899,11 @@ class TestItTypesList:
         """
             TC-CMM-14.4
         """
-        
+
         # Act
-        collection_types = get_collection_types(mock_project_with_custom_csharp, LanguageType.CSharp)
-        
+        collection_types = get_collection_types(
+            mock_project_with_custom_csharp, LanguageType.CSharp)
+
         # Assert
         assert collection_types == [
             'Dictionary',
@@ -931,15 +943,16 @@ class TestItTypesList:
             'PriorityQueue',
             'Matrix'
         ]
-    
+
     def test_get_collection_types_unknown(self, mock_project):
         """
             TC-CMM-14.5
         """
-        
+
         # Act
-        collection_types = get_collection_types(mock_project, LanguageType.Unknown)
-        
+        collection_types = get_collection_types(
+            mock_project, LanguageType.Unknown)
+
         # Assert
         assert collection_types == None
 
@@ -947,10 +960,10 @@ class TestItTypesList:
         """
             TC-CMM-14.6
         """
-        
+
         # Act
         collection_types = get_collection_types(mock_project, LanguageType.CPP)
-        
+
         # Assert
         assert collection_types == [
             'array',
