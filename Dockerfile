@@ -45,14 +45,12 @@ RUN pip --no-cache-dir install -r  requirements.txt \
     && echo "nltk.download('punkt')" >> download_nltk.py \
     && echo "nltk.download('stopwords')" >> download_nltk.py \
     && echo "quit()" >> download_nltk.py \
-	&& python3 download_nltk.py \ 
-	&& rm download_nltk.py
+    && python3 download_nltk.py \ 
+    && rm download_nltk.py
 
 COPY ./test /app/test/
 COPY pytest.ini /app/pytest.ini
-COPY ./script /app/script/
-RUN chmod +x ./script/test.sh
 WORKDIR /app/
 
-CMD ["./script/test.sh"]
+CMD ["pytest"]
 

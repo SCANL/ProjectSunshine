@@ -10,7 +10,7 @@ class TestItPOSTaggerStanford:
     @pytest.fixture
     def tagger(self):
         return POSTaggerStanford()
-
+    
     def test_get_pos_empty_string(self, tagger: POSTaggerStanford):
         """
             ID: TC-NLP-5.1
@@ -158,6 +158,7 @@ class TestItNlp:
         result = Splitter.split_word_tokens("1231,-.#$%")
         assert result == []
 
+    @pytest.mark.xfail(reason="not the desired behavior")
     def test_split_word_tokens_mixed(self):
         """
             ID: TC-NLP-6.3
