@@ -13,6 +13,8 @@ root = os.path.dirname(os.path.realpath(__current_dir))
 
 CONFIG_VALUE_NAME = "ProjectSunshine"
 PATH = f"{root}/integration/temp/"
+INPUT_FILE = './src/apps/IDEAL/input.csv'
+INPUT_FILE_CONTENT = 'file,type,junit'
 
 class TestingListUtils:
 
@@ -50,8 +52,8 @@ class TestingListUtils:
 
         self.__create_test_dir()
 
-        with open("./src/apps/IDEAL/input.csv", "w") as input:
-            input.write("file,type,junit")
+        with open(INPUT_FILE, "w") as input:
+            input.write(INPUT_FILE_CONTENT)
 
         # creates the custom_code.txt file, inside which the custom packages and annotations used by the user in the project will be inserted
         with open(f"{PATH}custom_code.txt", "w", encoding='utf-8') as code_file:
@@ -624,7 +626,7 @@ class TypesListUtils:
         """
             this function deletes the temporary folder created for testing with its contents
         """
-        os.remove("./src/apps/IDEAL/input.csv")
+        os.remove(INPUT_FILE)
         shutil.rmtree(PATH)
 
     def create_config_file(self,
@@ -639,8 +641,8 @@ class TypesListUtils:
 
         self.__create_test_dir()
 
-        with open("./src/apps/IDEAL/input.csv", "w") as input:
-            input.write("file,type,junit")
+        with open(INPUT_FILE, "w") as input:
+            input.write(INPUT_FILE_CONTENT)
 
         # creates the custom_code.txt file, inside which the custom packages and annotations used by the user in the project will be inserted
         with open(f"{PATH}custom_code.txt", "w") as code_file:
