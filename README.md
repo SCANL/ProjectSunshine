@@ -1,3 +1,5 @@
+[![Docker Image CI](https://github.com/xrenegade100/ProjectSunshine/actions/workflows/tests.yml/badge.svg)](https://github.com/xrenegade100/ProjectSunshine/actions/workflows/tests.yml)
+
 # IDEAL
 
 #### _An Open-Source Identifier Name Appraisal Tool_
