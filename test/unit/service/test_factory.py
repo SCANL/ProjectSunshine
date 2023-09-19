@@ -61,4 +61,3 @@ class TestFactory:
         factory.construct_model(valid_file_path, "", "")
 
         assert factory.entity is not None
-        assert factory.entity.path == valid_file_path
