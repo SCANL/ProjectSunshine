@@ -1,4 +1,4 @@
-from typing import Any, List, Optional
+from typing import Any, List, Optional, cast
 from src.common.Singleton import Singleton
 from src.common.enum import LanguageType
 from src.model.project import ConfigCustomFileType, Project
@@ -191,7 +191,7 @@ def get_null_check_test_method(project: Project, language: LanguageType) -> Opti
         return None
 
 
-def get_testing_packages(project: Project, language: LanguageType) -> Optional[List[Any]]:
+def get_testing_packages(project: Optional[Project], language: LanguageType) -> Optional[List[Any]]:
     """
         Get testing packages for a specific programming language.
 
@@ -204,7 +204,7 @@ def get_testing_packages(project: Project, language: LanguageType) -> Optional[L
             or None if the language is not recognized.
     """
     if project is None:
-        project = TestingPackage().project
+        project = cast(Project, TestingPackage().project)
     if language == LanguageType.Java:
         return __get_java_testing_packages(project)
     elif language == LanguageType.CSharp:
@@ -235,7 +235,7 @@ def get_test_method_annotations(project: Project, language: LanguageType) -> Opt
 
 class TestingPackage(metaclass=Singleton):
     def __init__(self):
-        self.project = None
+        self.project: Optional[Project] = None
 
-    def set_project(self, project):
+    def set_project(self, project: Project):
         self.project = project

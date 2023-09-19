@@ -28,3 +28,4 @@ git+https://github.com/casics/spiral@1.1.0#egg=spiral
 pytest==7.4.0
 pytest-cov==4.1.0
 pytest-mock==3.11.1
+lazydocs==0.4.8
