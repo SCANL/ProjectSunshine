@@ -3,8 +3,9 @@ import shutil
 import pytest
 from src.service.parser import Parser
 from src.service import parser as p
+from definitions import ROOT_DIR
 
-PATH = "./test/temp"
+PATH = ROOT_DIR + "/test/integration/temp"
 
 
 @pytest.mark.integration
@@ -30,7 +31,7 @@ class TestItService:
         """
         shutil.rmtree(PATH)
 
-    @pytest.fixture
+    @pytest.fixture(scope="module")
     def create_correct_files(self):
         """
             the function takes care of the creation of a project file and an input.csv file
@@ -57,8 +58,7 @@ class TestItService:
     def parser(self):
         return Parser()
 
-    @pytest.mark.xfail(reason="broken production code")
-    def test_run_srcml(self, parser: Parser):
+    def test_run_srcml(self, create_correct_files, parser: Parser):
         """
             ID: TC-SRV-4.1
 
@@ -74,7 +74,6 @@ class TestItService:
         )
         assert len(error) == 0
 
-    @pytest.mark.xfail(reason="broken production code")
     def test_parse_file(self, parser: Parser):
         """
             ID: TC-SRV-3.2        """

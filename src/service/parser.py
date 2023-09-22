@@ -1,7 +1,7 @@
 import ctypes
 import logging
 import sys
-from subprocess import *
+from subprocess import Popen, PIPE
 from typing import Tuple
 from src.common import util
 
@@ -31,19 +31,23 @@ class Parser:
         executable = util.get_config_setting('srcml', 'executable')
         position = '--position'
 
-        file_path = '"'+file_path+'"'
         args = [executable, position, file_path]
 
         if sys.platform.startswith("win"):
+            file_path = '"'+file_path+'"'
             # Don't display the Windows GPF dialog if the invoked program dies.
             SEM_NOGPFAULTERRORBOX = 0x0002
-            ctypes.windll.kernel32.SetErrorMode(SEM_NOGPFAULTERRORBOX)
+            ctypes.windll.kernel32.SetErrorMode(  # type: ignore
+                SEM_NOGPFAULTERRORBOX
+            )
             subprocess_flags = 0x8000000
+            process = Popen(" ".join(args), stdout=PIPE, stderr=PIPE,
+                            creationflags=subprocess_flags, cwd=directory)
         else:
             subprocess_flags = 0
+            process = Popen(args, stdout=PIPE, stderr=PIPE,
+                            creationflags=subprocess_flags, cwd=directory)
 
-        process = Popen(" ".join(args), stdout=PIPE, stderr=PIPE,
-                        creationflags=subprocess_flags, cwd=directory)
         return process.communicate()
 
     def parse_file(self, file_path: str) -> bool:
@@ -56,7 +60,7 @@ class Parser:
         """
         result, error = self.__run_srcml(file_path)
         if len(error) == 0:
-            temp = result.decode("utf-8")
+            result.decode("utf-8")
             self.parsed_string = result
             return True
         else:

@@ -1,3 +1,4 @@
+from typing import Optional
 from src.common import util
 from src.common.error_handler import handle_error, ErrorSeverity
 from src.model.entity import Entity
@@ -12,9 +13,9 @@ class EntityFactory:
     """
 
     def __init__(self):
-        self.entity: Entity = None  # type: ignore
+        self.entity: Optional[Entity] = None
 
-    def construct_model(self, source_path: str, file_type, junit: bool) -> Entity:
+    def construct_model(self, source_path: str, file_type, junit: bool) -> Optional[Entity]:
         """
             Construct an Entity object from a source code file.
             Args:
@@ -37,7 +38,7 @@ class EntityFactory:
             self.entity.name = util.get_file_name(source_path)
             self.entity.set_file_type(file_type)
             self.entity.junit = junit
-            c = self.entity.construct_hierarchy()
+            self.entity.construct_hierarchy()
         else:
             error_message = "Issue encountered in parsing file: \'%s\'" % str(
                 source_path)
