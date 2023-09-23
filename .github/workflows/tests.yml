@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: 🚀 IDEAL | test / cov
 
 on:
   push:
@@ -7,6 +7,7 @@ on:
   pull_request:
     branches:
       - master
+      - dev
 
 jobs:
   build:
@@ -16,7 +17,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Build the Docker image
         run: docker build . -t ideal
-      - name: Run the Docker image
+      - name: 🧪 Run Tests in Docker Container
         run: docker run -v ./:/app/ -t ideal
       - name: Archive code coverage results
         uses: actions/upload-artifact@v3
@@ -32,7 +33,7 @@ jobs:
         uses: actions/checkout@v3
       - name: Download a single artifact
         uses: actions/download-artifact@v3
-      - name: Upload coverage to Codecov
+      - name: 📤 Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}

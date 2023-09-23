@@ -1,5 +1,6 @@
 [![Docker Image CI](https://github.com/xrenegade100/ProjectSunshine/actions/workflows/tests.yml/badge.svg)](https://github.com/xrenegade100/ProjectSunshine/actions/workflows/tests.yml)
-
+[![codecov](https://codecov.io/gh/xrenegade100/ProjectSunshine/graph/badge.svg?token=mgCDcCIX8q)](https://codecov.io/gh/xrenegade100/ProjectSunshine)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=xrenegade100_ProjectSunshine&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=xrenegade100_ProjectSunshine)
 # IDEAL
 
 #### _An Open-Source Identifier Name Appraisal Tool_
@@ -28,7 +29,7 @@
 </details>
 <details>
   <summary><b>Manual Installation</b></summary>
-  <a href="./documentation/IDEAL/SetupAndUse.md">Here</a> you can find some detailed instructions on how to setup and run the software.
+  <a href="./docs/IDEAL/SetupAndUse.md">Here</a> you can find some detailed instructions on how to setup and run the software.
 </details>
 <hr>
 
