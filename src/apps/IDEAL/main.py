@@ -1,23 +1,23 @@
 # IDEAL (IDentifiEr AppraisaL)
-
-import os
-import time
-from argparse import ArgumentParser
-from pathlib import Path
-
-import pandas
-
-from analyzer import Analyzer
-from result_writer import ResultWriter
-from src.common import util
-from src.common.error_handler import handle_error, ErrorSeverity
-from src.common.logger import setup_logger
-from src.common.testing_list import TestingPackage
-from src.common.util import read_input
-from src.model.input import Input
-from src.model.project import Project
-from src.nlp.pos_tagger_stanford import POSTaggerStanford
 from src.nlp.splitter import Splitter
+from src.nlp.pos_tagger_stanford import POSTaggerStanford
+from src.model.project import Project
+from src.model.input import Input
+from src.common.util import read_input
+from src.common.testing_list import TestingPackage
+from src.common.logger import setup_logger
+from src.common.error_handler import handle_error, ErrorSeverity
+from src.common import util
+from result_writer import ResultWriter
+from analyzer import Analyzer
+import pandas
+from pathlib import Path
+from argparse import ArgumentParser
+import time
+import os
+
+import collections
+collections.Iterable = collections.abc.Iterable  # type: ignore
 
 
 class Main:
@@ -31,7 +31,8 @@ class Main:
         args = parser.parse_args()
 
         if not os.path.exists(args.arg_file) or not os.path.isfile(args.arg_file):
-            error_message = "Invalid Configuration File: \'%s\'" % str(args.arg_file)
+            error_message = "Invalid Configuration File: \'%s\'" % str(
+                args.arg_file)
             handle_error('Main', error_message, ErrorSeverity.Critical, True)
 
         self.project = Project(args.arg_file)
@@ -70,7 +71,8 @@ class Main:
 
     def run_analysis(self):
         time_analysis_start = time.time()
-        logger = setup_logger('ProjectSunshine-FileProcessed', 'ProjectSunshine-Processed.log')
+        logger = setup_logger('ProjectSunshine-FileProcessed',
+                              'ProjectSunshine-Processed.log')
 
         results = None
         tagger = POSTaggerStanford()
@@ -85,12 +87,13 @@ class Main:
             results = ResultWriter(self.project.output_directory)
             results.save_issues(a.analyze())
             time_file_end = time.time()
-            print('done! (%s seconds)' %str(time_file_end - time_file_start))
-            logger.info('"%s"'%file.path)
+            print('done! (%s seconds)' % str(time_file_end - time_file_start))
+            logger.info('"%s"' % file.path)
         tagger.terminate()
 
         time_analysis_end = time.time()
-        print("Analysis completed in " + str(time_analysis_end - time_analysis_start) + " seconds")
+        print("Analysis completed in " +
+              str(time_analysis_end - time_analysis_start) + " seconds")
 
 
 if __name__ == '__main__':

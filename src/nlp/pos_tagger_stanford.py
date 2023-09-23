@@ -65,12 +65,8 @@ class POSTaggerStanford(metaclass=Singleton):
 
         self.tagger.sendline(term)
         self.tagger.expect(r'.+\s+.+\s+')
-        print(self.tagger.before)
-        print(self.tagger.after)
         try:
-            pos = self.tagger.after.decode('utf-8')
-            print(pos)
-            pos = pos.strip().split('_')[1]
+            pos = self.tagger.after.decode('utf-8').strip().split('_')[1]
         except IndexError:
             self.tagger.sendline(term)
             self.tagger.expect('.+')
