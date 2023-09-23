@@ -40,7 +40,7 @@ class TestPosTag:
         mock_get_pos_terms.return_value = {
             "apple": "NNP"}  # Mocking the return value of get_pos_terms
         # None passed as Project instance as it is not used in the function (mocked)
-        result = generate_tag(None, "apple")
+        result = generate_tag(None, "apple")  # type: ignore
         assert result == "NNP"
 
     def test_generate_tag_custom_pos_term_mixed_case(self, mock_get_pos_terms):
@@ -50,10 +50,9 @@ class TestPosTag:
         mock_get_pos_terms.return_value = {
             "apple": "NNP"}  # Mocking the return value of get_pos_terms
         # None passed as Project instance as it is not used in the function (mocked)
-        result = generate_tag(None, "Apple")
+        result = generate_tag(None, "Apple")  # type: ignore
         assert result == "NNP"
 
-    @pytest.mark.xfail()
     def test_generate_tag_stanford(self, mock_get_pos_terms, mock_get_pos):
         """
             ID: TC-NLP-5.3
@@ -63,7 +62,7 @@ class TestPosTag:
             "apple": "NNP"}
         mock_get_pos.return_value = "PRP"
         # None passed as Project instance as it is not used in the function (mocked)
-        result = generate_tag(None, term="your")
+        result = generate_tag(None, term="your")  # type: ignore
         # This means the mocked function was called so the function uses the POSTaggerStanford class to generate the tag
         assert result == "PRP"
 

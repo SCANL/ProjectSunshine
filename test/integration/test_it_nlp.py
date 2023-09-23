@@ -10,8 +10,7 @@ class TestItPOSTaggerStanford:
     @pytest.fixture
     def tagger(self):
         return POSTaggerStanford()
-    
-    @pytest.mark.xfail()
+
     def test_get_pos_empty_string(self, tagger: POSTaggerStanford):
         """
             ID: TC-NLP-5.1
