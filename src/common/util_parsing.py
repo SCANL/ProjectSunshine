@@ -1,9 +1,11 @@
 from typing import List, Union
 from src.common.enum import FileType, IdentifierType, LanguageType
 from src.common.testing_list import get_test_method_annotations
+from src.common.types_list import get_bool_types
 from src.model.entity import Entity
 from src.model.identifier import Class, Attribute, Property, Parameter, Method, Variable
 
+SRCML_URL = 'http://www.srcML.org/srcML/src'
 
 def get_class_attribute_names(entity_class: Entity) -> List[str]:
     """
@@ -68,15 +70,15 @@ def get_all_class_fields(entity_class: Entity):
 
 
 def get_all_exception_throws(method):
-    return method.xpath('.//src:throw', namespaces={'src': 'http://www.srcML.org/srcML/src'})
+    return method.xpath('.//src:throw', namespaces={'src': SRCML_URL})
 
 
 def get_all_return_statements(method):
-    return method.xpath('.//src:return', namespaces={'src': 'http://www.srcML.org/srcML/src'})
+    return method.xpath('.//src:return', namespaces={'src': SRCML_URL})
 
 
 def get_all_function_calls(method):
-    return method.xpath('.//src:call/src:name/text()', namespaces={'src': 'http://www.srcML.org/srcML/src'})
+    return method.xpath('.//src:call/src:name/text()', namespaces={'src': SRCML_URL})
 
 
 def get_all_conditional_statements(method):
@@ -84,36 +86,32 @@ def get_all_conditional_statements(method):
     statements_total = 0
 
     statement_while = method.xpath(
-        './/src:while', namespaces={'src': 'http://www.srcML.org/srcML/src'})
+        './/src:while', namespaces={'src': SRCML_URL})
     statements['while'] = statement_while
     statements_total += len(statement_while)
 
     statement_do = method.xpath(
-        './/src:do', namespaces={'src': 'http://www.srcML.org/srcML/src'})
+        './/src:do', namespaces={'src': SRCML_URL})
     statements['do'] = statement_do
     statements_total += len(statement_do)
 
     statement_for = method.xpath(
-        './/src:for', namespaces={'src': 'http://www.srcML.org/srcML/src'})
+        './/src:for', namespaces={'src': SRCML_URL})
     statements['for'] = statement_for
     statements_total += len(statement_for)
 
-    # statement_if = method.xpath('.//src:if', namespaces={'src': 'http://www.srcML.org/srcML/src'})
-    # statements['if'] = statement_if
-    # statements_total += len(statement_if)
-
     statement_if2 = method.xpath(
-        './/src:if_stmt', namespaces={'src': 'http://www.srcML.org/srcML/src'})
+        './/src:if_stmt', namespaces={'src': SRCML_URL})
     statements['if_stmt'] = statement_if2
     statements_total += len(statement_if2)
 
     statement_switch = method.xpath(
-        './/src:switch', namespaces={'src': 'http://www.srcML.org/srcML/src'})
+        './/src:switch', namespaces={'src': SRCML_URL})
     statements['switch'] = statement_switch
     statements_total += len(statement_switch)
 
     statement_ternary = method.xpath(
-        './/src:ternary', namespaces={'src': 'http://www.srcML.org/srcML/src'})
+        './/src:ternary', namespaces={'src': SRCML_URL})
     statements['ternary'] = statement_ternary
     statements_total += len(statement_ternary)
 
@@ -155,27 +153,16 @@ def is_boolean_type(entity: Entity, identifier: Union[Class, Attribute, Property
         bool: True if the identifier has a boolean data type; False otherwise.
     """
     if entity.language == LanguageType.Java:
+        types = get_bool_types(LanguageType.Java)
         if IdentifierType.get_type(type(identifier).__name__) == IdentifierType.Method:
-            if identifier.return_type == 'boolean' or identifier.return_type == 'Boolean' or identifier.return_type == 'Predicate':
-                return True
-            else:
-                return False
+            return identifier.return_type in types
         else:
-            if identifier.type == 'boolean' or identifier.type == 'Boolean' or identifier.type == 'Predicate':
-                return True
-            else:
-                return False
-
-    if entity.language == LanguageType.CSharp:
+            return identifier.type in types   
+    elif entity.language == LanguageType.CSharp:
+        types = get_bool_types(LanguageType.CSharp)
         if IdentifierType.get_type(type(identifier).__name__) == IdentifierType.Method:
-            if identifier.return_type == 'bool' or identifier.return_type == 'Boolean' or identifier.return_type == 'Predicate':
-                return True
-            else:
-                return False
+            return identifier.return_type in types
         else:
-            if identifier.type == 'bool' or identifier.type == 'Boolean' or identifier.type == 'Predicate':
-                return True
-            else:
-                return False
+            return identifier.type in types
 
     return False

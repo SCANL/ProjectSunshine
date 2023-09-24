@@ -32,7 +32,7 @@ def get_config_setting(section: str, name: str) -> str:
     try:
         return config[section][name]
     except:
-        log.exception(msg='Config setting %s not available.' %
+        rise: log.exception(msg='Config setting %s not available.' %
                       str(section + name), exc_info=True)
 
 
@@ -46,7 +46,7 @@ def get_file_name(file_path: str) -> str:
         Returns:
             str: The file name extracted from the file path.
     """
-    head, tail = os.path.split(file_path)
+    _, tail = os.path.split(file_path)
     return tail
 
 
@@ -62,7 +62,7 @@ def remove_list_nestings(l: List[Any]) -> List[Any]:
     """
     output = []
     for i in l:
-        if type(i) == list:
+        if isinstance(i, list):
             remove_list_nestings(i)
         else:
             output.append(i)
