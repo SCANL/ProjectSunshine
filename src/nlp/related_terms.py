@@ -18,7 +18,7 @@ def remove_stopwords(term_list: List[str]) -> List[str]:
             List[str]: A list of terms with stopwords removed.
     """
     stop_words = stopwords.words('english')
-    cleansed_terms = [i for i in term_list if not i in stop_words]
+    cleansed_terms = [i for i in term_list if i not in stop_words]
     return cleansed_terms
 
 
@@ -46,10 +46,26 @@ def clean_text(text: Union[str, List[str]], return_unique: bool = False) -> List
         text = text.replace(symbol, ' ')  # type: ignore
     text = text.strip()  # type: ignore
     tokenized_text = word_tokenize(text)
-    tokenized_text = [i for i in tokenized_text if not i in symbols]
+    tokenized_text = [i for i in tokenized_text if i not in symbols]
     if return_unique:
         tokenized_text = list(set(tokenized_text))
     return tokenized_text
+
+
+def __check_antonyms_match(sys1, sys2):
+    for lemma1, lemma2 in product(sys1.lemmas(), sys2.lemmas()):
+        # Iterate over all pairs of antonyms for the first lemma and the second synset
+        for antonym1, lemma2 in product(lemma1.antonyms(), sys2.lemmas()):
+            # Check if the name of the antonym matches the name of the second lemma
+            if antonym1.name() == lemma2.name():
+                return True
+        # Iterate over all pairs of lemmas for the first synset and the second antonym
+        for lemma1, antonym2 in product(sys1.lemmas(), lemma2.antonyms()):
+            # Check if the name of the antonym matches the name of the first lemma
+            if antonym2.name() == lemma1.name():
+                # If there is a match, set the boolean variable to True and break out of the loop
+                return True
+    return False
 
 
 def are_antonyms(term1: str, term2: str) -> bool:
@@ -64,23 +80,18 @@ def are_antonyms(term1: str, term2: str) -> bool:
             bool: True if the terms are antonyms, False otherwise.
     """
 
-    match = False
-
+    # Get the synsets (sets of synonyms) for each term using WordNet
     syns1 = wordnet.synsets(term1.lower())
     syns2 = wordnet.synsets(term2.lower())
 
+    # Iterate over all pairs of synsets for the two terms
+    # If a synonym of a is in the antonyms of b or vice versa, then a and b are antonyms
     for sys1, sys2 in product(syns1, syns2):
-        for lemma1, lemma2 in product(sys1.lemmas(), sys2.lemmas()):
-            for antonym1, lemma2 in product(lemma1.antonyms(), sys2.lemmas()):
-                if antonym1.name() == lemma2.name():
-                    match = True
-                    break
-            for lemma1, antonym2 in product(sys1.lemmas(), lemma2.antonyms()):
-                if antonym2.name() == lemma1.name():
-                    match = True
-                    break
+        # Check if the synsets are antonyms
+        if __check_antonyms_match(sys1, sys2):
+            return True
 
-    return match
+    return False
 
 
 def get_synonyms(term: str, pos: str) -> set[str]:
