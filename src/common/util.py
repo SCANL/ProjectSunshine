@@ -31,9 +31,10 @@ def get_config_setting(section: str, name: str) -> str:
     config.read(config_path)
     try:
         return config[section][name]
-    except:
-        rise: log.exception(msg='Config setting %s not available.' %
+    except SystemExit as e:
+        log.exception(msg='Config setting %s not available.' %
                       str(section + name), exc_info=True)
+        raise e
 
 
 def get_file_name(file_path: str) -> str:
