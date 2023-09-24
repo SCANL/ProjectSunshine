@@ -241,7 +241,7 @@ def get_collection_types(project: Project, language: LanguageType) -> Optional[L
     if language == LanguageType.Java:
         return __get_java_collection_data_types(project)
     elif language == LanguageType.CPP:
-        return __get_cplusplus_collection_data_types(project)
+        return __get_cplusplus_collection_data_types()
     elif language == LanguageType.CSharp:
         return __get_csharp_collection_data_types(project)
     else:
