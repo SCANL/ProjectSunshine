@@ -125,7 +125,7 @@ __java_collection_data_types = [
 ]
 
 
-def __get_cplusplus_collection_data_types(project: Project) -> List[str]:
+def __get_cplusplus_collection_data_types() -> List[str]:
     """
         Get a list of C++ collection data types.
 
