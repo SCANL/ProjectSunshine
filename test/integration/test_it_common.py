@@ -332,7 +332,7 @@ class TestItTestingList:
 
         # Assert
         assert annotations == ['TestMethod',
-                               'Test', 'TestCase' 'Fact', 'Theory']
+                               'Test', 'TestCase', 'Fact', 'Theory']
 
     @pytest.fixture
     def mock_project_with_custom_csharp(self):
@@ -357,7 +357,7 @@ class TestItTestingList:
             mock_project_with_custom_csharp, LanguageType.CSharp)
 
         # Assert
-        assert annotations == ['TestMethod', 'Test', 'TestCase' 'Fact',
+        assert annotations == ['TestMethod', 'Test', 'TestCase', 'Fact',
                                'Theory', 'UnitTest', 'IntegrationTest', 'SystemTest']
 
     def test_get_test_method_annotations_unknown(self, mock_project):

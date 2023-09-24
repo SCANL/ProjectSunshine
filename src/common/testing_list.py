@@ -46,7 +46,7 @@ __java_test_method_annotation = [
 __csharp_test_method_annotation = [
     'TestMethod',
     'Test',
-    'TestCase'
+    'TestCase',
     'Fact',
     'Theory'
 ]
@@ -119,11 +119,6 @@ def __get_csharp_testing_packages(project: Project) -> List[Any]:
         Returns:
             List[Any]: A list of C# testing packages.
     """
-    packages = []
-    packages.extend(__csharp_testing_packages)
-    custom_package = project.get_config_value(
-        ConfigCustomFileType.Code, 'Test', 'csharp_custom_testing_packages')
-
     packages = []
     packages.extend(__csharp_testing_packages)
     custom_package = project.get_config_value(
