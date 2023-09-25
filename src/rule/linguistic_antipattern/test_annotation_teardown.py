@@ -1,26 +1,28 @@
 from datetime import datetime
 
+from typing_extensions import override
 from src.common.enum import FileType, IdentifierType, LanguageType
 from src.common.error_handler import ErrorSeverity, handle_error
 from src.model.issue import Issue
+from linguistic_antipattern import LinguisticAntipattern
 
 # Impacted File: Test
 # Impacted identifier: Method
 
-class TestAnnotationTeardown:
+class TestAnnotationTeardown(LinguisticAntipattern):
+
+    ID = 'X.2'
+    ISSUE_CATEGORY = '\'After\' annotation not in use'
+    ISSUE_DESCRIPTION = 'Utilize the \'After\' annotation for setup methods'
 
     def __init__(self):
-        self.__entity = None
-        self.__project = None
-        self.__id = 'X.2'
+        super.__init__()
         self.__junit = None
-        self.__issues = []
-        self.__issue_category = '\'After\' annotation not in use'
-        self.__issue_description = 'Utilize the \'After\' annotation for setup methods'
 
     def __get_junit_version(self):
         pass
 
+    @override
     def __process_identifier(self, identifier):
         if self.__entity.language == LanguageType.Java and self.__junit is not None:
             if self.__junit >= 4:
@@ -46,6 +48,7 @@ class TestAnnotationTeardown:
                         identifier.column_number)
                     handle_error('X.2', error_message, ErrorSeverity.Error, False, e)
 
+    @override
     def analyze(self, project, entity):
         if entity.file_type == FileType.Test:
             self.__project = project

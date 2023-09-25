@@ -1,22 +1,23 @@
 from datetime import datetime
 import re
 
+from typing_extensions import override
 from src.common.enum import IdentifierType
 from src.common.error_handler import handle_error, ErrorSeverity
 from src.common.util_parsing import get_all_items_in_class
 from src.model.issue import Issue
+from linguistic_antipattern import LinguisticAntipattern
 
+class StartsWithSpecialCharacter(LinguisticAntipattern):
 
-class StartsWithSpecialCharacter:
+    ID = 'X.5'
+    ISSUE_CATEGORY = 'Name starts with special character'
+    ISSUE_DESCRIPTION = 'The name of an identifier starts with a special character.'
 
     def __init__(self):
-        self.__entity = None
-        self.__project = None
-        self.__id = 'X.5'
-        self.__issues = []
-        self.__issue_category = 'Name starts with special character'
-        self.__issue_description = 'The name of an identifier starts with a special character.'
+        super.__init__()
 
+    @override
     def __process_identifier(self, identifier):
         # AntiPattern: The first character in the name is a special character
         regex = r"^[^a-zA-Z0-9]+$"
@@ -42,6 +43,7 @@ class StartsWithSpecialCharacter:
                 identifier.column_number)
             handle_error('X.5', error_message, ErrorSeverity.Error, False, e)
 
+    @override
     def analyze(self, project, entity):
         # Analyze all attributes, variables and parameters in a class
         self.__project = project

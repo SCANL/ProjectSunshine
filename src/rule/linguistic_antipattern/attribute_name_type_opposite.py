@@ -1,23 +1,24 @@
 import itertools
 from datetime import datetime
 
+from typing_extensions import override
 from src.common.enum import IdentifierType
 from src.common.error_handler import handle_error, ErrorSeverity
 from src.common.util_parsing import get_all_class_fields
 from src.model.issue import Issue
 from src.nlp.related_terms import are_antonyms
+from linguistic_antipattern import LinguisticAntipattern
 
+class AttributeNameTypeOpposite(LinguisticAntipattern):
 
-class AttributeNameTypeOpposite:
+    ID = 'F.1'
+    ISSUE_CATEGORY = 'Attribute name and type are opposite'
+    ISSUE_DESCRIPTION = 'The name of an attribute is in contradiction with its type as they contain antonyms.'
 
     def __init__(self):
-        self.__entity = None
-        self.__project = None
-        self.__id = 'F.1'
-        self.__issues = []
-        self.__issue_category = 'Attribute name and type are opposite'
-        self.__issue_description = 'The name of an attribute is in contradiction with its type as they contain antonyms.'
+        super.__init__()
 
+    @override
     def __process_identifier(self, identifier):
         # AntiPattern: The identifier name and return type name contain antonyms
         try:
@@ -52,6 +53,7 @@ class AttributeNameTypeOpposite:
                 identifier.column_number)
             handle_error('F.1', error_message, ErrorSeverity.Error, False, e)
 
+    @override
     def analyze(self, project, entity):
         # Analyze all attributes, variables and parameters in a class
         self.__project = project

@@ -1,22 +1,23 @@
 from datetime import datetime
 
+from typing_extensions import override
 from src.common.enum import IdentifierType, FileType
 from src.common.error_handler import ErrorSeverity, handle_error
 from src.common.util_parsing import get_all_conditional_statements, is_test_method
 from src.model.issue import Issue
 from src.nlp import term_list
+from linguistic_antipattern import LinguisticAntipattern
 
+class NotImplementedCondition(LinguisticAntipattern):
 
-class NotImplementedCondition:
+    ID = 'B.1'
+    ISSUE_CATEGORY = 'Not implemented condition'
+    ISSUE_DESCRIPTION = 'The comments or name of a method suggest a conditional behavior that is not implemented in the code.'
 
     def __init__(self):
-        self.__entity = None
-        self.__project = None
-        self.__id = 'B.1'
-        self.__issues = []
-        self.__issue_category = 'Not implemented condition'
-        self.__issue_description = 'The comments or name of a method suggest a conditional behavior that is not implemented in the code.'
+        super.__init__()
 
+    @override
     def __process_identifier(self, identifier):
         # AntiPattern: method contains conditional-related comment or name, but no conditional statements
         try:
@@ -55,6 +56,7 @@ class NotImplementedCondition:
                 identifier.column_number)
             handle_error('B.1', error_message, ErrorSeverity.Error, False, e)
 
+    @override
     def analyze(self, project, entity):
         # Analyze all methods in a class
         self.__project = project

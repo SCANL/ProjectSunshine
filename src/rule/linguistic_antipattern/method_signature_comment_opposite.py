@@ -1,23 +1,25 @@
 import itertools
 from datetime import datetime
 
+from typing_extensions import override
 from src.common.enum import IdentifierType
 from src.common.error_handler import handle_error, ErrorSeverity
 from src.common.util_parsing import is_test_method
 from src.model.issue import Issue
 from src.nlp.related_terms import are_antonyms, clean_text
+from linguistic_antipattern import LinguisticAntipattern
 
 
-class MethodSignatureCommentOpposite:
+class MethodSignatureCommentOpposite(LinguisticAntipattern):
+
+    ID = 'C.2'
+    ISSUE_CATEGORY = 'Method signature and comment are opposite'
+    ISSUE_DESCRIPTION = 'The documentation of a method is in contradiction with its declaration.'
 
     def __init__(self):
-        self.__entity = None
-        self.__project = None
-        self.__id = 'C.2'
-        self.__issues = []
-        self.__issue_category = 'Method signature and comment are opposite'
-        self.__issue_description = 'The documentation of a method is in contradiction with its declaration.'
+        super.__init__()
 
+    @override
     def __process_identifier(self, identifier):
         # AntiPattern: The method name or return type and comment contain antonyms
         try:
@@ -69,6 +71,7 @@ class MethodSignatureCommentOpposite:
                 identifier.column_number)
             handle_error('C.2', error_message, ErrorSeverity.Error, False, e)
 
+    @override
     def analyze(self, project, entity):
         # Analyze all methods in a class
         self.__project = project

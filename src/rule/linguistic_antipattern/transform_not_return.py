@@ -1,25 +1,27 @@
 from datetime import datetime
 
+from typing_extensions import override
 from src.common.enum import IdentifierType
 from src.common.error_handler import ErrorSeverity, handle_error
 from src.common.util_parsing import is_test_method
 from src.model.issue import Issue
+from linguistic_antipattern import LinguisticAntipattern
 
 # Impacted identifier: All
 # Impacted identifier: Method
 from src.nlp import term_list
 
 
-class TransformNotReturn:
+class TransformNotReturn(LinguisticAntipattern):
+
+    ID = 'B.5'
+    ISSUE_CATEGORY = 'Transform method does not return'
+    ISSUE_DESCRIPTION = 'The name of a method suggests the transformation of an object but there is no return value.'
 
     def __init__(self):
-        self.__entity = None
-        self.__project = None
-        self.__id = 'B.5'
-        self.__issues = []
-        self.__issue_category = 'Transform method does not return'
-        self.__issue_description = 'The name of a method suggests the transformation of an object but there is no return value.'
+        super.__init__()
 
+    @override
     def __process_identifier(self, identifier):
         # AntiPattern: The name starts with or inner term contains transformation term and return type is void
         try:
@@ -46,6 +48,7 @@ class TransformNotReturn:
                 identifier.column_number)
             handle_error('B.5', error_message, ErrorSeverity.Error, False, e)
 
+    @override
     def analyze(self, project, entity):
         # Analyze all methods in a class
         self.__project = project

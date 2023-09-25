@@ -1,22 +1,23 @@
 from datetime import datetime
 
+from typing_extensions import override
 from src.common.enum import IdentifierType
 from src.common.error_handler import handle_error, ErrorSeverity
 from src.common.util_parsing import get_all_conditional_statements
 from src.model.issue import Issue
+from linguistic_antipattern import LinguisticAntipattern
 
 
-class GetMoreThanAccessor:
+class GetMoreThanAccessor(LinguisticAntipattern):
+
+    ID = 'A.1'
+    ISSUE_CATEGORY = '\'Get\' more than accessor'
+    ISSUE_DESCRIPTION = 'A getter that performs actions other than returning the corresponding attribute.'
 
     def __init__(self):
-        self.__entity = None
-        self.__project = None
-        self.__id = 'A.1'
-        self.__issues = []
-        self.__issue_category = '\'Get\' more than accessor'
-        self.__issue_description = 'A getter that performs actions other than returning the corresponding attribute.'
         self.__class_attributes = None
 
+    @override
     def __process_identifier(self, identifier):
         # AntiPattern: The method name starts with 'get' AND the method is a getter for an attribute AND the method body contains conditional statements (if, loops, switch)
         try:
@@ -44,6 +45,7 @@ class GetMoreThanAccessor:
                 identifier.column_number)
             handle_error('A.1', error_message, ErrorSeverity.Error, False, e)
 
+    @override
     def analyze(self, project, entity):
         # Analyze all methods in a class
         self.__project = project

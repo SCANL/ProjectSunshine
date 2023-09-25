@@ -1,23 +1,25 @@
 import itertools
 from datetime import datetime
 
+from typing_extensions import override
 from src.common.enum import IdentifierType
 from src.common.error_handler import handle_error, ErrorSeverity
 from src.common.util_parsing import is_test_method
 from src.model.issue import Issue
 from src.nlp.related_terms import are_antonyms
+from linguistic_antipattern import LinguisticAntipattern
 
 
-class MethodNameReturnOpposite:
+class MethodNameReturnOpposite(LinguisticAntipattern):
+
+    ID = 'C.1'
+    ISSUE_CATEGORY = 'Method name and return type are opposite'
+    ISSUE_DESCRIPTION = 'The intent of the method suggested by its name is in contradiction with what it returns.'
 
     def __init__(self):
-        self.__entity = None
-        self.__project = None
-        self.__id = 'C.1'
-        self.__issues = []
-        self.__issue_category = 'Method name and return type are opposite'
-        self.__issue_description = 'The intent of the method suggested by its name is in contradiction with what it returns.'
+        super.__init__()
 
+    @override
     def __process_identifier(self, identifier):
         # AntiPattern: The method name and return type name contain antonyms
         try:
@@ -57,6 +59,7 @@ class MethodNameReturnOpposite:
                 identifier.column_number)
             handle_error('C.1', error_message, ErrorSeverity.Error, False, e)
 
+    @override
     def analyze(self, project, entity):
         # Analyze all methods in a class
         self.__project = project

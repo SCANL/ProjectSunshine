@@ -1,29 +1,31 @@
 from datetime import datetime
 
+from typing_extensions import override
 from src.common.enum import FileType, IdentifierType
 from src.common.error_handler import handle_error, ErrorSeverity
 from src.model.issue import Issue
 from src.nlp import pos_tag
 from src.nlp.pos_tag import POSType
+from linguistic_antipattern import LinguisticAntipattern
 
 # Impacted File: Test
 # Impacted identifier: Method
 
 
-class TestNonVerbStarting:
+class TestNonVerbStarting(LinguisticAntipattern):
+
+    ID = 'X.4'
+    ISSUE_CATEGORY = 'Starting term must be a verb'
+    ISSUE_DESCRIPTION = 'The starting term (excluding \'test\') must be a verb'
 
     def __init__(self):
-        self.__entity = None
-        self.__project = None
-        self.__id = 'X.4'
+        super.__init__()
         self.__junit = None
-        self.__issues = []
-        self.__issue_category = 'Starting term must be a verb'
-        self.__issue_description = 'The starting term (excluding \'test\') must be a verb'
 
     def __get_junit_version(self):
         pass
 
+    @override
     def __process_identifier(self, identifier):
         try:
             starting_term = identifier.name_terms[0] if identifier.name_terms[0].lower() != 'test' else ''
@@ -53,6 +55,7 @@ class TestNonVerbStarting:
                 identifier.column_number)
             handle_error('X.4', error_message, ErrorSeverity.Error, False, e)
 
+    @override
     def analyze(self, project, entity):
         if entity.file_type == FileType.Test:
             self.__project = project

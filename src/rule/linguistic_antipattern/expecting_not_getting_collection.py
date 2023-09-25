@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from typing_extensions import override
 from src.common.enum import IdentifierType
 from src.common.error_handler import handle_error, ErrorSeverity
 from src.common.types_list import get_collection_types, get_numeric_types
@@ -7,22 +8,23 @@ from src.common.util_parsing import is_test_method
 from src.model.issue import Issue
 from src.nlp import term_list
 from src.nlp.term_property import is_plural
+from linguistic_antipattern import LinguisticAntipattern
 
 
 # Impacted File: All
 # Impacted identifier: Method
 
 
-class ExpectingNotGettingCollection:
+class ExpectingNotGettingCollection(LinguisticAntipattern):
+
+    ID = 'B.6'
+    ISSUE_CATEGORY = 'Expecting but not getting a collection'
+    ISSUE_DESCRIPTION = 'The name of a method suggests that a collection should be returned but a single object or nothing is returned.'
 
     def __init__(self):
-        self.__entity = None
-        self.__project = None
-        self.__id = 'B.6'
-        self.__issues = []
-        self.__issue_category = 'Expecting but not getting a collection'
-        self.__issue_description = 'The name of a method suggests that a collection should be returned but a single object or nothing is returned.'
+        super.__init__()
 
+    @override
     def __process_identifier(self, identifier):
         # AntiPattern: if the fist term is a get related term AND [(any term is plural or contains collection term)] and the return type is not a collection
         try:
@@ -52,7 +54,7 @@ class ExpectingNotGettingCollection:
                 identifier.column_number)
             handle_error('B.6', error_message, ErrorSeverity.Error, False, e)
 
-
+    @override
     def analyze(self, project, entity):
         # Analyze all methods in a class
         self.__project = project

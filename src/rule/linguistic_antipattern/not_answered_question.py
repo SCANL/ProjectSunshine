@@ -1,22 +1,24 @@
 from datetime import datetime
 
+from typing_extensions import override
 from src.common.enum import IdentifierType
 from src.common.error_handler import handle_error, ErrorSeverity
 from src.common.util_parsing import is_test_method
 from src.model.issue import Issue
 from src.nlp import term_list
+from linguistic_antipattern import LinguisticAntipattern
 
 
-class NotAnsweredQuestion:
+class NotAnsweredQuestion(LinguisticAntipattern):
+
+    ID = 'B.4'
+    ISSUE_CATEGORY = 'Not answered question'
+    ISSUE_DESCRIPTION = 'The name of a method is in the form of predicate whereas the return type is not Boolean.'
 
     def __init__(self):
-        self.__entity = None
-        self.__project = None
-        self.__id = 'B.4'
-        self.__issues = []
-        self.__issue_category = 'Not answered question'
-        self.__issue_description = 'The name of a method is in the form of predicate whereas the return type is not Boolean.'
+        super.__init__()
 
+    @override
     def __process_identifier(self, identifier):
         # AntiPattern: starting term is a boolean term, but the method return type is void
         try:
@@ -40,6 +42,7 @@ class NotAnsweredQuestion:
                 identifier.column_number)
             handle_error('B.4', error_message, ErrorSeverity.Error, False, e)
 
+    @override
     def analyze(self, project, entity):
         # Analyze all methods in a class
         self.__project = project

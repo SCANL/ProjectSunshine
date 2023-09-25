@@ -1,23 +1,25 @@
 import itertools
 from datetime import datetime
 
+from typing_extensions import override
 from src.common.enum import IdentifierType
 from src.common.error_handler import handle_error, ErrorSeverity
 from src.common.util_parsing import get_all_class_fields
 from src.model.issue import Issue
 from src.nlp.related_terms import clean_text, are_antonyms
+from linguistic_antipattern import LinguisticAntipattern
 
 
-class AttributeSignatureCommentOpposite:
+class AttributeSignatureCommentOpposite(LinguisticAntipattern):
+
+    ID = 'F.2'
+    ISSUE_CATEGORY = 'Attribute signature and comment are opposite'
+    ISSUE_DESCRIPTION = 'The declaration of an attribute is in contradiction with its documentation.'
 
     def __init__(self):
-        self.__entity = None
-        self.__project = None
-        self.__id = 'F.2'
-        self.__issues = []
-        self.__issue_category = 'Attribute signature and comment are opposite'
-        self.__issue_description = 'The declaration of an attribute is in contradiction with its documentation.'
+        super.__init__()
 
+    @override
     def __process_identifier(self, identifier):
         # AntiPattern: The identifier name or retrun type and comment contain antonyms
         try:
@@ -65,6 +67,7 @@ class AttributeSignatureCommentOpposite:
                 identifier.column_number)
             handle_error('F.2', error_message, ErrorSeverity.Error, False, e)
 
+    @override
     def analyze(self, project, entity):
         # Analyze all attributes, variables and parameters in a class
         self.__project = project

@@ -1,22 +1,24 @@
 from datetime import datetime
 
+from typing_extensions import override
 from src.common.enum import IdentifierType
 from src.common.error_handler import handle_error, ErrorSeverity
 from src.common.util_parsing import get_all_return_statements, is_boolean_type, is_test_method
 from src.model.issue import Issue
 from src.nlp import term_list
+from linguistic_antipattern import LinguisticAntipattern
 
 
-class IsNoReturnBool:
+class IsNoReturnBool(LinguisticAntipattern):
+
+    ID = 'A.2'
+    ISSUE_CATEGORY = '\'Is\' returns more than a Boolean'
+    ISSUE_DESCRIPTION = 'The name of a method is a predicate suggesting a true/false value in return. However the return type is not Boolean but rather a more complex type.'
 
     def __init__(self):
-        self.__entity = None
-        self.__project = None
-        self.__id = 'A.2'
-        self.__issues = []
-        self.__issue_category = '\'Is\' returns more than a Boolean'
-        self.__issue_description = 'The name of a method is a predicate suggesting a true/false value in return. However the return type is not Boolean but rather a more complex type.'
+        super.__init__()
 
+    @override
     def __process_identifier(self, identifier):
         # AntiPattern: starting term is a boolean term, but the method does not have a boolean return statement (i.e., true/false not returned)
         try:
@@ -42,6 +44,7 @@ class IsNoReturnBool:
                 identifier.column_number)
             handle_error('A.2', error_message, ErrorSeverity.Error, False, e)
 
+    @override
     def analyze(self, project, entity):
         # Analyze all methods in a class
         self.__project = project

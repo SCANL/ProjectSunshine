@@ -1,24 +1,26 @@
 from datetime import datetime
 
+from typing_extensions import override
 from src.common.enum import IdentifierType
 from src.common.error_handler import handle_error, ErrorSeverity
 from src.model.issue import Issue
+from linguistic_antipattern import LinguisticAntipattern
 
 # Impacted identifier: All
 # Impacted identifier: Method
 from src.nlp import term_list
 
 
-class SetReturns:
+class SetReturns(LinguisticAntipattern):
+
+    ID = 'A.3'
+    ISSUE_CATEGORY = '\'Set\' method returns'
+    ISSUE_DESCRIPTION = 'A set method having a return type different than \'void\'.'
 
     def __init__(self):
-        self.__entity = None
-        self.__project = None
-        self.__id = 'A.3'
-        self.__issues = []
-        self.__issue_category = '\'Set\' method returns'
-        self.__issue_description = 'A set method having a return type different than \'void\'.'
+        super.__init__()
 
+    @override
     def __process_identifier(self, identifier):
         # AntiPattern: The name starts with a set, but the method return type is not void
         try:
@@ -43,6 +45,7 @@ class SetReturns:
                 identifier.column_number)
             handle_error('A.3', error_message, ErrorSeverity.Error, False, e)
 
+    @override
     def analyze(self, project, entity):
         # Analyze all methods in a class
         self.__project = project

@@ -1,28 +1,29 @@
 from datetime import datetime
 
+from typing_extensions import override
 from src.common.enum import FileType, IdentifierType
 from src.common.error_handler import handle_error, ErrorSeverity
 from src.model.issue import Issue
-
+from linguistic_antipattern import LinguisticAntipattern
 
 # Impacted File: Test
 # Impacted identifier: Method
 
 
-class TestAnnotationTest:
+class TestAnnotationTest(LinguisticAntipattern):
+
+    ID = 'G.2'
+    ISSUE_CATEGORY = 'Redundant use of \'test\' in method name'
+    ISSUE_DESCRIPTION = 'Replace the term \'test\' in the method name with the \'Test\' annotation'
 
     def __init__(self):
-        self.__entity = None
-        self.__project = None
-        self.__id = 'G.2'
+        self.__init__()
         self.__junit = None
-        self.__issues = []
-        self.__issue_category = 'Redundant use of \'test\' in method name'
-        self.__issue_description = 'Replace the term \'test\' in the method name with the \'Test\' annotation'
 
     def __get_junit_version(self):
         pass
 
+    @override
     def __process_identifier(self, identifier):
         try:
             if self.__junit is not None:
@@ -48,6 +49,7 @@ class TestAnnotationTest:
                 identifier.column_number)
             handle_error('G.2', error_message, ErrorSeverity.Error, False, e)
 
+    @override
     def analyze(self, project, entity):
         if entity.file_type == FileType.Test:
             self.__project = project

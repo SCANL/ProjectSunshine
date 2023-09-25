@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from typing_extensions import override
 from src.common.enum import IdentifierType
 from src.common.error_handler import ErrorSeverity, handle_error
 from src.common.util_parsing import get_all_exception_throws, is_test_method, is_boolean_type
@@ -7,18 +8,19 @@ from src.model.issue import Issue
 # Impacted identifier: All
 # Impacted identifier: Method
 from src.nlp import term_list
+from linguistic_antipattern import LinguisticAntipattern
 
 
-class ValidateNotConfirm:
+class ValidateNotConfirm(LinguisticAntipattern):
+
+    ID = 'B.2'
+    ISSUE_CATEGORY = 'Validation method does not confirm'
+    ISSUE_DESCRIPTION = 'A validation method does not provide a return value informing whether the validation was successful.'
 
     def __init__(self):
-        self.__entity = None
-        self.__project = None
-        self.__id = 'B.2'
-        self.__issues = []
-        self.__issue_category = 'Validation method does not confirm'
-        self.__issue_description = 'A validation method does not provide a return value informing whether the validation was successful.'
+        super.__init__()
 
+    @override
     def __process_identifier(self, identifier):
         # AntiPattern: The name starts with validate and return type is not void and no exception thrown. Not applicable to test methods
         try:
@@ -43,6 +45,7 @@ class ValidateNotConfirm:
                 identifier.column_number)
             handle_error('B.2', error_message, ErrorSeverity.Error, False, e)
 
+    @override
     def analyze(self, project, entity):
         # Analyze all methods in a class
         self.__project = project

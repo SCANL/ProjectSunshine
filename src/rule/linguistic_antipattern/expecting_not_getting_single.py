@@ -1,27 +1,29 @@
 from datetime import datetime
 
+from typing_extensions import override
 from src.common.enum import IdentifierType
 from src.common.error_handler import ErrorSeverity, handle_error
 from src.common.types_list import get_collection_types
 from src.common.util_parsing import is_test_method
 from src.model.issue import Issue
 from src.nlp.term_property import is_singular
+from linguistic_antipattern import LinguisticAntipattern
 
 
 # Impacted File: All
 # Impacted identifier: Method
 
 
-class ExpectingNotGettingSingle:
+class ExpectingNotGettingSingle(LinguisticAntipattern):
+
+    ID = 'A.4'
+    ISSUE_CATEGORY = 'Expecting but not getting single instance'
+    ISSUE_DESCRIPTION = 'The name of a method indicates that a single object is returned but the return type is a collection.'
 
     def __init__(self):
-        self.__entity = None
-        self.__project = None
-        self.__id = 'A.4'
-        self.__issues = []
-        self.__issue_category = 'Expecting but not getting single instance'
-        self.__issue_description = 'The name of a method indicates that a single object is returned but the return type is a collection.'
+        super.__init__()
 
+    @override
     def __process_identifier(self, identifier):
         # AntiPattern: if the last term is singular and the name does not contain a collection term and the return type is a collection
         try:
@@ -48,6 +50,7 @@ class ExpectingNotGettingSingle:
                 identifier.column_number)
             handle_error('A.4', error_message, ErrorSeverity.Error, False, e)
 
+    @override
     def analyze(self, project, entity):
         # Analyze all methods in a class
         self.__project = project

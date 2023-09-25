@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from typing_extensions import override
 from src.common.enum import IdentifierType
 from src.common.error_handler import handle_error, ErrorSeverity
 from src.common.types_list import get_collection_types, get_numeric_types, get_bool_types
@@ -7,18 +8,18 @@ from src.common.util_parsing import get_all_class_fields
 from src.model.issue import Issue
 from src.nlp import term_list
 from src.nlp.term_property import is_plural
+from linguistic_antipattern import LinguisticAntipattern
 
+class SaysManyContainsOne(LinguisticAntipattern):
 
-class SaysManyContainsOne:
+    ID = 'E.1'
+    ISSUE_CATEGORY = 'Says many but contains one'
+    ISSUE_DESCRIPTION = 'The name of an attribute suggests multiple instances, but its type suggests a single one.'
 
     def __init__(self):
-        self.__entity = None
-        self.__project = None
-        self.__id = 'E.1'
-        self.__issues = []
-        self.__issue_category = 'Says many but contains one'
-        self.__issue_description = 'The name of an attribute suggests multiple instances, but its type suggests a single one.'
+        super.__init__()
 
+    @override
     def __process_identifier(self, identifier):
         # AntiPattern: The last term in the name is plural AND the data type is not a collection
         try:
@@ -48,6 +49,7 @@ class SaysManyContainsOne:
                 identifier.column_number)
             handle_error('E.1', error_message, ErrorSeverity.Error, False, e)
 
+    @override
     def analyze(self, project, entity):
         # Analyze all attributes, variables and parameters in a class
         self.__project = project

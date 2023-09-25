@@ -1,22 +1,23 @@
 from datetime import datetime
 
+from typing_extensions import override
 from src.common.enum import IdentifierType
 from src.common.error_handler import handle_error, ErrorSeverity
 from src.common.util_parsing import get_all_class_fields, is_boolean_type
 from src.model.issue import Issue
 from src.nlp import term_list
+from linguistic_antipattern import LinguisticAntipattern
 
+class NameSuggestBooleanTypeNot(LinguisticAntipattern):
 
-class NameSuggestBooleanTypeNot:
+    ID = 'D.2'
+    ISSUE_CATEGORY = 'Name suggests boolean but type is not'
+    ISSUE_DESCRIPTION = 'The name of an attribute suggests that its value is true or false, but its declaring type is not Boolean.'
 
     def __init__(self):
-        self.__entity = None
-        self.__project = None
-        self.__id = 'D.2'
-        self.__issues = []
-        self.__issue_category = 'Name suggests boolean but type is not'
-        self.__issue_description = 'The name of an attribute suggests that its value is true or false, but its declaring type is not Boolean.'
+        super.__init__()
 
+    @override
     def __process_identifier(self, identifier):
         # AntiPattern: The starting term in the name should be a boolean term AND the data type is not a boolean
         try:
@@ -41,6 +42,7 @@ class NameSuggestBooleanTypeNot:
                 identifier.column_number)
             handle_error('D.2', error_message, ErrorSeverity.Error, False, e)
 
+    @override
     def analyze(self, project, entity):
         # Analyze all attributes, variables and parameters in a class
         self.__project = project
