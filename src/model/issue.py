@@ -26,10 +26,10 @@ class Issue:
         self.__details = value
 
     @property
-    def additional_deatails(self):
+    def additional_details(self):
         return self.__additional_details 
 
-    @additional_deatails.setter
+    @additional_details.setter
     def additional_details(self, value):
         self.__additional_details = value
 

@@ -35,18 +35,8 @@ class ExpectingNotGettingCollection(LinguisticAntipattern):
                             message = 'Return type: %s%s' % (identifier.return_type,'(array)' if identifier.is_array else '')
                             if identifier.return_type in get_numeric_types(self.__entity.language):
                                 message = message + '; Return type is numeric, this might be a false-positive'
-                            issue = Issue()
-                            issue.file_path = self.__entity.path
-                            issue.identifier = identifier.get_fully_qualified_name()
-                            issue.identifier_type = IdentifierType.get_type(type(identifier).__name__)
-                            issue.category = self.__issue_category
-                            issue.details = self.__issue_description
+                            issue = Issue(self, identifier)
                             issue.additional_details = message
-                            issue.id = self.__id
-                            issue.analysis_datetime = datetime.now()
-                            issue.file_type = self.__entity.file_type
-                            issue.line_number = identifier.line_number
-                            issue.column_number = identifier.column_number
                             self.__issues.append(issue)
         except Exception as e:
             error_message = "Error encountered processing %s in file %s [%s:%s]" % (

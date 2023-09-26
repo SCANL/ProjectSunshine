@@ -23,18 +23,8 @@ class NameSuggestBooleanTypeNot(LinguisticAntipattern):
         try:
             if identifier.name_terms[0].lower() in term_list.get_boolean_terms(self.__project):
                 if not is_boolean_type(self.__entity, identifier):
-                    issue = Issue()
-                    issue.file_path = self.__entity.path
-                    issue.identifier = identifier.get_fully_qualified_name()
-                    issue.identifier_type = IdentifierType.get_type(type(identifier).__name__)
-                    issue.category = self.__issue_category
-                    issue.details = self.__issue_description
+                    issue = Issue(self, identifier)
                     issue.additional_details = 'Starting term: \'%s\' Data type: \'%s%s\'' % (identifier.name_terms[0], identifier.type, '(array)' if identifier.is_array else '')
-                    issue.id = self.__id
-                    issue.analysis_datetime = datetime.now()
-                    issue.file_type = self.__entity.file_type
-                    issue.line_number = identifier.line_number
-                    issue.column_number = identifier.column_number
                     self.__issues.append(issue)
         except Exception as e:
             error_message = "Error encountered processing %s in file %s [%s:%s]" % (

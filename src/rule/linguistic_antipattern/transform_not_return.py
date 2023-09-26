@@ -30,17 +30,7 @@ class TransformNotReturn(LinguisticAntipattern):
                 if (identifier.name_terms[0].lower() in term_list.get_transform_terms_staring(self.__project) or
                     any(item in inner_terms for item in term_list.get_transform_terms_inner(self.__project))) \
                         and identifier.return_type == 'void':
-                    issue = Issue()
-                    issue.file_path = self.__entity.path
-                    issue.identifier = identifier.get_fully_qualified_name()
-                    issue.identifier_type = IdentifierType.get_type(type(identifier).__name__)
-                    issue.category = self.__issue_category
-                    issue.details = self.__issue_description
-                    issue.id = self.__id
-                    issue.analysis_datetime = datetime.now()
-                    issue.file_type = self.__entity.file_type
-                    issue.line_number = identifier.line_number
-                    issue.column_number = identifier.column_number
+                    issue = Issue(self, identifier)
                     self.__issues.append(issue)
         except Exception as e:
             error_message = "Error encountered processing %s in file %s [%s:%s]" % (

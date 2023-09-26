@@ -30,18 +30,8 @@ class SaysManyContainsOne(LinguisticAntipattern):
                         message = message + '; Data type is numeric, this might be a false-positive'
                     if identifier.type in get_bool_types(self.__entity.language) and (identifier.name_terms[0].lower() in term_list.get_boolean_terms(self.__project) or identifier.name_terms[0].lower() in term_list.get_validate_terms(self.__project)):
                         message = message + '; Data type is boolean and starting term is boolean-based, this might be a false-positive'
-                    issue = Issue()
-                    issue.file_path = self.__entity.path
-                    issue.identifier = identifier.get_fully_qualified_name()
-                    issue.identifier_type = IdentifierType.get_type(type(identifier).__name__)
-                    issue.category = self.__issue_category
-                    issue.details = self.__issue_description
+                    issue = Issue(self, identifier)
                     issue.additional_details = message
-                    issue.id = self.__id
-                    issue.analysis_datetime = datetime.now()
-                    issue.file_type = self.__entity.file_type
-                    issue.line_number = identifier.line_number
-                    issue.column_number = identifier.column_number
                     self.__issues.append(issue)
         except Exception as e:
             error_message = "Error encountered processing %s in file %s [%s:%s]" % (

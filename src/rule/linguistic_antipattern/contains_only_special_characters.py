@@ -28,18 +28,7 @@ class ContainsOnlySpecialCharacters(LinguisticAntipattern):
                 if re.search(regex, character):
                     count = count + 1
             if count == len(identifier.name):
-                issue = Issue()
-                issue.file_path = self.__entity.path
-                issue.identifier = identifier.get_fully_qualified_name()
-                issue.identifier_type = IdentifierType.get_type(type(identifier).__name__)
-                issue.category = self.__issue_category
-                issue.details = self.__issue_description
-                issue.additional_details = ''
-                issue.id = self.__id
-                issue.analysis_datetime = datetime.now()
-                issue.file_type = self.__entity.file_type
-                issue.line_number = identifier.line_number
-                issue.column_number = identifier.column_number
+                issue = Issue(self, identifier)
                 self.__issues.append(issue)
         except Exception as e:
             error_message = "Error encountered processing %s in file %s [%s:%s]" % (

@@ -37,17 +37,7 @@ class TestNonVerbStarting(LinguisticAntipattern):
             if starting_term != '':
                 tag = pos_tag.generate_tag(self.__project, starting_term)
                 if pos_tag.get_tag_text(tag) != POSType.Verb:
-                    issue = Issue()
-                    issue.file_path = self.__entity.path
-                    issue.identifier = identifier.get_fully_qualified_name()
-                    issue.identifier_type = IdentifierType.get_type(type(identifier).__name__)
-                    issue.category = self.__issue_category
-                    issue.details = self.__issue_description
-                    issue.id = self.__id
-                    issue.analysis_datetime = datetime.now()
-                    issue.file_type = self.__entity.file_type
-                    issue.line_number = identifier.line_number
-                    issue.column_number = identifier.column_number
+                    issue = Issue(self, identifier)
                     self.__issues.append(issue)
         except Exception as e:
             error_message = "Error encountered processing %s in file %s [%s:%s]" % (
