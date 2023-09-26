@@ -6,7 +6,7 @@ from src.common.error_handler import ErrorSeverity, handle_error
 from src.common.util_parsing import get_all_conditional_statements, is_test_method
 from src.model.issue import Issue
 from src.nlp import term_list
-from linguistic_antipattern import LinguisticAntipattern
+from src.rule.linguistic_antipattern.linguistic_antipattern import LinguisticAntipattern
 
 class NotImplementedCondition(LinguisticAntipattern):
 
@@ -55,14 +55,3 @@ class NotImplementedCondition(LinguisticAntipattern):
                 IdentifierType.get_type(type(identifier).__name__), self.__entity.path, identifier.line_number,
                 identifier.column_number)
             handle_error('B.1', error_message, ErrorSeverity.Error, False, e)
-
-    @override
-    def analyze(self, project, entity):
-        # Analyze all methods in a class
-        self.__project = project
-        self.__entity = entity
-        for class_item in self.__entity.classes:
-            for method_item in class_item.methods:
-                self.__process_identifier(method_item)
-
-        return self.__issues

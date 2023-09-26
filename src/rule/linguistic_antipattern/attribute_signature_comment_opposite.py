@@ -7,7 +7,7 @@ from src.common.error_handler import handle_error, ErrorSeverity
 from src.common.util_parsing import get_all_class_fields
 from src.model.issue import Issue
 from src.nlp.related_terms import clean_text, are_antonyms
-from linguistic_antipattern import LinguisticAntipattern
+from src.rule.linguistic_antipattern.linguistic_antipattern import LinguisticAntipattern
 
 
 class AttributeSignatureCommentOpposite(LinguisticAntipattern):

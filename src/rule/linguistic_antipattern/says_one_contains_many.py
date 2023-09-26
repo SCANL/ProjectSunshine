@@ -7,7 +7,7 @@ from src.common.types_list import get_collection_types
 from src.common.util_parsing import get_all_class_fields
 from src.model.issue import Issue
 from src.nlp.term_property import is_singular
-from linguistic_antipattern import LinguisticAntipattern
+from src.rule.linguistic_antipattern.linguistic_antipattern import LinguisticAntipattern
 
 
 class SaysOneContainsMany(LinguisticAntipattern):

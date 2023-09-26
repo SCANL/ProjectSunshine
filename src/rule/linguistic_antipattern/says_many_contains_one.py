@@ -8,7 +8,7 @@ from src.common.util_parsing import get_all_class_fields
 from src.model.issue import Issue
 from src.nlp import term_list
 from src.nlp.term_property import is_plural
-from linguistic_antipattern import LinguisticAntipattern
+from src.rule.linguistic_antipattern.linguistic_antipattern import LinguisticAntipattern
 
 class SaysManyContainsOne(LinguisticAntipattern):
 

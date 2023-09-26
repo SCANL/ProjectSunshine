@@ -94,7 +94,7 @@ def are_antonyms(term1: str, term2: str) -> bool:
     return False
 
 
-def get_synonyms(term: str, pos: str) -> set[str]:
+def get_synonyms(term: str, pos: str):
     """
         Get synonyms for a term based on its part-of-speech (POS).
 

@@ -6,7 +6,7 @@ from src.common.error_handler import handle_error, ErrorSeverity
 from src.model.issue import Issue
 from src.nlp import pos_tag
 from src.nlp.pos_tag import POSType
-from linguistic_antipattern import LinguisticAntipattern
+from src.rule.linguistic_antipattern.linguistic_antipattern import LinguisticAntipattern
 
 # Impacted File: Test
 # Impacted identifier: Method
@@ -58,11 +58,7 @@ class TestNonVerbStarting(LinguisticAntipattern):
     @override
     def analyze(self, project, entity):
         if entity.file_type == FileType.Test:
-            self.__project = project
             self.__junit = project.junit_version
-            self.__entity = entity
-            for class_item in self.__entity.classes:
-                for method_item in class_item.methods:
-                    self.__process_identifier(method_item)
-
+            LinguisticAntipattern.analyze(self, project, entity)
+            
         return self.__issues

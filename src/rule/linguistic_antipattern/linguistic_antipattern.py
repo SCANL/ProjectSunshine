@@ -40,6 +40,12 @@ class LinguisticAntipattern(ABC):
     def __process_identifier(self, identifier):
         pass
 
-    @abstractclassmethod
     def analyze(self, project, entity):
-        pass
+        # Analyze all methods in a class
+        self.__project = project
+        self.__entity = entity
+        for class_item in self.__entity.classes:
+            for method_item in class_item.methods:
+                self.__process_identifier(method_item)
+
+        return self.__issues
