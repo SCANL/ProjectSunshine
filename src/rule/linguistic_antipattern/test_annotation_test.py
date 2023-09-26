@@ -17,7 +17,7 @@ class TestAnnotationTest(LinguisticAntipattern):
     ISSUE_DESCRIPTION = 'Replace the term \'test\' in the method name with the \'Test\' annotation'
 
     def __init__(self):
-        self.__init__()
+        super.__init__()
         self.__junit = None
 
     def __get_junit_version(self):
