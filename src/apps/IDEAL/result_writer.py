@@ -5,9 +5,8 @@ class ResultWriter:
 
     def __init__(self, output_directory):
         results_file = 'IDEAL_Results.csv'
-        if output_directory is not None:
-            if path.exists(output_directory):
-                results_file = path.join(output_directory, results_file)
+        if output_directory is not None and path.exists(output_directory):
+            results_file = path.join(output_directory, results_file)
 
         if path.exists(results_file):
             self.results_file = open(results_file, 'a', encoding="utf-8")

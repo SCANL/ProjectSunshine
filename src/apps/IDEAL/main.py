@@ -38,37 +38,6 @@ class Main:
         self.project = Project(args.arg_file)
         self.files = read_input(self.project.input_file)
 
-    # def __read_input(self):
-    #     path_string = self.project.input_file
-    #     input_data = pandas.read_csv(path_string)
-    #     if len(input_data) == 0:
-    #         error_message = "Input CSV file cannot be empty: \'%s\'" % str(path_string)
-    #         handle_error('Main', error_message, ErrorSeverity.Critical, True)
-    #
-    #     self.files = []
-    #     file_extensions = util.get_supported_file_extensions()
-    #     for i, item in input_data.iterrows():
-    #         path = Path(item[0])
-    #         path_string = str(path)
-    #
-    #         if os.path.isdir(path_string):
-    #             source_files = [p for p in path.rglob('*') if p.suffix in file_extensions]
-    #             for file in source_files:
-    #                 input_item = Input(str(file), item[1], item[2])
-    #                 self.files.append(input_item)
-    #
-    #         elif os.path.isfile(path_string):
-    #             if path_string.lower().endswith(tuple(file_extensions)):
-    #                 input_item = Input(path_string, item[1], item[2])
-    #                 self.files.append(input_item)
-    #         else:
-    #             error_message = "Invalid files provided in input CSV file: \'%s\'" % str(path_string)
-    #             handle_error('Main', error_message, ErrorSeverity.Critical, True)
-    #
-    #     if len(self.files) == 0:
-    #         error_message = "Invalid files provided in input CSV file: \'%s\'" % str(path_string)
-    #         handle_error('Main', error_message, ErrorSeverity.Critical, True)
-
     def run_analysis(self):
         time_analysis_start = time.time()
         logger = setup_logger('ProjectSunshine-FileProcessed',

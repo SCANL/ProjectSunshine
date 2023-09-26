@@ -46,7 +46,7 @@ class TestFactory:
         mock_parse_file.return_value = False
         factory = EntityFactory()
         invalid_file_path = "path/to/invalid/file.java"
-        assert factory.construct_model(invalid_file_path, "", "") == None
+        assert factory.construct_model(invalid_file_path, "", False) == None
 
     def test_construct_model_with_valid_input(self, temp_input_file, mock_parse_file, mock_construct_hierarchy):
         """
@@ -58,6 +58,6 @@ class TestFactory:
         factory = EntityFactory()
 
         valid_file_path = str(temp_input_file)
-        factory.construct_model(valid_file_path, "", "")
+        factory.construct_model(valid_file_path, "", False)
 
         assert factory.entity is not None

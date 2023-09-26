@@ -2,14 +2,7 @@ import enum
 from src.model.project import Project
 from src.nlp import term_list
 
-
-# def initialize_stanford_tagger():
-#     path_to_model = util.get_config_setting('stanford', 'path_to_model')
-#     path_to_jar = util.get_config_setting('stanford', 'path_to_jar')
-#     path_to_java = util.get_config_setting('general', 'path_to_java')
-#     os.environ['JAVAHOME'] = path_to_java
-#     return StanfordPOSTagger(path_to_model, path_to_jar)
-from ..nlp.pos_tagger_stanford import POSTaggerStanford
+from src.nlp.pos_tagger_stanford import POSTaggerStanford
 
 
 def generate_tag(project: Project, term: str) -> str:
@@ -33,16 +26,7 @@ def generate_tag(project: Project, term: str) -> str:
     else:
         stanford = POSTaggerStanford()
         return stanford.get_pos(term)
-        # tagger = stanford.tagger #initialize_stanford_tagger()
-        # tagger.tag([term])[0][1]
 
-
-# def generate_tags(term_list, append_I=False):
-#     terms = term_list.copy()
-#     if append_I:
-#         terms.insert(0, 'I')
-#     tagger = initialize_stanford_tagger()
-#     return tagger.tag(terms)
 
 class POSType(enum.Enum):
     Verb = 1
