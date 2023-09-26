@@ -5,7 +5,7 @@ from spiral.simple_splitters import heuristic_split
 from src.common.Singleton import Singleton
 from src.nlp import term_list
 from src.model.project import Project
-from typing import List
+from typing import List, Optional
 
 
 class Splitter(metaclass=Singleton):
@@ -19,11 +19,8 @@ class Splitter(metaclass=Singleton):
             project (Project): The Project instance with all necessary configurations in it.
     """
 
-    def __init__(self):
-        self.project: Project = None  # type: ignore
-
     def set_project(self, project: Project):
-        self.project: Project = project
+        self.project = project
 
     @staticmethod
     def split_word_tokens(text: str) -> List[str]:
@@ -42,6 +39,8 @@ class Splitter(metaclass=Singleton):
     @staticmethod
     def split_ronin(name):
         """
+            Not sure if this functions is used anywhere.
+
             Split a name using the 'ronin' splitting method.
 
             'ronin' is a specific splitting method used to split names.

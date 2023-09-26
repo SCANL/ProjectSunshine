@@ -186,7 +186,7 @@ def get_null_check_test_method(project: Project, language: LanguageType) -> Opti
         return None
 
 
-def get_testing_packages(project: Optional[Project], language: LanguageType) -> Optional[List[Any]]:
+def get_testing_packages(project: Optional[Project], language: Optional[LanguageType]) -> Optional[List[Any]]:
     """
         Get testing packages for a specific programming language.
 

@@ -1,5 +1,7 @@
 from src.nlp.splitter import Splitter
-from typing import List, Any
+from typing import List, Any, Optional
+
+SRCML_LINE_COL_NUMS_XPATH = '{http://www.srcML.org/srcML/position}start'
 
 
 class Class:
@@ -15,7 +17,6 @@ class Class:
                 name (str): The name of the class.
                 source: The source code for the class.
         """
-        # splitter = Splitter()
         self.name = name
         self.source = source
 
@@ -23,13 +24,13 @@ class Class:
         self.attributes: List[Attribute] = []
         self.properties: List[Property] = []
         self.name_terms = Splitter().split_heuristic(name)
-        self.block_comment = None
+        self.block_comment: Optional[str] = None
         self.line_number = (
-            source.attrib['{http://www.srcML.org/srcML/position}start']).split(':')[0]
+            source.attrib[SRCML_LINE_COL_NUMS_XPATH]).split(':')[0]
         self.column_number = (
-            source.attrib['{http://www.srcML.org/srcML/position}start']).split(':')[1]
+            source.attrib[SRCML_LINE_COL_NUMS_XPATH]).split(':')[1]
 
-    def set_block_comment(self, comment: str):
+    def set_block_comment(self, comment: Optional[str]):
         """
             Set the block comment for the class.
 
@@ -58,7 +59,6 @@ class Attribute:
             source: The source code for the attribute.
         """
 
-        # splitter = Splitter()
         self.specifier = specifier if specifier is not None else 'default'
         self.type = type
         self.name = name
@@ -70,9 +70,9 @@ class Attribute:
         self.block_comment = None
         self.type_is_generic = is_generic
         self.line_number = (
-            source.attrib['{http://www.srcML.org/srcML/position}start']).split(':')[0]
+            source.attrib[SRCML_LINE_COL_NUMS_XPATH]).split(':')[0]
         self.column_number = (
-            source.attrib['{http://www.srcML.org/srcML/position}start']).split(':')[1]
+            source.attrib[SRCML_LINE_COL_NUMS_XPATH]).split(':')[1]
 
     def set_block_comment(self, comment):
         """
@@ -112,7 +112,6 @@ class Property:
                 source: The source code for the property.
         """
 
-        # splitter = Splitter()
         self.type = type
         self.name = name
         self.source = source
@@ -123,9 +122,9 @@ class Property:
         self.block_comment = None
         self.type_is_generic = is_generic
         self.line_number = (
-            source.attrib['{http://www.srcML.org/srcML/position}start']).split(':')[0]
+            source.attrib[SRCML_LINE_COL_NUMS_XPATH]).split(':')[0]
         self.column_number = (
-            source.attrib['{http://www.srcML.org/srcML/position}start']).split(':')[1]
+            source.attrib[SRCML_LINE_COL_NUMS_XPATH]).split(':')[1]
 
     def set_block_comment(self, comment: str):
         """
@@ -165,7 +164,6 @@ class Method:
                 source: The source code for the method.
         """
 
-        # splitter = Splitter()
         self.specifier = self.specifier = specifier if specifier is not None else 'default'
         self.name = name
         self.source = source
@@ -179,11 +177,11 @@ class Method:
         self.type_terms = Splitter().split_heuristic(return_type)
         self.block_comment = None
         self.line_number = (
-            source.attrib['{http://www.srcML.org/srcML/position}start']).split(':')[0]
+            source.attrib[SRCML_LINE_COL_NUMS_XPATH]).split(':')[0]
         self.column_number = (
-            source.attrib['{http://www.srcML.org/srcML/position}start']).split(':')[1]
+            source.attrib[SRCML_LINE_COL_NUMS_XPATH]).split(':')[1]
 
-    def set_block_comment(self, comment: str):
+    def set_block_comment(self, comment: Optional[str]):
         """
             Set the block comment for the method.
 
@@ -212,7 +210,6 @@ class Method:
                 List[str]: List of comments.
         """
 
-        # splitter = Splitter()
         comments = []
         if self.block_comment is not None:
             comments.append(self.block_comment)
@@ -270,7 +267,6 @@ class Variable:
                 source: The source code for the variable.
         """
 
-        # splitter = Splitter()
         self.specifier = self.specifier = specifier if specifier is not None else 'default'
         self.type = type
         self.name = name
@@ -282,9 +278,9 @@ class Variable:
         self.block_comment = None
         self.type_is_generic = is_generic
         self.line_number = (
-            source.attrib['{http://www.srcML.org/srcML/position}start']).split(':')[0]
+            source.attrib[SRCML_LINE_COL_NUMS_XPATH]).split(':')[0]
         self.column_number = (
-            source.attrib['{http://www.srcML.org/srcML/position}start']).split(':')[1]
+            source.attrib[SRCML_LINE_COL_NUMS_XPATH]).split(':')[1]
 
     def set_block_comment(self, comment):
         """
@@ -295,7 +291,7 @@ class Variable:
         """
         self.block_comment = comment
 
-    def set_parent_name(self, parent_name):
+    def set_parent_name(self, parent_name: str):
         """
             Set the parent name (method or class) to which the variable belongs.
 
@@ -304,15 +300,15 @@ class Variable:
         """
         self.parent_name = parent_name
 
-    def get_fully_qualified_name(self) -> str:
+    def get_fully_qualified_name(self) -> str | None:
         """
             Get the fully qualified name of the variable, including the parent method or class.
 
             Returns:
                 str: The fully qualified name.
         """
-
-        return self.parent_name + '.' + self.name
+        if self.parent_name is not None:
+            return self.parent_name + '.' + self.name
 
 
 class Parameter:
@@ -320,8 +316,7 @@ class Parameter:
         Represents a parameter passed to a method.
     """
 
-    def __init__(self, type, name, is_array, is_generic, source):
-        # splitter = Splitter()
+    def __init__(self, type, name, is_array: bool, is_generic: bool, source):
         self.type = type
         self.name = name
         self.source = source
@@ -332,9 +327,9 @@ class Parameter:
         self.block_comment = None
         self.type_is_generic = is_generic
         self.line_number = (
-            source.attrib['{http://www.srcML.org/srcML/position}start']).split(':')[0]
+            source.attrib[SRCML_LINE_COL_NUMS_XPATH]).split(':')[0]
         self.column_number = (
-            source.attrib['{http://www.srcML.org/srcML/position}start']).split(':')[1]
+            source.attrib[SRCML_LINE_COL_NUMS_XPATH]).split(':')[1]
 
     def set_block_comment(self, comment: str):
         """
@@ -354,11 +349,12 @@ class Parameter:
         """
         self.parent_name = parent_name
 
-    def get_fully_qualified_name(self) -> str:
+    def get_fully_qualified_name(self) -> str | None:
         """
             Get the fully qualified name of the parameter, including the parent method or class.
 
             Returns:
                 str: The fully qualified name.
         """
-        return self.parent_name + '.' + self.name
+        if self.parent_name is not None:
+            return self.parent_name + '.' + self.name

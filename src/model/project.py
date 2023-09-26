@@ -8,6 +8,8 @@ from src.common.error_handler import handle_error, ErrorSeverity
 
 class Project:
 
+    MISSING_KEY_ERROR_MSG = "Missing key in the configuration file: %s"
+
     initialize_stanford_tagger = None
     config_custom_terms_file = None
     config_custom_code_file = None
@@ -28,7 +30,7 @@ class Project:
             self.output_directory = config[section_files]['output_directory']
             self.input_file = config[section_files]['input_file']
         except KeyError as error:
-            error_message = "Missing key in the configuration file: %s" % str(
+            error_message = self.MISSING_KEY_ERROR_MSG % str(
                 error)
             handle_error('ConfigReader', error_message,
                          ErrorSeverity.Critical, True)
@@ -39,7 +41,7 @@ class Project:
         except ValueError as error:
             self.junit_version = None
         except KeyError as error:
-            error_message = "Missing key in the configuration file: %s" % str(
+            error_message = self.MISSING_KEY_ERROR_MSG % str(
                 error)
             handle_error('ConfigReader', error_message,
                          ErrorSeverity.Error, False)
@@ -49,7 +51,7 @@ class Project:
             self.custom_code_file = config[section_files]['custom_code']
             self.custom_terms_file = config[section_files]['custom_terms']
         except KeyError as error:
-            error_message = "Missing key in the configuration file: %s" % str(
+            error_message = self.MISSING_KEY_ERROR_MSG % str(
                 error)
             handle_error('ConfigReader', error_message,
                          ErrorSeverity.Error, False)

@@ -8,7 +8,7 @@ splitter_terms = [
     'shutdown',
     'SVN',
     'JSON',
-    'API'
+    'API',
     'PDF',
     'TTL',
     'ASCII',
