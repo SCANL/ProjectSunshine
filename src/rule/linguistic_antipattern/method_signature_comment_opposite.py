@@ -1,7 +1,5 @@
 import itertools
-from datetime import datetime
 
-from typing_extensions import override
 from src.common.enum import IdentifierType
 from src.common.error_handler import handle_error, ErrorSeverity
 from src.common.util_parsing import is_test_method
@@ -19,7 +17,7 @@ class MethodSignatureCommentOpposite(LinguisticAntipattern):
     def __init__(self):
         super.__init__()
 
-    @override
+    #Override
     def __process_identifier(self, identifier):
         # AntiPattern: The method name or return type and comment contain antonyms
         try:

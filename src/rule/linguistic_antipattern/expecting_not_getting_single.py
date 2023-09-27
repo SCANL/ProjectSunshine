@@ -1,6 +1,3 @@
-from datetime import datetime
-
-from typing_extensions import override
 from src.common.enum import IdentifierType
 from src.common.error_handler import ErrorSeverity, handle_error
 from src.common.types_list import get_collection_types
@@ -23,7 +20,7 @@ class ExpectingNotGettingSingle(LinguisticAntipattern):
     def __init__(self):
         super.__init__()
 
-    @override
+    #Override
     def __process_identifier(self, identifier):
         # AntiPattern: if the last term is singular and the name does not contain a collection term and the return type is a collection
         try:

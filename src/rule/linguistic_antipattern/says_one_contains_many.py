@@ -1,6 +1,3 @@
-from datetime import datetime
-
-from typing_extensions import override
 from src.common.enum import IdentifierType
 from src.common.error_handler import ErrorSeverity, handle_error
 from src.common.types_list import get_collection_types
@@ -19,7 +16,7 @@ class SaysOneContainsMany(LinguisticAntipattern):
     def __init__(self):
         super.__init__()
 
-    @override
+    #Override
     def __process_identifier(self, identifier):
         # AntiPattern: The last term in the name is singular AND the data type is a collection
         try:
@@ -34,7 +31,7 @@ class SaysOneContainsMany(LinguisticAntipattern):
                 identifier.column_number)
             handle_error('D.1', error_message, ErrorSeverity.Error, False, e)
 
-    @override
+    #Override
     def analyze(self, project, entity):
         # Analyze all attributes, variables and parameters in a class
         self.__project = project

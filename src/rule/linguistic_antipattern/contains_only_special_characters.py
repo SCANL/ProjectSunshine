@@ -1,7 +1,5 @@
-from datetime import datetime
 import re
 
-from typing_extensions import override
 from src.common.enum import IdentifierType
 from src.common.error_handler import handle_error, ErrorSeverity
 from src.common.util_parsing import get_all_items_in_class
@@ -18,7 +16,7 @@ class ContainsOnlySpecialCharacters(LinguisticAntipattern):
     def __init__(self):
         super.__init__()
 
-    @override
+    #Override
     def __process_identifier(self, identifier):
         # AntiPattern: All characters in the name are special character
         regex = r"^[^a-zA-Z0-9]+$"
@@ -36,7 +34,7 @@ class ContainsOnlySpecialCharacters(LinguisticAntipattern):
                 identifier.column_number)
             handle_error('G.1', error_message, ErrorSeverity.Error, False, e)
 
-    @override
+    #Override
     def analyze(self, project, entity):
         # Analyze all attributes, variables and parameters in a class
         self.project = project

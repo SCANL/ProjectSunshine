@@ -1,6 +1,3 @@
-from datetime import datetime
-
-from typing_extensions import override
 from src.common.enum import IdentifierType
 from src.common.error_handler import handle_error, ErrorSeverity
 from src.model.issue import Issue
@@ -20,7 +17,7 @@ class SetReturns(LinguisticAntipattern):
     def __init__(self):
         super.__init__()
 
-    @override
+    #Override
     def __process_identifier(self, identifier):
         # AntiPattern: The name starts with a set, but the method return type is not void
         try:

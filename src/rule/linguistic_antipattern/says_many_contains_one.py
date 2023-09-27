@@ -1,6 +1,3 @@
-from datetime import datetime
-
-from typing_extensions import override
 from src.common.enum import IdentifierType
 from src.common.error_handler import handle_error, ErrorSeverity
 from src.common.types_list import get_collection_types, get_numeric_types, get_bool_types
@@ -19,7 +16,7 @@ class SaysManyContainsOne(LinguisticAntipattern):
     def __init__(self):
         super.__init__()
 
-    @override
+    #Override
     def __process_identifier(self, identifier):
         # AntiPattern: The last term in the name is plural AND the data type is not a collection
         try:
@@ -39,7 +36,7 @@ class SaysManyContainsOne(LinguisticAntipattern):
                 identifier.column_number)
             handle_error('E.1', error_message, ErrorSeverity.Error, False, e)
 
-    @override
+    #Override
     def analyze(self, project, entity):
         # Analyze all attributes, variables and parameters in a class
         self.__project = project

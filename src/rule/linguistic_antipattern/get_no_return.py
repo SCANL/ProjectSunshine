@@ -1,6 +1,3 @@
-from datetime import datetime
-
-from typing_extensions import override
 from src.common.enum import IdentifierType
 from src.common.error_handler import handle_error, ErrorSeverity
 from src.common.util_parsing import get_all_return_statements, is_test_method
@@ -18,7 +15,7 @@ class GetNoReturn(LinguisticAntipattern):
     def __init__(self):
         super.__init__()
 
-    @override
+    #Override
     def __process_identifier(self, identifier):
         # AntiPattern: The name starts with a get term, but the return type is void
         try:

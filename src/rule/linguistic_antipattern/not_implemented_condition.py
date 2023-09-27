@@ -1,6 +1,3 @@
-from datetime import datetime
-
-from typing_extensions import override
 from src.common.enum import IdentifierType, FileType
 from src.common.error_handler import ErrorSeverity, handle_error
 from src.common.util_parsing import get_all_conditional_statements, is_test_method
@@ -17,7 +14,7 @@ class NotImplementedCondition(LinguisticAntipattern):
     def __init__(self):
         super.__init__()
 
-    @override
+    #Override
     def __process_identifier(self, identifier):
         # AntiPattern: method contains conditional-related comment or name, but no conditional statements
         try:

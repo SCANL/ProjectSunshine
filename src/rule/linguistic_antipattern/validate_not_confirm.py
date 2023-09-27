@@ -1,6 +1,3 @@
-from datetime import datetime
-
-from typing_extensions import override
 from src.common.enum import IdentifierType
 from src.common.error_handler import ErrorSeverity, handle_error
 from src.common.util_parsing import get_all_exception_throws, is_test_method, is_boolean_type
@@ -20,7 +17,7 @@ class ValidateNotConfirm(LinguisticAntipattern):
     def __init__(self):
         super.__init__()
 
-    @override
+    #Override
     def __process_identifier(self, identifier):
         # AntiPattern: The name starts with validate and return type is not void and no exception thrown. Not applicable to test methods
         try:

@@ -1,6 +1,3 @@
-from datetime import datetime
-
-from typing_extensions import override
 from src.common.enum import IdentifierType
 from src.common.error_handler import handle_error, ErrorSeverity
 from src.common.util_parsing import get_all_conditional_statements
@@ -17,7 +14,7 @@ class GetMoreThanAccessor(LinguisticAntipattern):
     def __init__(self):
         self.__class_attributes = None
 
-    @override
+    #Override
     def __process_identifier(self, identifier):
         # AntiPattern: The method name starts with 'get' AND the method is a getter for an attribute AND the method body contains conditional statements (if, loops, switch)
         try:
@@ -35,7 +32,7 @@ class GetMoreThanAccessor(LinguisticAntipattern):
                 identifier.column_number)
             handle_error('A.1', error_message, ErrorSeverity.Error, False, e)
 
-    @override
+    #Override
     def analyze(self, project, entity):
         # Analyze all methods in a class
         self.project = project
