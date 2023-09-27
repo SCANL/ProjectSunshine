@@ -1,7 +1,6 @@
 from datetime import datetime
 from typing import List, cast
 
-from typing_extensions import override
 from src.common.enum import IdentifierType, LanguageType
 from src.common.error_handler import handle_error, ErrorSeverity
 from src.common.types_list import get_collection_types, get_numeric_types
