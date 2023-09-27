@@ -46,7 +46,7 @@ class AttributeNameTypeOpposite(LinguisticAntipattern):
     @override
     def analyze(self, project, entity):
         # Analyze all attributes, variables and parameters in a class
-        self.__project = project
+        self.project = project
         self.__entity = entity
         for class_item in self.__entity.classes:
             fields = get_all_class_fields(class_item)

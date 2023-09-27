@@ -38,7 +38,7 @@ class GetMoreThanAccessor(LinguisticAntipattern):
     @override
     def analyze(self, project, entity):
         # Analyze all methods in a class
-        self.__project = project
+        self.project = project
         self.__entity = entity
         for class_item in self.__entity.classes:
             self.__class_attributes = class_item.attributes
