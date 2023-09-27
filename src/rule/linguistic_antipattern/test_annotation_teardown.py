@@ -6,6 +6,7 @@ from src.rule.linguistic_antipattern.linguistic_antipattern import LinguisticAnt
 # Impacted File: Test
 # Impacted identifier: Method
 
+
 class TestAnnotationTeardown(LinguisticAntipattern):
 
     ID = 'X.2'
@@ -16,10 +17,7 @@ class TestAnnotationTeardown(LinguisticAntipattern):
         super.__init__()
         self.__junit = None
 
-    def __get_junit_version(self):
-        pass
-
-    #Override
+    # Override
     def __process_identifier(self, identifier):
         if self.__entity.language == LanguageType.Java and self.__junit is not None:
             if self.__junit >= 4:
@@ -31,14 +29,16 @@ class TestAnnotationTeardown(LinguisticAntipattern):
                         self.__issues.append(issue)
                 except Exception as e:
                     error_message = "Error encountered processing %s in file %s [%s:%s]" % (
-                        IdentifierType.get_type(type(identifier).__name__), self.__entity.path, identifier.line_number,
+                        IdentifierType.get_type(
+                            type(identifier).__name__), self.__entity.path, identifier.line_number,
                         identifier.column_number)
-                    handle_error('X.2', error_message, ErrorSeverity.Error, False, e)
+                    handle_error('X.2', error_message,
+                                 ErrorSeverity.Error, False, e)
 
-    #Override
+    # Override
     def analyze(self, project, entity):
         if entity.file_type == FileType.Test:
             self.__junit = project.junit_version
             LinguisticAntipattern.analyze(self, project, entity)
-            
+
         return self.__issues

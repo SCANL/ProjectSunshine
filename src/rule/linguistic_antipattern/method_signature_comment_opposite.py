@@ -1,9 +1,12 @@
 import itertools
+from typing import List, cast
 
 from src.common.enum import IdentifierType
 from src.common.error_handler import handle_error, ErrorSeverity
 from src.common.util_parsing import is_test_method
+from src.model.entity import Entity
 from src.model.issue import Issue
+from src.model.project import Project
 from src.nlp.related_terms import are_antonyms, clean_text
 from src.rule.linguistic_antipattern.linguistic_antipattern import LinguisticAntipattern
 
@@ -15,46 +18,58 @@ class MethodSignatureCommentOpposite(LinguisticAntipattern):
     ISSUE_DESCRIPTION = 'The documentation of a method is in contradiction with its declaration.'
 
     def __init__(self):
-        super.__init__()
+        super.__init__()  # type: ignore
 
-    #Override
+    def __find_antonyms(self, comment_terms: List[str], name_terms: List[str], type_terms: List[str]):
+        for combination in itertools.product(comment_terms, type_terms):
+            if combination[0].isalpha() and combination[1].isalpha() and are_antonyms(combination[0], combination[1]):
+                return f"Antonyms: '{combination[0]}' and '{combination[1]}'"
+
+        for combination in itertools.product(comment_terms, name_terms):
+            if not combination[0].isalpha() or not combination[1].isalpha():
+                continue
+
+            if combination[0].lower() == combination[1].lower() and not are_antonyms(combination[0], combination[1]):
+                continue
+
+            return f"Antonyms: '{combination[0]}' and '{combination[1]}'"
+
+        return None
+
+    # Override
     def __process_identifier(self, identifier):
+        entity = cast(Entity, self.__entity)
+        path = cast(str, cast(Entity, self.__entity).path)
+
         # AntiPattern: The method name or return type and comment contain antonyms
         try:
-            if not is_test_method(self.__project, self.__entity, identifier):
-                matched_terms = 'Return Type: %s%s;' % (identifier.return_type,'(array)' if identifier.is_array else '')
-                comment = identifier.block_comment
-                if comment is not None:
-                    comment_cleansed_terms = clean_text(comment, True)
-                    unique_combinations_type = list(itertools.product(comment_cleansed_terms, identifier.type_terms))
-                    if identifier.name_terms[0] == 'get':
-                        unique_combinations_name = list(itertools.product(comment_cleansed_terms, identifier.name_terms[1:]))
-                    else:
-                        unique_combinations_name = list(itertools.product(comment_cleansed_terms, identifier.name_terms))
+            if is_test_method(self.__project, entity, identifier):
+                return
 
-                    result_antonyms = False
-                    for combination in unique_combinations_type:
-                        if combination[0].isalpha() and combination[1].isalpha():
-                            if combination[0].lower() != combination[1].lower():
-                                if are_antonyms(combination[0], combination[1]):
-                                    result_antonyms = True
-                                    matched_terms = matched_terms + 'Antonyms: \'%s\' and \'%s\'' %(combination[0], combination[1])
-                                    break
+            comment = identifier.block_comment
+            if comment is None:
+                return
 
-                    for combination in unique_combinations_name:
-                        if combination[0].isalpha() and combination[1].isalpha():
-                            if combination[0].lower() != combination[1].lower():
-                                if are_antonyms(combination[0], combination[1]):
-                                    result_antonyms = True
-                                    matched_terms = matched_terms + 'Antonyms: \'%s\' and \'%s\'' % (combination[0], combination[1])
-                                    break
+            return_type = identifier.return_type
+            is_array = '(array)' if identifier.is_array else ''
+            matched_terms = f'Return Type: {return_type}{is_array};'
 
-                    if result_antonyms:
-                        issue = Issue(self, identifier)
-                        issue.additional_details = matched_terms
-                        self.__issues.append(issue)
+            comment_cleansed_terms = clean_text(comment, True)
+            name_terms = identifier.name_terms[1:] if identifier.name_terms[0] == 'get' else identifier.name_terms
+            type_terms = identifier.type_terms
+
+            antonyms = self.__find_antonyms(
+                comment_cleansed_terms, name_terms, type_terms
+            )
+            if not antonyms:
+                return
+
+            issue = Issue(self, identifier)
+            issue.additional_details = matched_terms+antonyms
+            self.__issues.append(issue)
         except Exception as e:
             error_message = "Error encountered processing %s in file %s [%s:%s]" % (
-                IdentifierType.get_type(type(identifier).__name__), self.__entity.path, identifier.line_number,
+                IdentifierType.get_type(
+                    type(identifier).__name__), path, identifier.line_number,
                 identifier.column_number)
             handle_error('C.2', error_message, ErrorSeverity.Error, False, e)

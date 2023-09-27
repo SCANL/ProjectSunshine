@@ -14,25 +14,27 @@ class GetMoreThanAccessor(LinguisticAntipattern):
     def __init__(self):
         self.__class_attributes = None
 
-    #Override
+    # Override
     def __process_identifier(self, identifier):
         # AntiPattern: The method name starts with 'get' AND the method is a getter for an attribute AND the method body contains conditional statements (if, loops, switch)
         try:
             if identifier.name_terms[0].lower() == 'get' and (identifier.specifier == 'public' or identifier.specifier == 'protected'):
                 for attribute in self.__class_attributes:
                     if identifier.name[3:].lower() == (attribute.name.lower()) and identifier.return_type == attribute.type:
-                        conditional_statements, conditional_statements_total = get_all_conditional_statements(identifier.source)
+                        _, conditional_statements_total = get_all_conditional_statements(
+                            identifier.source)
                         if conditional_statements_total != 0:
                             issue = Issue(self, identifier)
                             issue.additional_details = 'Count of conditional statements: %s' % conditional_statements_total
                             self.__issues.append(issue)
         except Exception as e:
             error_message = "Error encountered processing %s in file %s [%s:%s]" % (
-                IdentifierType.get_type(type(identifier).__name__), self.__entity.path, identifier.line_number,
+                IdentifierType.get_type(
+                    type(identifier).__name__), self.__entity.path, identifier.line_number,
                 identifier.column_number)
             handle_error('A.1', error_message, ErrorSeverity.Error, False, e)
 
-    #Override
+    # Override
     def analyze(self, project, entity):
         # Analyze all methods in a class
         self.project = project

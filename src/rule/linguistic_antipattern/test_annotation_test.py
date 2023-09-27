@@ -17,29 +17,26 @@ class TestAnnotationTest(LinguisticAntipattern):
         super.__init__()
         self.__junit = None
 
-    def __get_junit_version(self):
-        pass
-
-    #Override
+    # Override
     def __process_identifier(self, identifier):
         try:
-            if self.__junit is not None:
-                if self.__junit < 4:
-                    return
+            if self.__junit is not None and self.__junit < 4:
+                return
 
             if identifier.name_terms[0].lower() == 'test':
                 issue = Issue(self, identifier)
                 self.__issues.append(issue)
         except Exception as e:
             error_message = "Error encountered processing %s in file %s [%s:%s]" % (
-                IdentifierType.get_type(type(identifier).__name__), self.__entity.path, identifier.line_number,
+                IdentifierType.get_type(
+                    type(identifier).__name__), self.__entity.path, identifier.line_number,
                 identifier.column_number)
             handle_error('G.2', error_message, ErrorSeverity.Error, False, e)
 
-    #Override
+    # Override
     def analyze(self, project, entity):
         if entity.file_type == FileType.Test:
             self.__junit = project.junit_version
             LinguisticAntipattern.analyze(self, project, entity)
-            
+
         return self.__issues

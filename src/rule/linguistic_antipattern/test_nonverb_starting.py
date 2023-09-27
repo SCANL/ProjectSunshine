@@ -1,6 +1,9 @@
+from typing import cast
 from src.common.enum import FileType, IdentifierType
 from src.common.error_handler import handle_error, ErrorSeverity
+from src.model.entity import Entity
 from src.model.issue import Issue
+from src.model.project import Project
 from src.nlp import pos_tag
 from src.nlp.pos_tag import POSType
 from src.rule.linguistic_antipattern.linguistic_antipattern import LinguisticAntipattern
@@ -17,15 +20,15 @@ class TestNonVerbStarting(LinguisticAntipattern):
 
     def __init__(self):
         super.__init__()
-        self.__junit = None
 
-    def __get_junit_version(self):
-        pass
-
-    #Override
+    # Override
     def __process_identifier(self, identifier):
+        self.__project = cast(Project, self.__project)
+        self.__entity = cast(Entity, self.entity)
+
         try:
-            starting_term = identifier.name_terms[0] if identifier.name_terms[0].lower() != 'test' else ''
+            starting_term = identifier.name_terms[0] if identifier.name_terms[0].lower(
+            ) != 'test' else ''
 
             if len(identifier.name_terms) > 1:
                 if identifier.name_terms[0].lower() == 'test':
@@ -38,14 +41,14 @@ class TestNonVerbStarting(LinguisticAntipattern):
                     self.__issues.append(issue)
         except Exception as e:
             error_message = "Error encountered processing %s in file %s [%s:%s]" % (
-                IdentifierType.get_type(type(identifier).__name__), self.__entity.path, identifier.line_number,
+                IdentifierType.get_type(
+                    type(identifier).__name__), self.__entity.path, identifier.line_number,
                 identifier.column_number)
             handle_error('X.4', error_message, ErrorSeverity.Error, False, e)
 
-    #Override
+    # Override
     def analyze(self, project, entity):
         if entity.file_type == FileType.Test:
-            self.__junit = project.junit_version
             LinguisticAntipattern.analyze(self, project, entity)
-            
+
         return self.__issues

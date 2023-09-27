@@ -1,4 +1,5 @@
 import itertools
+from typing import Any, List, Tuple
 
 from src.common.enum import IdentifierType
 from src.common.error_handler import handle_error, ErrorSeverity
@@ -15,47 +16,64 @@ class AttributeSignatureCommentOpposite(LinguisticAntipattern):
     ISSUE_DESCRIPTION = 'The declaration of an attribute is in contradiction with its documentation.'
 
     def __init__(self):
-        super.__init__()
+        super.__init__()  # type: ignore
 
-    #Override
+    def __check__antonyms(self, combination: Tuple[Any, ...]):
+        if not combination[0].isalpha() and not combination[1].isalpha():
+            return
+
+        if combination[0].lower() == combination[1].lower():
+            return
+
+        if not are_antonyms(combination[0], combination[1]):
+            return
+
+        return 'Antonyms: \'%s\' and \'%s\'' % (
+            combination[0], combination[1]
+        )
+
+    # Override
+
     def __process_identifier(self, identifier):
         # AntiPattern: The identifier name or retrun type and comment contain antonyms
         try:
-            matched_terms = 'Date Type: %s%s;' % (identifier.type, '(array)' if identifier.is_array else '')
+            matched_terms = 'Date Type: %s%s;' % (
+                identifier.type, '(array)' if identifier.is_array else '')
             comment = identifier.block_comment
-            if comment is not None:
-                comment_cleansed_terms = clean_text(comment, True)
-                unique_combinations_type = list(itertools.product(comment_cleansed_terms, identifier.type_terms))
-                unique_combinations_name = list(itertools.product(comment_cleansed_terms, identifier.name_terms))
+            if comment is None:
+                return
 
-                result_antonyms = False
-                for combination in unique_combinations_type:
-                    if combination[0].isalpha() and combination[1].isalpha():
-                        if combination[0].lower() != combination[1].lower():
-                            if are_antonyms(combination[0], combination[1]):
-                                result_antonyms = True
-                                matched_terms = matched_terms + 'Antonyms: \'%s\' and \'%s\'' % (combination[0], combination[1])
-                                break
+            comment_cleansed_terms = clean_text(comment, True)
+            unique_combinations_type = list(itertools.product(
+                comment_cleansed_terms, identifier.type_terms))
+            unique_combinations_name = list(itertools.product(
+                comment_cleansed_terms, identifier.name_terms))
 
-                for combination in unique_combinations_name:
-                    if combination[0].isalpha() and combination[1].isalpha():
-                        if combination[0].lower() != combination[1].lower():
-                            if are_antonyms(combination[0], combination[1]):
-                                result_antonyms = True
-                                matched_terms = matched_terms + 'Antonyms: \'%s\' and \'%s\'' % (combination[0], combination[1])
-                                break
+            result = None
+            temp_res = False
 
-                if result_antonyms:
-                        issue = Issue(self, identifier)
-                        issue.additional_details = matched_terms
-                        self.__issues.append(issue)
+            for combination in unique_combinations_type:
+                result = self.__check__antonyms(combination)
+
+            for combination in unique_combinations_name:
+                temp_res = self.__check__antonyms(combination)
+
+            result = result+temp_res if result and temp_res else None
+
+            if result is None:
+                return
+
+            issue = Issue(self, identifier)
+            issue.additional_details = matched_terms+result
+            self.__issues.append(issue)
         except Exception as e:
             error_message = "Error encountered processing %s in file %s [%s:%s]" % (
-                IdentifierType.get_type(type(identifier).__name__), self.__entity.path, identifier.line_number,
+                IdentifierType.get_type(
+                    type(identifier).__name__), self.__entity.path, identifier.line_number,
                 identifier.column_number)
             handle_error('F.2', error_message, ErrorSeverity.Error, False, e)
 
-    #Override
+    # Override
     def analyze(self, project, entity):
         # Analyze all attributes, variables and parameters in a class
         self.project = project

@@ -18,31 +18,28 @@ class TestMissingNullCheck(LinguisticAntipattern):
 
     def __init__(self):
         super.__init__()
-        self.__junit = None
 
-    def __get_junit_version(self):
-        pass
-
-    #Override
+    # Override
     def __process_identifier(self, identifier):
         # AntiPattern: Method name contains the term 'null' or 'not', but does not perform a null check
         try:
             if 'null' in map(str.lower, identifier.name_terms) or 'not' in map(str.lower, identifier.name_terms):
                 method_calls = get_all_function_calls(identifier.source)
-                api_null_method = get_null_check_test_method(self.__project, self.__entity.language)
+                api_null_method = get_null_check_test_method(
+                    self.__project, self.__entity.language)
                 if not any(x in method_calls for x in api_null_method):
                     issue = Issue(self, identifier)
                     self.__issues.append(issue)
         except Exception as e:
             error_message = "Error encountered processing %s in file %s [%s:%s]" % (
-                IdentifierType.get_type(type(identifier).__name__), self.__entity.path, identifier.line_number,
+                IdentifierType.get_type(
+                    type(identifier).__name__), self.__entity.path, identifier.line_number,
                 identifier.column_number)
             handle_error('P.5', error_message, ErrorSeverity.Error, False, e)
 
-    #Override
+    # Override
     def analyze(self, project, entity):
         if entity.file_type == FileType.Test:
-            self.__junit = project.junit_version
             LinguisticAntipattern.analyze(self, project, entity)
-            
+
         return self.__issues

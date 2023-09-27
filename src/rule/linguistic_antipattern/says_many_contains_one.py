@@ -7,6 +7,7 @@ from src.nlp import term_list
 from src.nlp.term_property import is_plural
 from src.rule.linguistic_antipattern.linguistic_antipattern import LinguisticAntipattern
 
+
 class SaysManyContainsOne(LinguisticAntipattern):
 
     ID = 'E.1'
@@ -14,29 +15,34 @@ class SaysManyContainsOne(LinguisticAntipattern):
     ISSUE_DESCRIPTION = 'The name of an attribute suggests multiple instances, but its type suggests a single one.'
 
     def __init__(self):
-        super.__init__()
+        super.__init__()  # type: ignore
 
-    #Override
+    # Override
     def __process_identifier(self, identifier):
         # AntiPattern: The last term in the name is plural AND the data type is not a collection
         try:
-            if is_plural(self.__project, identifier.name_terms[-1]):
-                if identifier.type not in get_collection_types(self.__project, self.__entity.language) and identifier.is_array != True:
-                    message = 'Last term: \'%s\' Data type: \'%s%s\'' % (identifier.name_terms[-1], identifier.type, '(array)' if identifier.is_array else '')
-                    if identifier.type in get_numeric_types(self.__entity.language):
-                        message = message + '; Data type is numeric, this might be a false-positive'
-                    if identifier.type in get_bool_types(self.__entity.language) and (identifier.name_terms[0].lower() in term_list.get_boolean_terms(self.__project) or identifier.name_terms[0].lower() in term_list.get_validate_terms(self.__project)):
-                        message = message + '; Data type is boolean and starting term is boolean-based, this might be a false-positive'
-                    issue = Issue(self, identifier)
-                    issue.additional_details = message
-                    self.__issues.append(issue)
+            if not is_plural(self.__project, identifier.name_terms[-1]):
+                return
+
+            if identifier.type not in get_collection_types(self.__project, self.__entity.language) and identifier.is_array != True:
+                message = 'Last term: \'%s\' Data type: \'%s%s\'' % (
+                    identifier.name_terms[-1], identifier.type, '(array)' if identifier.is_array else '')
+                if identifier.type in get_numeric_types(self.__entity.language):
+                    message = message + '; Data type is numeric, this might be a false-positive'
+                if identifier.type in get_bool_types(self.__entity.language) and (identifier.name_terms[0].lower() in term_list.get_boolean_terms(self.__project) or identifier.name_terms[0].lower() in term_list.get_validate_terms(self.__project)):
+                    message = message + \
+                        '; Data type is boolean and starting term is boolean-based, this might be a false-positive'
+                issue = Issue(self, identifier)
+                issue.additional_details = message
+                self.__issues.append(issue)
         except Exception as e:
             error_message = "Error encountered processing %s in file %s [%s:%s]" % (
-                IdentifierType.get_type(type(identifier).__name__), self.__entity.path, identifier.line_number,
+                IdentifierType.get_type(
+                    type(identifier).__name__), self.__entity.path, identifier.line_number,
                 identifier.column_number)
             handle_error('E.1', error_message, ErrorSeverity.Error, False, e)
 
-    #Override
+    # Override
     def analyze(self, project, entity):
         # Analyze all attributes, variables and parameters in a class
         self.__project = project
