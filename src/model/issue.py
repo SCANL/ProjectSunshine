@@ -1,6 +1,5 @@
 from datetime import datetime
 from src.common.enum import IdentifierType
-# from src.rule.linguistic_antipattern.attribute_name_type_opposite import AttributeNameTypeOpposite
 
 
 class Issue:
