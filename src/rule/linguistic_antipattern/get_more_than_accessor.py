@@ -2,17 +2,16 @@ from src.common.enum import IdentifierType
 from src.common.error_handler import handle_error, ErrorSeverity
 from src.common.util_parsing import get_all_conditional_statements
 from src.model.issue import Issue
-from src.rule.linguistic_antipattern.linguistic_antipattern import LinguisticAntipattern
 
 
-class GetMoreThanAccessor(LinguisticAntipattern):
+class GetMoreThanAccessor:
 
     ID = 'A.1'
     ISSUE_CATEGORY = '\'Get\' more than accessor'
     ISSUE_DESCRIPTION = 'A getter that performs actions other than returning the corresponding attribute.'
 
     def __init__(self):
-        self.__class_attributes = None
+        self.__issues = []
 
     # Override
     def __process_identifier(self, identifier):
@@ -30,7 +29,7 @@ class GetMoreThanAccessor(LinguisticAntipattern):
         except Exception as e:
             error_message = "Error encountered processing %s in file %s [%s:%s]" % (
                 IdentifierType.get_type(
-                    type(identifier).__name__), self.__entity.path, identifier.line_number,
+                    type(identifier).__name__), self.entity.path, identifier.line_number,
                 identifier.column_number)
             handle_error('A.1', error_message, ErrorSeverity.Error, False, e)
 
@@ -38,8 +37,8 @@ class GetMoreThanAccessor(LinguisticAntipattern):
     def analyze(self, project, entity):
         # Analyze all methods in a class
         self.project = project
-        self.__entity = entity
-        for class_item in self.__entity.classes:
+        self.entity = entity
+        for class_item in self.entity.classes:
             self.__class_attributes = class_item.attributes
             for method_item in class_item.methods:
                 self.__process_identifier(method_item)

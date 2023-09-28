@@ -8,17 +8,16 @@ from src.model.entity import Entity
 from src.model.issue import Issue
 from src.model.project import Project
 from src.nlp.related_terms import are_antonyms, clean_text
-from src.rule.linguistic_antipattern.linguistic_antipattern import LinguisticAntipattern
 
 
-class MethodSignatureCommentOpposite(LinguisticAntipattern):
+class MethodSignatureCommentOpposite:
 
     ID = 'C.2'
     ISSUE_CATEGORY = 'Method signature and comment are opposite'
     ISSUE_DESCRIPTION = 'The documentation of a method is in contradiction with its declaration.'
 
     def __init__(self):
-        super.__init__()  # type: ignore
+        self.__issues = []
 
     def __find_antonyms(self, comment_terms: List[str], name_terms: List[str], type_terms: List[str]):
         for combination in itertools.product(comment_terms, type_terms):
@@ -38,12 +37,10 @@ class MethodSignatureCommentOpposite(LinguisticAntipattern):
 
     # Override
     def __process_identifier(self, identifier):
-        entity = cast(Entity, self.__entity)
-        path = cast(str, cast(Entity, self.__entity).path)
 
         # AntiPattern: The method name or return type and comment contain antonyms
         try:
-            if is_test_method(self.__project, entity, identifier):
+            if is_test_method(self.__project, self.entity, identifier):
                 return
 
             comment = identifier.block_comment
@@ -70,6 +67,16 @@ class MethodSignatureCommentOpposite(LinguisticAntipattern):
         except Exception as e:
             error_message = "Error encountered processing %s in file %s [%s:%s]" % (
                 IdentifierType.get_type(
-                    type(identifier).__name__), path, identifier.line_number,
+                    type(identifier).__name__), self.entity.path, identifier.line_number,
                 identifier.column_number)
             handle_error('C.2', error_message, ErrorSeverity.Error, False, e)
+
+    def analyze(self, project, entity: Entity):
+        # Analyze all methods in a class
+        self.__project = project
+        self.entity = entity
+        for class_item in self.entity.classes:
+            for method_item in class_item.methods:
+                self.__process_identifier(method_item)
+
+        return self.__issues

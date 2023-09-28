@@ -15,11 +15,6 @@ from src.rule.linguistic_antipattern.not_implemented_condition import NotImpleme
 from src.rule.linguistic_antipattern.says_many_contains_one import SaysManyContainsOne
 from src.rule.linguistic_antipattern.says_one_contains_many import SaysOneContainsMany
 from src.rule.linguistic_antipattern.set_returns import SetReturns
-from src.rule.linguistic_antipattern.test_annotation_setup import TestAnnotationSetup
-from src.rule.linguistic_antipattern.test_annotation_teardown import TestAnnotationTeardown
-from src.rule.linguistic_antipattern.test_annotation_test import TestAnnotationTest
-from src.rule.linguistic_antipattern.test_missing_null_check import TestMissingNullCheck
-from src.rule.linguistic_antipattern.test_nonverb_starting import TestNonVerbStarting
 from src.rule.linguistic_antipattern.transform_not_return import TransformNotReturn
 from src.rule.linguistic_antipattern.validate_not_confirm import ValidateNotConfirm
 from src.service.factory import EntityFactory
@@ -52,18 +47,19 @@ class Analyzer:
             IsNoReturnBool(),
             GetNoReturn(),
             ###### peruma ######
-            TestAnnotationTest(),
+            # TestAnnotationTest(),
             # TestAnnotationSetup(),
             # TestAnnotationTeardown(),
             # TestNonVerbStarting(),
             # TestMissingNullCheck(),
-            # StartsWithSpecialCharacter(),
+            StartsWithSpecialCharacter(),
             ContainsOnlySpecialCharacters()
         ]
         self.issues = []
 
     def analyze(self):
-        entity = EntityFactory().construct_model(self.file_path, self.file_type, self.junit)
+        entity = EntityFactory().construct_model(
+            self.file_path, self.file_type, self.junit)
         if entity is None:
             return []
 

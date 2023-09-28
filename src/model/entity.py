@@ -140,7 +140,7 @@ class Entity:
                         model_attribute = Attribute(attribute_specifier, attribute_type.text, attribute_name.text,
                                                     model_class.name, attribute_type_array, attribute_type_generic, attribute_item)
 
-                        attribute_comment = class_item.xpath(f'//src:decl_stmt[src:decl/{self.SRCML_SRCTYPE_XPATH}/{self.SRCML_SRCNAME_XPATH}=\''+attribute_type.text+'\' and src:decl/{self.SRCML_SRCNAME_XPATH}=\'' +
+                        attribute_comment = class_item.xpath(f'//src:decl_stmt[src:decl/{self.SRCML_SRCTYPE_XPATH}/{self.SRCML_SRCNAME_XPATH}=\''+attribute_type.text+f'\' and src:decl/{self.SRCML_SRCNAME_XPATH}=\'' +
                                                              attribute_name.text + self.SRCML_PRECEDINGSIBLING_XPATH, namespaces={'src': self.SRCML_NS_URL})
                         if len(attribute_comment) > 0:
                             model_attribute.set_block_comment(
