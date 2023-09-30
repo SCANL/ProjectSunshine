@@ -18,10 +18,7 @@ def is_singular(project: Project, term: str) -> bool:
     if term in custom_plural_terms:
         return False
     tag = generate_tag(project, term.lower())
-    if tag == 'NN' or tag == 'NNP':
-        return True
-    else:
-        return False
+    return tag == 'NN' or tag == 'NNP'
 
 
 def is_plural(project: Project, term: str) -> bool:
@@ -39,7 +36,4 @@ def is_plural(project: Project, term: str) -> bool:
     if term in custom_plural_terms:
         return True
     tag = generate_tag(project, term.lower())
-    if tag == 'NNS' or tag == 'NNPS':
-        return True
-    else:
-        return False
+    return tag == 'NNS' or tag == 'NNPS'

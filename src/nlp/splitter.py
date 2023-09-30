@@ -37,30 +37,6 @@ class Splitter(metaclass=Singleton):
         return [w for w in words if w.isalpha()]
 
     @staticmethod
-    def split_ronin(name):
-        """
-            Not sure if this functions is used anywhere.
-
-            Split a name using the 'ronin' splitting method.
-
-            'ronin' is a specific splitting method used to split names.
-
-            Args:
-                name (str): The name to split.
-
-            Returns:
-                list: A list containing the split parts of the name.
-
-            Note: Find out more about ronin here -> https://github.com/casics/spiral/blob/master/README.md
-        """
-
-        this = Splitter()
-        custom_dictionary = term_list.get_splitter_terms(this.project)
-        if name.lower() in custom_dictionary:
-            return [name]
-        return ronin.split(name)
-
-    @staticmethod
     def split_heuristic(name: str) -> List[str]:
         """
             Split a name using a heuristic approach based on a custom dictionary.

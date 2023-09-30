@@ -2,7 +2,6 @@
 from src.nlp.splitter import Splitter
 from src.nlp.pos_tagger_stanford import POSTaggerStanford
 from src.model.project import Project
-from src.model.input import Input
 from src.common.util import read_input
 from src.common.testing_list import TestingPackage
 from src.common.logger import setup_logger
@@ -10,19 +9,18 @@ from src.common.error_handler import handle_error, ErrorSeverity
 from src.common import util
 from result_writer import ResultWriter
 from analyzer import Analyzer
-import pandas
-from pathlib import Path
 from argparse import ArgumentParser
 import time
 import os
 
 import collections
+
+# The following is needed to run in the Docker
 collections.Iterable = collections.abc.Iterable  # type: ignore
 
 
 class Main:
     def __init__(self):
-        self.project = None
         self.files = []
 
         parser = ArgumentParser(util.get_config_setting('general', 'name'))

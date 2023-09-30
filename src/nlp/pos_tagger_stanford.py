@@ -1,6 +1,7 @@
 import os
 import signal
 import sys
+from typing import cast
 import pexpect
 
 from src.common import util
@@ -26,7 +27,8 @@ class POSTaggerStanford(metaclass=Singleton):
         """
         path_to_model = util.get_config_setting('stanford', 'path_to_model')
         path_to_jar = util.get_config_setting('stanford', 'path_to_jar')
-        path_to_java = util.get_config_setting('general', 'path_to_java')
+        path_to_java = cast(str, util.get_config_setting(
+            'general', 'path_to_java'))
         os.environ['JAVAHOME'] = path_to_java
         spawn_string = f"java -mx1g -cp {path_to_jar} edu.stanford.nlp.tagger.maxent.MaxentTagger -model {path_to_model}"
 
@@ -40,7 +42,7 @@ class POSTaggerStanford(metaclass=Singleton):
                 spawn_string)
         else:
             self.tagger = pexpect.spawn(spawn_string)
-        # Aspetta che vengano stampate le righe desiderate
+
         self.tagger.expect(r'Loading default properties from tagger .+')
         self.tagger.expect(r'Loading POS tagger from .+')
         self.tagger.expect(

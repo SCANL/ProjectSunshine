@@ -182,8 +182,6 @@ def get_null_check_test_method(project: Project, language: LanguageType) -> Opti
         return __get_java_null_check_test_methods(project)
     elif language == LanguageType.CSharp:
         return __get_csharp_null_check_test_methods(project)
-    else:
-        return None
 
 
 def get_testing_packages(project: Optional[Project], language: Optional[LanguageType]) -> Optional[List[Any]]:
@@ -204,8 +202,6 @@ def get_testing_packages(project: Optional[Project], language: Optional[Language
         return __get_java_testing_packages(project)
     elif language == LanguageType.CSharp:
         return __get_csharp_testing_packages(project)
-    else:
-        return None
 
 
 def get_test_method_annotations(project: Project, language: LanguageType) -> Optional[List[Any]]:
@@ -224,8 +220,6 @@ def get_test_method_annotations(project: Project, language: LanguageType) -> Opt
         return __get_java_test_method_annotations(project)
     elif language == LanguageType.CSharp:
         return __get_csharp_test_method_annotations(project)
-    else:
-        return None
 
 
 class TestingPackage(metaclass=Singleton):

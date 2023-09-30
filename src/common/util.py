@@ -1,7 +1,6 @@
 import configparser
 import logging
 import os
-from builtins import filter
 from pathlib import Path
 from typing import Any, List
 
@@ -13,7 +12,7 @@ from src.model.input import Input
 log = logging.getLogger(__name__)
 
 
-def get_config_setting(section: str, name: str) -> str:
+def get_config_setting(section: str, name: str):
     """
         Retrieve a specific configuration value from a configuration file.
 
@@ -97,7 +96,7 @@ def read_input(path_string: str) -> List[Any]:
 
     files = []
     file_extensions = get_supported_file_extensions()
-    for i, item in input_data.iterrows():
+    for _, item in input_data.iterrows():
         path = Path(item[0])
         path_string = str(path)
 

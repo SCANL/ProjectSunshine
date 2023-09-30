@@ -244,8 +244,8 @@ def get_collection_types(project: Project, language: LanguageType) -> Optional[L
         return __get_cplusplus_collection_data_types()
     elif language == LanguageType.CSharp:
         return __get_csharp_collection_data_types(project)
-    else:
-        return None
+
+    return None
 
 
 def get_primitive_types(language: LanguageType) -> Optional[List[str]]:
@@ -265,8 +265,8 @@ def get_primitive_types(language: LanguageType) -> Optional[List[str]]:
         return __get_cplusplus_primitive_data_types()
     elif language == LanguageType.CSharp:
         return __get_csharp_primitive_data_types()
-    else:
-        return None
+
+    return None
 
 
 def get_numeric_types(language: LanguageType) -> Optional[List[str]]:

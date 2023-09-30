@@ -7,7 +7,8 @@ from src.model.identifier import Class, Attribute, Property, Parameter, Method, 
 
 SRCML_URL = 'http://www.srcML.org/srcML/src'
 
-def get_class_attribute_names(entity_class: Entity) -> List[str]:
+
+def get_class_attribute_names(entity_class: Class) -> List[str]:
     """
         Get the names of attributes for a given entity class.
 
@@ -23,7 +24,7 @@ def get_class_attribute_names(entity_class: Entity) -> List[str]:
     return names
 
 
-def get_all_items_in_class(entity_class: Entity) -> List[str]:
+def get_all_items_in_class(entity_class: Class) -> List[str]:
     """
         Get all items (class, attributes, methods, variables, and parameters) in a given entity class.
 
@@ -47,7 +48,7 @@ def get_all_items_in_class(entity_class: Entity) -> List[str]:
     return items
 
 
-def get_all_class_fields(entity_class: Entity):
+def get_all_class_fields(entity_class: Class):
     """
         Get all class fields (attributes, method variables, and method parameters) in a given entity class.
 
@@ -130,14 +131,17 @@ def is_test_method(project, entity: Entity, identifier: Union[Class, Attribute, 
         Returns:
             bool: True if the identifier is a test method; False otherwise.
     """
-    if entity.file_type == FileType.Test:
-        if IdentifierType.get_type(type(identifier).__name__) == IdentifierType.Method:
-            annotation_list = get_test_method_annotations(
-                project, entity.language)
-            if any(item in annotation_list for item in identifier.annotations):
-                return True
-            if identifier.name_terms[0].lower() == 'test':
-                return True
+    if entity.file_type != FileType.Test:
+        return False
+    if IdentifierType.get_type(type(identifier).__name__) != IdentifierType.Method:
+        return False
+
+    annotation_list = get_test_method_annotations(
+        project, entity.language)
+    if any(item in annotation_list for item in identifier.annotations):
+        return True
+    if identifier.name_terms[0].lower() == 'test':
+        return True
     return False
 
 
@@ -157,7 +161,7 @@ def is_boolean_type(entity: Entity, identifier: Union[Class, Attribute, Property
         if IdentifierType.get_type(type(identifier).__name__) == IdentifierType.Method:
             return identifier.return_type in types
         else:
-            return identifier.type in types   
+            return identifier.type in types
     elif entity.language == LanguageType.CSharp:
         types = get_bool_types(LanguageType.CSharp)
         if IdentifierType.get_type(type(identifier).__name__) == IdentifierType.Method:
