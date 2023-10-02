@@ -88,3 +88,10 @@ class IdentifierType(enum.Enum):
             return IdentifierType.Variable
         else:
             return IdentifierType.Unknown
+
+
+class GreetIssueType(enum.Enum):
+    METHOD_OPPOSITE_COMMENT = 0
+    ATTRIBUTE_OPPOSITE_COMMENT = 1
+    CLEAR = 2
+    NOT_IMPL_CONDITION = 3
