@@ -1,13 +1,16 @@
 import torch
-from src.classifier.classifier import greetClassifier
-from src.model import greetattribute, greetfunction
+from src.classifier.classifier import Classifier
+from src.model.greet import greet_attribute, greet_function
 from typing import Union
 import numpy as np
+
+from src.model.greet.greet_entity import AbstractGreetEntity
+
 
 class Predicter:
 
     def __init__(self):
-        self.__classifier = greetClassifier
+        self.__classifier = Classifier()
 
     def __preprocess_text(self, text: str):
         """
@@ -24,29 +27,29 @@ class Predicter:
             return_attention_mask=True,
             return_tensors='pt'
         )
-    
-    def predict(self, entity: Union[greetfunction.GreetFunction, greetattribute.GreetAttribute]):
-      """
-        Predicts the class label for the given entity.
-        
-        Args:
-          entity (AbstractGreetEntity): The entity to classify.
-        
-        Returns:
-          int: The predicted class label.
-      """
-      encoding = self.__preprocess_text(entity.getCode().strip())
-      predict_ids = []
-      predict_attention_mask = []
-      # Extract IDs and Attention Mask
-      predict_ids.append(encoding['input_ids'])
-      predict_attention_mask.append(encoding['attention_mask'])
-      predict_ids = torch.cat(predict_ids, dim=0)
-      predict_attention_mask = torch.cat(predict_attention_mask, dim=0)
-      with torch.no_grad():
-          model = self.__classifier.get_model()
-          output = model(predict_ids.to(self.__classifier.DEVICE), token_type_ids=None,
-                                attention_mask=predict_attention_mask.to(self.__classifier.DEVICE))
-          prediction = np.argmax(
-              output.logits.cpu().numpy()).flatten().item()
-      return prediction
+
+    def predict(self, entity: AbstractGreetEntity):
+        """
+          Predicts the class label for the given entity.
+
+          Args:
+            entity (AbstractGreetEntity): The entity to classify.
+
+          Returns:
+            int: The predicted class label.
+        """
+        encoding = self.__preprocess_text(entity.get_code().strip())
+        predict_ids = []
+        predict_attention_mask = []
+        # Extract IDs and Attention Mask
+        predict_ids.append(encoding['input_ids'])
+        predict_attention_mask.append(encoding['attention_mask'])
+        predict_ids = torch.cat(predict_ids, dim=0)
+        predict_attention_mask = torch.cat(predict_attention_mask, dim=0)
+        with torch.no_grad():
+            model = self.__classifier.get_model()
+            output = model(predict_ids.to(self.__classifier.DEVICE), token_type_ids=None,
+                           attention_mask=predict_attention_mask.to(self.__classifier.DEVICE))
+            prediction = np.argmax(
+                output.logits.cpu().numpy()).flatten().item()
+        return prediction

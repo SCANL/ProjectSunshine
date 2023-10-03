@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import Any, List
 
 import pandas
+from src.common.enum import LanguageType
 
 from src.common.error_handler import handle_error, ErrorSeverity
 from src.model.input import Input
@@ -75,7 +76,22 @@ def get_supported_file_extensions() -> List[str]:
         Returns:
             List[str]: A list of supported file extensions.
     """
-    return ['.java', '.cs']
+
+    JAVA_FILE_EXT = '.java'
+    CS_FILE_EXT = '.cs'
+    PY_FILE_EXT = '.py'
+
+    return [JAVA_FILE_EXT, CS_FILE_EXT, PY_FILE_EXT]
+
+
+def __get_language_from_file_ext(ext: str):
+    if ext.endswith('.py'):
+        return LanguageType.Python
+    elif ext.endswith('.java'):
+        return LanguageType.Java
+    elif ext.endswith('.cs'):
+        return LanguageType.CSharp
+    return LanguageType.Unknown
 
 
 def read_input(path_string: str) -> List[Any]:
@@ -104,12 +120,14 @@ def read_input(path_string: str) -> List[Any]:
             source_files = [p for p in path.rglob(
                 '*') if p.suffix in file_extensions]
             for file in source_files:
-                input_item = Input(str(file), item[1], item[2])
+                input_item = Input(
+                    str(file), item[1], item[2], __get_language_from_file_ext(file.suffix))
                 files.append(input_item)
 
         elif os.path.isfile(path_string):
             if path_string.lower().endswith(tuple(file_extensions)):
-                input_item = Input(path_string, item[1], item[2])
+                input_item = Input(
+                    path_string, item[1], item[2], __get_language_from_file_ext(path_string))
                 files.append(input_item)
         else:
             error_message = "Invalid files provided in input CSV file: \'%s\'" % str(

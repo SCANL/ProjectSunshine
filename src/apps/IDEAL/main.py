@@ -29,7 +29,7 @@ class Main:
         args = parser.parse_args()
 
         if not os.path.exists(args.arg_file) or not os.path.isfile(args.arg_file):
-            error_message = "Invalid Configuration File: \'%s\'" % str(
+            error_message = "Invalid Configuration File: \'%s\'\n" % str(
                 args.arg_file)
             handle_error('Main', error_message, ErrorSeverity.Critical, True)
 
@@ -40,7 +40,6 @@ class Main:
         time_analysis_start = time.time()
         logger = setup_logger('ProjectSunshine-FileProcessed',
                               'ProjectSunshine-Processed.log')
-
         results = None
         tagger = POSTaggerStanford()
         splitter = Splitter()
@@ -50,7 +49,7 @@ class Main:
         for file in self.files:
             time_file_start = time.time()
             print("Analyzing: %s ..." % (file.path), end='', flush=True)
-            a = Analyzer(self.project, file.path, file.type)
+            a = Analyzer(self.project, file)
             results = ResultWriter(self.project.output_directory)
             results.save_issues(a.analyze())
             time_file_end = time.time()

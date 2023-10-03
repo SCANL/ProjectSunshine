@@ -30,4 +30,5 @@ pytest-cov==4.1.0
 pytest-mock==3.11.1
 lazydocs==0.4.8
 transformers==4.30.2
-torch==1.13.1
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.0.1+cpu

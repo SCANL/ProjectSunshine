@@ -13,6 +13,7 @@ class LanguageType(enum.Enum):
     CSharp = 2
     CPP = 3
     Unknown = 4
+    Python = 5
 
     @staticmethod
     def get_type(language: str) -> 'LanguageType':
