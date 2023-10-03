@@ -159,14 +159,15 @@ class PythonParser:
                         start_column=self.__get_comment_first_col(start_line),
                         end_column=node.col_offset + len(name) + colls,
                         code="",
-                        value=self.__extract_assign_value(node),
+                        value=self.__extract_node_data(node),
                         comment=ast.literal_eval(code.body[index - 1].value)
                     )
                     self.attributes.append(attribute)
             elif isinstance(node, ast.FunctionDef) or isinstance(node, ast.ClassDef):
                 self.__extract(node)
 
-    def __extract_assign_value(self, node):
+
+    def __extract_node_data(self, node):
         """
             Extracts the value of an assignment node.
 
@@ -185,84 +186,58 @@ class PythonParser:
         """
 
         value = ""
-        if isinstance(node, ast.Assign):
-            if isinstance(node.value, ast.Str):
-                expr = ast.Expr(node.value)
-                ast.fix_missing_locations(expr)
-                value = '"' + str(ast.literal_eval(expr.value)) + '"'
-            elif isinstance(node.value, ast.Num):
-                expr = ast.Expr(node.value)
-                ast.fix_missing_locations(expr)
-                value = ast.literal_eval(expr.value)
-            elif isinstance(node.value, ast.Name):
-                value = node.value.id
-            elif isinstance(node.value, ast.Call):
-                value = self.__extract_call(node.value)
-            elif isinstance(node.value, ast.List):
-                value = self.__extract_data_structures(
-                    node.value.elts, Structures.LIST)
-            elif isinstance(node.value, ast.Set):
-                value = self.__extract_data_structures(
-                    node.value.elts, Structures.SET)
-            elif isinstance(node.value, ast.Tuple):
-                value = self.__extract_data_structures(
-                    node.value.elts, Structures.TUPLE)
-            elif isinstance(node.value, ast.Dict):
-                value = self.__extract_dictionary(node.value)
-            return value
-
-    def __process_keyword(self, keyword):
+        if isinstance(node.value, ast.Str):
+            expr = ast.Expr(node.value)
+            ast.fix_missing_locations(expr)
+            value = '"' + str(ast.literal_eval(expr.value)) + '"'
+        elif isinstance(node.value, ast.Num):
+            expr = ast.Expr(node.value)
+            ast.fix_missing_locations(expr)
+            value = ast.literal_eval(expr.value)
+        elif isinstance(node.value, ast.Name):
+            value = node.value.id
+        elif isinstance(node.value, ast.Call):
+            value = self.__extract_call(node.value)
+        elif isinstance(node.value, ast.List):
+            value = self.__extract_data_structures(
+                node.value.elts, Structures.LIST)
+        elif isinstance(node.value, ast.Set):
+            value = self.__extract_data_structures(
+                node.value.elts, Structures.SET)
+        elif isinstance(node.value, ast.Tuple):
+            value = self.__extract_data_structures(
+                node.value.elts, Structures.TUPLE)
+        elif isinstance(node.value, ast.Dict):
+            value = self.__extract_dictionary(node.value)
+        return value
+    
+    def __extract_direct_data(self, item):
         value = ""
-        if isinstance(keyword.value, ast.Str):
-            expr = ast.Expr(keyword.value)
+        if isinstance(item, ast.Str):
+            expr = ast.Expr(item)
             ast.fix_missing_locations(expr)
-            value += '"' + str(ast.literal_eval(expr.value)) + '"'
-        elif isinstance(keyword.value, ast.Num):
-            expr = ast.Expr(keyword.value)
+            value = '"' + str(ast.literal_eval(expr.value)) + '"'
+        elif isinstance(item, ast.Num):
+            expr = ast.Expr(item)
             ast.fix_missing_locations(expr)
-            value += str(ast.literal_eval(expr.value))
-        if isinstance(keyword.value, ast.Name):
-            value += keyword.value.id
-        elif isinstance(keyword.value, ast.Call):
-            value += self.__extract_call(keyword.value)
-        elif isinstance(keyword.value, ast.List):
-            value += self.__extract_data_structures(
-                keyword.value.elts, Structures.LIST)
-        elif isinstance(keyword.value, ast.Set):
-            value += self.__extract_data_structures(
-                keyword.value.elts, Structures.SET)
-        elif isinstance(keyword.value, ast.Tuple):
-            value += self.__extract_data_structures(
-                keyword.value.elts, Structures.TUPLE)
-        elif isinstance(keyword.value, ast.Dict):
-            value += self.__extract_dictionary(keyword.value)
+            value = str(ast.literal_eval(expr.value))
+        elif isinstance(item, ast.Name):
+            value = item.id
+        elif isinstance(item, ast.Call):
+            value = self.__extract_call(item)
+        elif isinstance(item, ast.List):
+            value = self.__extract_data_structures(
+                item.elts, Structures.LIST)
+        elif isinstance(item, ast.Set):
+            value = self.__extract_data_structures(
+                item.elts, Structures.SET)
+        elif isinstance(item, ast.Tuple):
+            value = self.__extract_data_structures(
+                item.elts, Structures.TUPLE)
+        elif isinstance(item, ast.Dict):
+            value = self.__extract_dictionary(item)
 
         return value
-
-    def __process_arg(self, arg):
-        args = ""
-        if isinstance(arg, ast.Str):
-            expr = ast.Expr(arg)
-            ast.fix_missing_locations(expr)
-            args += '"' + str(ast.literal_eval(expr.value)) + '"'
-        elif isinstance(arg, ast.Num):
-            expr = ast.Expr(arg)
-            ast.fix_missing_locations(expr)
-            args += str(ast.literal_eval(expr.value))
-        if isinstance(arg, ast.Name):
-            args += arg.id
-        elif isinstance(arg, ast.Call):
-            args += self.__extract_call(arg)
-        elif isinstance(arg, ast.List):
-            args += self.__extract_data_structures(
-                arg.elts, Structures.LIST)
-        elif isinstance(arg, ast.Set):
-            args += self.__extract_data_structures(
-                arg.elts, Structures.SET)
-        elif isinstance(arg, ast.Tuple):
-            args += self.__extract_data_structures(
-                arg.elts, Structures.TUPLE)
-        return args
 
     def __extract_call(self, node: ast.Call):
         """
@@ -290,7 +265,7 @@ class PythonParser:
         args_with_key = ""
 
         for i, arg in enumerate(node.args):
-            args += self.__process_arg(arg)
+            args += self.__extract_direct_data(arg)
 
             if isinstance(arg, ast.Dict):
                 value = self.__extract_dictionary(arg)
@@ -299,7 +274,7 @@ class PythonParser:
                 args += ", "
 
         for i, keyword in enumerate(node.keywords):
-            value = self.__process_keyword(keyword)
+            value = self.__extract_node_data(keyword)
 
             args_with_key += str(keyword.arg) + "=" + str(value)
 
@@ -316,32 +291,6 @@ class PythonParser:
         call += ")"
 
         return call
-
-    def __process_structure(self, item):
-        res = ""
-        if isinstance(item, ast.Str):
-            expr = ast.Expr(item)
-            ast.fix_missing_locations(expr)
-            res += '"' + str(ast.literal_eval(expr.value)) + '"'
-        elif isinstance(item, ast.Num):
-            expr = ast.Expr(item)
-            ast.fix_missing_locations(expr)
-            res += str(ast.literal_eval(expr.value))
-        elif isinstance(item, ast.Name):
-            res += item.id
-        elif isinstance(item, ast.Call):
-            res += self.__extract_call(item)
-        elif isinstance(item, ast.List):
-            res += self.__extract_data_structures(
-                item.elts, Structures.LIST)
-        elif isinstance(item, ast.Set):
-            res += self.__extract_data_structures(
-                item.elts, Structures.SET)
-        elif isinstance(item, ast.Tuple):
-            res += self.__extract_data_structures(
-                item.elts, Structures.TUPLE)
-
-        return res
 
     def __extract_data_structures(self, structure, type):
         """
@@ -367,7 +316,7 @@ class PythonParser:
             res += self.DATA_STRUCTURES_COLSURES["tuple_start"]
 
         for i, item in enumerate(structure):
-            res += self.__process_structure(item)
+            res += self.__extract_direct_data(item)
             if isinstance(item, ast.Dict):
                 value = self.__extract_dictionary(item)
 
@@ -399,30 +348,7 @@ class PythonParser:
 
         dictionary = self.DATA_STRUCTURES_COLSURES["graph_start"]
         for i, item in enumerate(dict.values):
-            value = ""
-            if isinstance(item, ast.Str):
-                expr = ast.Expr(item)
-                ast.fix_missing_locations(expr)
-                value = '"' + str(ast.literal_eval(expr.value)) + '"'
-            elif isinstance(item, ast.Num):
-                expr = ast.Expr(item)
-                ast.fix_missing_locations(expr)
-                value = str(ast.literal_eval(expr.value))
-            elif isinstance(item, ast.Name):
-                value = item.id
-            elif isinstance(item, ast.Call):
-                value = self.__extract_call(item)
-            elif isinstance(item, ast.List):
-                value = self.__extract_data_structures(
-                    item.elts, Structures.LIST)
-            elif isinstance(item, ast.Set):
-                value = self.__extract_data_structures(
-                    item.elts, Structures.SET)
-            elif isinstance(item, ast.Tuple):
-                value = self.__extract_data_structures(
-                    item.elts, Structures.TUPLE)
-            elif isinstance(item, ast.Dict):
-                value = self.__extract_dictionary(item)
+            value = self.__extract_direct_data(item)
 
             dictionary += str(ast.literal_eval(
                 dict.keys[i])) + ": " + str(value)
