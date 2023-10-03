@@ -235,7 +235,7 @@ class PythonParser:
             value += self.__extract_data_structures(
                 keyword.value.elts, Structures.TUPLE)
         elif isinstance(keyword.value, ast.Dict):
-            value = self.__extract_dictionary(keyword.value)
+            value += self.__extract_dictionary(keyword.value)
 
         return value
 
@@ -367,7 +367,7 @@ class PythonParser:
             res += self.DATA_STRUCTURES_COLSURES["tuple_start"]
 
         for i, item in enumerate(structure):
-            res = self.__process_structure(item)
+            res += self.__process_structure(item)
             if isinstance(item, ast.Dict):
                 value = self.__extract_dictionary(item)
 
@@ -485,7 +485,6 @@ class PythonParser:
                                 node.body[0].lineno - 1),
                             code=self.__get_func_code(node),
                             args=args,
-                            comment=ast.literal_eval(node.body[0].value),
                             entities=[]
                         )
                         self.functions.append(p_function)
@@ -519,21 +518,6 @@ class PythonParser:
     def __get_comment_last_col(self, line_number):
         splitted = self.opened_file.split('\n')
         return len(splitted[line_number]) - 1
-
-    def __get_comment_first_line(self, end_line):
-        splitted = self.opened_file.split('\n')
-        i = end_line - 1
-
-        if splitted[i].count('"""') == 2:
-            return end_line
-
-        i = i - 1
-
-        while i >= 0:
-            if '"""' in splitted[i]:
-                return i + 1
-            else:
-                i = i - 1
 
     def __get_comment_first_col(self, start_line):
         splitted = self.opened_file.split('\n')
