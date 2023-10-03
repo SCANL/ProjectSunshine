@@ -44,7 +44,7 @@ class ResultWriter:
                 __issue_details = cast(AttributeSignatureCommentOpposite, self.__get_issue_details(
                     issue.get_issue_type()))
 
-                self.results_file.write('"%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s"\n' % (
+                self.results_file.write('"%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s"\n' % (
                     issue.get_file_path(),
                     "NonTest",
                     issue.get_entity().get_identifier(),
@@ -55,6 +55,7 @@ class ResultWriter:
                     "",
                     __issue_details.ISSUE_CATEGORY,
                     __issue_details.ISSUE_DESCRIPTION,
+                    issue.get_analysis_datetime().strftime("%Y-%m-%d %H:%M:%S")
                 ))
             else:
                 self.results_file.write('"%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s"\n' % (

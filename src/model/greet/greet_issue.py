@@ -1,3 +1,4 @@
+from datetime import datetime
 from src.common.enum import GreetIssueType
 from src.model.greet.greet_entity import AbstractGreetEntity
 from src.model.input import Input
@@ -9,6 +10,7 @@ class GreetIssue:
         self.__entity = entity
         self.__issue_type = issue_type
         self.__file_path = file_path
+        self.__analysis_datetime = datetime.now()
 
     def get_entity(self):
         return self.__entity
@@ -18,3 +20,6 @@ class GreetIssue:
 
     def get_file_path(self):
         return self.__file_path
+
+    def get_analysis_datetime(self):
+        return self.__analysis_datetime

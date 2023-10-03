@@ -37,7 +37,7 @@ class GreetFunction(AbstractGreetEntity):
             entities = []
         self.__entities = entities
 
-    def getEntities(self) -> List[AbstractGreetEntity]:
+    def get_entities(self) -> List[AbstractGreetEntity]:
         """
           Get the entities associated with the greet function.
 

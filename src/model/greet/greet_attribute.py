@@ -35,7 +35,7 @@ class GreetAttribute(AbstractGreetEntity):
         self.__value = value
         self.__comment = comment
 
-    def getCode(self) -> str:
+    def get_code(self) -> str:
         """
             Get the string representing the greet attribute.
 

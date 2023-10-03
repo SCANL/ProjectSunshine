@@ -1,14 +1,11 @@
 from typing import List, cast
-from src.classifier.classifier import Classifier
 from src.classifier.predict import Predicter
 from src.common.enum import GreetIssueType, LanguageType
 from src.model.greet.greet_attribute import GreetAttribute
 from src.model.greet.greet_entity import AbstractGreetEntity
 from src.model.greet.greet_function import GreetFunction
 from src.model.greet.greet_issue import GreetIssue
-from src.model.identifier import Attribute, Method
 from src.model.input import Input
-from src.model.issue import Issue
 from src.rule.linguistic_antipattern.contains_only_special_characters import ContainsOnlySpecialCharacters
 from src.rule.linguistic_antipattern.starts_with_special_character import StartsWithSpecialCharacter
 from src.rule.linguistic_antipattern.attribute_name_type_opposite import AttributeNameTypeOpposite
@@ -70,29 +67,31 @@ class Analyzer:
         ]
         self.issues = []
 
+    def __process_python_file(self):
+        with open(self.file_path, 'r') as file:
+            source = file.read()
+            __python_parser = PythonParser(source)
+            __predictor = Predicter()
+
+            __python_parser.parse_file()
+            attributes = cast(List[GreetAttribute],
+                              __python_parser.get_attributes()) or []
+            functions = cast(List[GreetFunction],
+                             __python_parser.get_functions()) or []
+            entities: List[AbstractGreetEntity] = [*attributes, *functions]
+
+            for entity in entities:
+                result = __predictor.predict(entity)
+
+                if GreetIssueType(result) != GreetIssueType.CLEAR:
+                    g_issue = []
+                    g_issue.append(GreetIssue(
+                        entity, GreetIssueType(result), self.file_path))
+                    self.issues.append(g_issue)
+
     def analyze(self):
         if self.file_language == LanguageType.Python:
-            with open(self.file_path, 'r') as file:
-                source = file.read()
-                __python_parser = PythonParser(source)
-                __predictor = Predicter()
-
-                __python_parser.parse_file()
-                attributes = cast(List[GreetAttribute],
-                                  __python_parser.get_attributes()) or []
-                functions = cast(List[GreetFunction],
-                                 __python_parser.get_functions()) or []
-                entities: List[AbstractGreetEntity] = [*attributes, *functions]
-
-                for entity in entities:
-                    print(entity.get_code() + "\n\n")
-                    result = __predictor.predict(entity)
-
-                    if GreetIssueType(result) != GreetIssueType.CLEAR:
-                        g_issue = []
-                        g_issue.append(GreetIssue(
-                            entity, GreetIssueType(result), self.file_path))
-                        self.issues.append(g_issue)
+            self.__process_python_file()
         else:
             entity = EntityFactory().construct_model(
                 self.file_path, self.file_type, self.junit)
