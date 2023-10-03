@@ -352,7 +352,7 @@ class TestItService:
         p: PythonParser = mock_ast_tree_array_assign
 
         p.extract_attribute()
-        print(p.attributes[0].getCode())
+        print(p.attributes[0].get_code())
 
         assert "[\"first_value\", \"second_value\"]" in p.get_attributes()[0].getCode()
 
@@ -375,7 +375,7 @@ class TestItService:
         p: PythonParser = mock_ast_tree_tuple_assign
 
         p.extract_attribute()
-        print(p.attributes[0].getCode())
+        print(p.attributes[0].get_code())
 
         assert "(\"first_value\", \"second_value\", \"third_value\")" in p.get_attributes()[0].getCode()
 
@@ -398,7 +398,7 @@ class TestItService:
         p: PythonParser = mock_ast_tree_set_assign
 
         p.extract_attribute()
-        print(p.attributes[0].getCode())
+        print(p.attributes[0].get_code())
 
         assert "{\"first_value\", \"second_value\", \"third_value\"}" in p.get_attributes()[0].getCode()
 
@@ -421,7 +421,7 @@ class TestItService:
         p: PythonParser = mock_ast_tree_dictionary_assign
 
         p.extract_attribute()
-        print(p.attributes[0].getCode())
+        print(p.attributes[0].get_code())
 
         assert "{first_value: \"one\", second_value: \"two\", third_value: \"three\"}" in p.get_attributes()[0].getCode()
 
@@ -444,7 +444,7 @@ class TestItService:
         p: PythonParser =  mock_ast_tree_tuple_name_assign
 
         p.extract_attribute()
-        print(p.attributes[0].getCode())
+        print(p.attributes[0].get_code())
 
         assert "val1, val2" in p.get_attributes()[0].get_identifier()
 
@@ -467,7 +467,7 @@ class TestItService:
         p: PythonParser =  mock_ast_tree_list_name_assign
 
         p.extract_attribute()
-        print(p.attributes[0].getCode())
+        print(p.attributes[0].get_code())
 
         assert "val1, val2, val3" in p.get_attributes()[0].get_identifier()
 
@@ -490,6 +490,6 @@ class TestItService:
         p: PythonParser = mock_ast_tree_func_call_assign
 
         p.extract_attribute()
-        print(p.attributes[0].getCode())
+        print(p.attributes[0].get_code())
 
         assert "func_call()" in p.get_attributes()[0].getCode() 
