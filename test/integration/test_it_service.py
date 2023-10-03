@@ -354,7 +354,7 @@ class TestItService:
         p.extract_attribute()
         print(p.attributes[0].get_code())
 
-        assert "[\"first_value\", \"second_value\"]" in p.get_attributes()[0].getCode()
+        assert "[\"first_value\", \"second_value\"]" in p.get_attributes()[0].get_code()
 
     @pytest.fixture
     def mock_ast_tree_tuple_assign(self):
@@ -377,7 +377,7 @@ class TestItService:
         p.extract_attribute()
         print(p.attributes[0].get_code())
 
-        assert "(\"first_value\", \"second_value\", \"third_value\")" in p.get_attributes()[0].getCode()
+        assert "(\"first_value\", \"second_value\", \"third_value\")" in p.get_attributes()[0].get_code()
 
     @pytest.fixture
     def mock_ast_tree_set_assign(self):
@@ -400,7 +400,7 @@ class TestItService:
         p.extract_attribute()
         print(p.attributes[0].get_code())
 
-        assert "{\"first_value\", \"second_value\", \"third_value\"}" in p.get_attributes()[0].getCode()
+        assert "{\"first_value\", \"second_value\", \"third_value\"}" in p.get_attributes()[0].get_code()
 
     @pytest.fixture
     def mock_ast_tree_dictionary_assign(self):
@@ -423,7 +423,7 @@ class TestItService:
         p.extract_attribute()
         print(p.attributes[0].get_code())
 
-        assert "{first_value: \"one\", second_value: \"two\", third_value: \"three\"}" in p.get_attributes()[0].getCode()
+        assert "{first_value: \"one\", second_value: \"two\", third_value: \"three\"}" in p.get_attributes()[0].get_code()
 
     @pytest.fixture
     def mock_ast_tree_tuple_name_assign(self):
@@ -492,4 +492,4 @@ class TestItService:
         p.extract_attribute()
         print(p.attributes[0].get_code())
 
-        assert "func_call()" in p.get_attributes()[0].getCode() 
+        assert "func_call()" in p.get_attributes()[0].get_code() 
