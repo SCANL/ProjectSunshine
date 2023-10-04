@@ -4,7 +4,6 @@ import os
 import requests
 from transformers import RobertaTokenizer
 from src.common.Singleton import Singleton
-from src.common.error_handler import handle_error, ErrorSeverity
 
 
 class Classifier(metaclass=Singleton):
@@ -26,12 +25,14 @@ class Classifier(metaclass=Singleton):
             config (Config, optional): Project configuration (to eventually specify a model version). Default: None.
         """
 
-        model_path = os.path.join(os.path.expanduser("~"), ".greet", 'greet')
+        model_path = os.path.join(os.path.dirname(
+            os.path.abspath(__file__)), ".greet", 'greet')
         if os.path.exists(model_path):
             self.__model = torch.load(model_path, map_location=self.DEVICE)
         else:
             try:
-                os.mkdir(os.path.join(os.path.expanduser("~"), ".greet"))
+                os.mkdir(os.path.join(os.path.dirname(
+                    os.path.abspath(__file__)), ".greet"))
             except OSError as error:
                 print(error)
             self.__download_model(model_path)
@@ -69,8 +70,8 @@ class Classifier(metaclass=Singleton):
                     if chunk:
                         file.write(chunk)
                         downloaded_size += len(chunk)
-                        progress_bar.update(downloaded_size)
+                        progress_bar.update(len(chunk))
             print("Download complete!")
             self.__model = torch.load(model_path, map_location=self.DEVICE)
         else:
-            handle_error("classifier.py", "Failed to download the model file.", ErrorSeverity.Critical, True)
+            raise Exception("Failed to download the model file.")
