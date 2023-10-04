@@ -106,6 +106,7 @@ class TestItService:
 
         os.remove(f"{PATH}/Main.py")
 
+
     @pytest.fixture
     def create_multiple_attr_in_func_code_file(self):
         self.__create_code_dir()
@@ -136,9 +137,9 @@ class TestItService:
             file.write("\"\"\"\n")
             file.write("dog_name = \"Jack\"\n")
             file.write("\"\"\"\n")
-            file.write("    this variable contains the cat name\n")
+            file.write("    this variable contains the dog age\n")
             file.write("\"\"\"\n")
-            file.write("cat_name = \"Kitty\"\n")
+            file.write("dog_age = \"3\"\n")
             file.write("def get_dog_name(project):\n")
             file.write("    \"\"\"\n")
             file.write("        this function returns the dog name\n")
@@ -156,22 +157,30 @@ class TestItService:
             parser = PythonParser(data)
 
             return parser
+        
+    def test_parse_file(self, create_code_file, mock_ast_tree):
+        p: PythonParser = mock_ast_tree
+
+        p.parse_file()
+
+        assert len(p.get_attributes()) == 1
+        assert len(p.get_functions()) == 1
     
     def test_parse_single_attribute(self, create_code_file, mock_ast_tree):
         p: PythonParser = mock_ast_tree
 
         p.extract_attribute()
 
-        assert len(p.attributes) == 1
-        assert p.attributes[0].get_identifier() == 'dog_name'
+        assert len(p.get_attributes()) == 1
+        assert p.get_attributes()[0].get_identifier() == 'dog_name'
 
     def test_parse_multiple_attributes(self, create_multiple_attr_code_file, mock_ast_tree):
         p: PythonParser = mock_ast_tree
 
         p.extract_attribute()
 
-        assert len(p.attributes) == 2
-        assert p.attributes[0].get_identifier() == 'dog_name'
+        assert len(p.get_attributes()) == 2
+        assert p.get_attributes()[0].get_identifier() == 'dog_name'
 
     @pytest.fixture
     def create_no_attribute_code_file(self):
@@ -193,23 +202,23 @@ class TestItService:
 
         p.extract_attribute()
 
-        assert len(p.attributes) == 0
+        assert p.get_attributes() == None
 
     def test_parse_attribute_in_function(self, create_multiple_attr_in_func_code_file, mock_ast_tree):
         p: PythonParser = mock_ast_tree
 
         p.extract_attribute()
 
-        assert len(p.attributes) == 2
-        assert p.attributes[0].get_identifier() == 'dog_name'
+        assert len(p.get_attributes()) == 2
+        assert p.get_attributes()[0].get_identifier() == 'dog_name'
 
     def test_parse_single_function(self, create_code_file, mock_ast_tree):
         p: PythonParser = mock_ast_tree
 
         p.extract_function()
 
-        assert len(p.functions)== 1
-        assert p.functions[0].get_identifier() == 'get_dog_name'
+        assert len(p.get_functions())== 1
+        assert p.get_functions()[0].get_identifier() == 'get_dog_name'
 
     @pytest.fixture
     def create_single_func_in_a_class_code_file(self):
@@ -233,8 +242,8 @@ class TestItService:
 
         p.extract_function()
 
-        assert len(p.functions)== 1
-        assert p.functions[0].get_identifier() == 'get_dog_name'
+        assert len(p.get_functions())== 1
+        assert p.get_functions()[0].get_identifier() == 'get_dog_name'
 
     @pytest.fixture
     def create_multiple_func_in_a_class_code_file(self):
@@ -264,9 +273,9 @@ class TestItService:
 
         p.extract_function()
 
-        assert len(p.functions)== 2
-        assert p.functions[0].get_identifier() == 'get_dog_name'
-        assert p.functions[1].get_identifier() == 'get_cat_name'
+        assert len(p.get_functions())== 2
+        assert p.get_functions()[0].get_identifier() == 'get_dog_name'
+        assert p.get_functions()[1].get_identifier() == 'get_cat_name'
 
     @pytest.fixture
     def create_multiple_func_code_file(self):
@@ -298,9 +307,9 @@ class TestItService:
 
         p.extract_function()
 
-        assert len(p.functions)== 2
-        assert p.functions[0].get_identifier() == 'get_dog_name'
-        assert p.functions[1].get_identifier() == 'get_cat_name'
+        assert len(p.get_functions())== 2
+        assert p.get_functions()[0].get_identifier() == 'get_dog_name'
+        assert p.get_functions()[1].get_identifier() == 'get_cat_name'
 
     @pytest.fixture
     def create_no_func_code_file(self):
@@ -322,7 +331,7 @@ class TestItService:
 
         p.extract_function()
 
-        assert len(p.functions)== 0
+        assert p.get_functions()== None
 
     def create_file_with_assign(self, assign_type, var_name="variable_name"):
         self.__create_code_dir()
@@ -352,7 +361,6 @@ class TestItService:
         p: PythonParser = mock_ast_tree_array_assign
 
         p.extract_attribute()
-        print(p.attributes[0].get_code())
 
         assert "[\"first_value\", \"second_value\"]" in p.get_attributes()[0].get_code()
 
@@ -364,7 +372,6 @@ class TestItService:
 
         with open(f"{PATH}/Main.py", 'r') as file:
             data = file.read()
-            print(data)
             parser = PythonParser(data)
 
         yield parser
@@ -375,7 +382,6 @@ class TestItService:
         p: PythonParser = mock_ast_tree_tuple_assign
 
         p.extract_attribute()
-        print(p.attributes[0].get_code())
 
         assert "(\"first_value\", \"second_value\", \"third_value\")" in p.get_attributes()[0].get_code()
 
@@ -398,7 +404,6 @@ class TestItService:
         p: PythonParser = mock_ast_tree_set_assign
 
         p.extract_attribute()
-        print(p.attributes[0].get_code())
 
         assert "{\"first_value\", \"second_value\", \"third_value\"}" in p.get_attributes()[0].get_code()
 
@@ -410,7 +415,6 @@ class TestItService:
 
         with open(f"{PATH}/Main.py", 'r') as file:
             data = file.read()
-            print(data)
             parser = PythonParser(data)
 
         yield parser
@@ -421,7 +425,6 @@ class TestItService:
         p: PythonParser = mock_ast_tree_dictionary_assign
 
         p.extract_attribute()
-        print(p.attributes[0].get_code())
 
         assert "{first_value: \"one\", second_value: \"two\", third_value: \"three\"}" in p.get_attributes()[0].get_code()
 
@@ -433,7 +436,6 @@ class TestItService:
 
         with open(f"{PATH}/Main.py", 'r') as file:
             data = file.read()
-            print(data)
             parser = PythonParser(data)
 
         yield parser
@@ -444,7 +446,6 @@ class TestItService:
         p: PythonParser =  mock_ast_tree_tuple_name_assign
 
         p.extract_attribute()
-        print(p.attributes[0].get_code())
 
         assert "val1, val2" in p.get_attributes()[0].get_identifier()
 
@@ -456,7 +457,6 @@ class TestItService:
 
         with open(f"{PATH}/Main.py", 'r') as file:
             data = file.read()
-            print(data)
             parser = PythonParser(data)
 
         yield parser
@@ -467,7 +467,6 @@ class TestItService:
         p: PythonParser =  mock_ast_tree_list_name_assign
 
         p.extract_attribute()
-        print(p.attributes[0].get_code())
 
         assert "val1, val2, val3" in p.get_attributes()[0].get_identifier()
 
@@ -479,7 +478,6 @@ class TestItService:
 
         with open(f"{PATH}/Main.py", 'r') as file:
             data = file.read()
-            print(data)
             parser = PythonParser(data)
 
         yield parser
@@ -490,6 +488,26 @@ class TestItService:
         p: PythonParser = mock_ast_tree_func_call_assign
 
         p.extract_attribute()
-        print(p.attributes[0].get_code())
 
         assert "func_call()" in p.get_attributes()[0].get_code() 
+
+    @pytest.fixture
+    def mock_ast_tree_func_call_with_attrs_assign(self):
+        self.create_file_with_assign(assign_type="func_call(old_func([1, 2, 3]), (\"a\", \"b\"), set_value={\"set_val1\", \"set_val2\"}, dict_value={\"first\": \"first value\", \"second\": \"second value\"})")
+
+        parser = None
+
+        with open(f"{PATH}/Main.py", 'r') as file:
+            data = file.read()
+            parser = PythonParser(data)
+
+        yield parser
+
+        os.remove(f"{PATH}/Main.py")
+
+    def test_attribute_with_func_call_with_attrs_value(self, mock_ast_tree_func_call_with_attrs_assign):
+        p: PythonParser = mock_ast_tree_func_call_with_attrs_assign
+
+        p.extract_attribute()
+
+        assert "func_call(old_func([1, 2, 3]), (\"a\", \"b\"), set_value={\"set_val1\", \"set_val2\"}, dict_value={first: \"first value\", second: \"second value\"})" in p.get_attributes()[0].get_code()

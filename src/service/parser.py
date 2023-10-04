@@ -267,9 +267,6 @@ class PythonParser:
         for i, arg in enumerate(node.args):
             args += self.__extract_direct_data(arg)
 
-            if isinstance(arg, ast.Dict):
-                value = self.__extract_dictionary(arg)
-
             if i != len(node.args) - 1:
                 args += ", "
 
@@ -317,8 +314,6 @@ class PythonParser:
 
         for i, item in enumerate(structure):
             res += self.__extract_direct_data(item)
-            if isinstance(item, ast.Dict):
-                value = self.__extract_dictionary(item)
 
             if i != len(structure) - 1:
                 res += ", "
