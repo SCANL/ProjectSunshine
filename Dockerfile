@@ -36,6 +36,7 @@ RUN  apt-get update && apt-get install -y --no-install-recommends \
 COPY test /app/test
 COPY src /app/src/
 COPY requirements.txt /app/requirements.txt
+COPY definitions.py /app/definitions.py
 
 WORKDIR /app
 
