@@ -1,7 +1,7 @@
 from src.common.enum import FileType, IdentifierType
 from src.common.error_handler import handle_error, ErrorSeverity
 from src.common.testing_list import get_null_check_test_method
-from src.common.util_parsing import get_all_function_calls
+from src.common.util_parsing import get_all_class_fields
 from src.model.issue import Issue
 
 
@@ -39,6 +39,14 @@ class TestMissingNullCheck(LinguisticAntipattern):
     # Override
     def analyze(self, project, entity):
         if entity.file_type == FileType.Test:
-            LinguisticAntipattern.analyze(self, project, entity)
+            # Analyze all attributes, variables and parameters in a class
+            self.project = project
+            self.entity = entity
+            for class_item in self.entity.classes:
+                fields = get_all_class_fields(class_item)
+                for field_item in fields:
+                    self.__process_identifier(field_item)
+
+            return self.__issues
 
         return self.__issues
