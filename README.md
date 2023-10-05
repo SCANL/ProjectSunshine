@@ -73,10 +73,10 @@ Here is our customized version of IDEAL, which, in addition to its basic feature
   <li><code>nltk.download('punkt')</code></li>
   <li><code>quit()</code></li>
   </ol><br>
-  <img src="images\setup\nltk_download.png"  style="zoom:40%;" />
+  <img src="docs/IDEAL/images/setup/nltk_download.png"  style="zoom:40%;" />
   </li>
   <li>Update all paaths in config file:  <i>src/common/config.txt</i><br>
-  <img src="images\setup\config_file.png"  style="zoom:40%;" />
+  <img src="docs/IDEAL/images/setup/config_file.png"  style="zoom:40%;" />
   </li>
   </ol>
 
@@ -85,15 +85,15 @@ Here is our customized version of IDEAL, which, in addition to its basic feature
 <ol>
   <li>
   Update all paths in the run command file: <i>src/apps/IDEALrun.cmd</i><br>
-  <img src="images\setup\cmd_file.png"  style="zoom:40%;" />
+  <img src="docs/IDEAL/images/setup/cmd_file.png"  style="zoom:40%;" />
   </li>
   <li>
   Update all paths in the project config file: <i>src/apps/IDEAL/project1.config</i><br>
-  <img src="images\setup\projectconfig_file.png"  style="zoom:40%;" />
+  <img src="docs/IDEAL/images/setup/projectconfig_file.png"  style="zoom:40%;" />
   </li>
   <li>
   Create <i>input.csv</i> file and add paths to the source code <i>files/directories</i><br>
-  <img src="images\setup\input_file.png"  style="zoom:40%;" />
+  <img src="docs/IDEAL/images/setup/input_file.png"  style="zoom:40%;" />
   </li>
   <li>Move into <i>src/apps/IDEAL</i> and run:
    <ol>
@@ -101,7 +101,7 @@ Here is our customized version of IDEAL, which, in addition to its basic feature
       <li><b>Linux:</b> <i>run.sh</i></li>
    </ol>
   <li>See the results of analysis in the file: <i>src/apps/IDEAL/IDEAL_Results.csv</i><br>
-  <img src="images\setup\results.png"  style="zoom:40%;" />
+  <img src="docs/IDEAL/images/setup/results.png"  style="zoom:40%;" />
   </li>
   </ol>
 </details>
