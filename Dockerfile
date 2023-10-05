@@ -33,6 +33,7 @@ RUN  apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # copy source files into container
+COPY test /app/test
 COPY src /app/src/
 COPY requirements.txt /app/requirements.txt
 
