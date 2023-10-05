@@ -16,7 +16,7 @@ class TestMissingNullCheck():
     ISSUE_DESCRIPTION = 'Body of the test method is missing a null check even though the name contains the term \'null\' or \'not\' '
 
     def __init__(self):
-        super.__init__()
+        self.__issues = []
 
     # Override
     def __process_identifier(self, identifier):

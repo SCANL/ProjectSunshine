@@ -14,7 +14,7 @@ class TestAnnotationSetup():
     ISSUE_DESCRIPTION = 'Utilize the \'Before\' annotation for setup methods'
 
     def __init__(self):
-        super.__init__()
+        self.__issues = []
         self.__junit = None
 
     # Override

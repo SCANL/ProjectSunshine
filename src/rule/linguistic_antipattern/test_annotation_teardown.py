@@ -14,7 +14,7 @@ class TestAnnotationTeardown():
     ISSUE_DESCRIPTION = 'Utilize the \'After\' annotation for setup methods'
 
     def __init__(self):
-        super.__init__()
+        self.__issues = []
         self.__junit = None
 
     # Override

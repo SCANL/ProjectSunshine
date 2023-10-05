@@ -19,7 +19,7 @@ class TestNonVerbStarting():
     ISSUE_DESCRIPTION = 'The starting term (excluding \'test\') must be a verb'
 
     def __init__(self):
-        super.__init__()
+        self.__issues = []
 
     # Override
     def __process_identifier(self, identifier):

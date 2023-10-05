@@ -14,7 +14,7 @@ class TestAnnotationTest():
     ISSUE_DESCRIPTION = 'Replace the term \'test\' in the method name with the \'Test\' annotation'
 
     def __init__(self):
-        super.__init__()
+        self.__issues = []
         self.__junit = None
 
     # Override
