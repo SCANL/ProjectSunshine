@@ -7,7 +7,7 @@ from src.common.util_parsing import get_all_class_fields
 # Impacted identifier: Method
 
 
-class TestAnnotationTest(LinguisticAntipattern):
+class TestAnnotationTest():
 
     ID = 'G.2'
     ISSUE_CATEGORY = 'Redundant use of \'test\' in method name'

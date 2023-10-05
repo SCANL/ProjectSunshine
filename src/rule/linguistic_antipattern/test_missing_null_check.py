@@ -9,7 +9,7 @@ from src.model.issue import Issue
 # Impacted identifier: Method
 
 
-class TestMissingNullCheck(LinguisticAntipattern):
+class TestMissingNullCheck():
 
     ID = 'P.5'
     ISSUE_CATEGORY = 'Test method missing null check'

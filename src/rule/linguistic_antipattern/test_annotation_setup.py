@@ -7,7 +7,7 @@ from src.common.util_parsing import get_all_class_fields
 # Impacted identifier: Method
 
 
-class TestAnnotationSetup(LinguisticAntipattern):
+class TestAnnotationSetup():
 
     ID = 'X.1'
     ISSUE_CATEGORY = '\'Before\' annotation not in use'
