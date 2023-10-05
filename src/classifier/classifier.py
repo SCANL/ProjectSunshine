@@ -4,6 +4,7 @@ import os
 import requests
 from transformers import RobertaTokenizer
 from src.common.Singleton import Singleton
+from src.common.error_handler import handle_error, ErrorSeverity
 
 
 class Classifier(metaclass=Singleton):
@@ -70,8 +71,8 @@ class Classifier(metaclass=Singleton):
                     if chunk:
                         file.write(chunk)
                         downloaded_size += len(chunk)
-                        progress_bar.update(len(chunk))
+                        progress_bar.update(downloaded_size)
             print("Download complete!")
             self.__model = torch.load(model_path, map_location=self.DEVICE)
         else:
-            raise Exception("Failed to download the model file.")
+            handle_error("classifier.py", "Failed to download the model file.", ErrorSeverity.Critical, True)
