@@ -319,7 +319,7 @@ class Entity:
                                     variable_type_array = True
                             model_variable = Variable(
                                 variable_specifier, variable_type.text, variable_name.text, variable_type_array, variable_type_generic, variable_item)
-                            variable_comment = method_item.xpath(f'//src:decl_stmt[src:decl/{self.SRCML_SRCTYPE_XPATH}/{self.SRCML_SRCNAME_XPATH}=\'' + variable_type.text + '\' and src:decl/{self.SRCML_SRCNAME_XPATH}=\'' +
+                            variable_comment = method_item.xpath(f'//src:decl_stmt[src:decl/{self.SRCML_SRCTYPE_XPATH}/{self.SRCML_SRCNAME_XPATH}=\'' + variable_type.text + f'\' and src:decl/{self.SRCML_SRCNAME_XPATH}=\'' +
                                                                  variable_name.text + self.SRCML_PRECEDINGSIBLING_XPATH, namespaces={'src': self.SRCML_NS_URL})
                             if len(variable_comment) > 0:
                                 model_variable.set_block_comment(

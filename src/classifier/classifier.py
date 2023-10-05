@@ -70,7 +70,7 @@ class Classifier(metaclass=Singleton):
                 for chunk in response.iter_content(chunk_size=chunk_size):
                     if chunk:
                         file.write(chunk)
-                        downloaded_size += len(chunk)
+                        downloaded_size = len(chunk)
                         progress_bar.update(downloaded_size)
             print("Download complete!")
             self.__model = torch.load(model_path, map_location=self.DEVICE)
