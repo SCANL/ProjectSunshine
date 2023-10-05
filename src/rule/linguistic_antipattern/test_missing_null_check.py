@@ -3,7 +3,6 @@ from src.common.error_handler import handle_error, ErrorSeverity
 from src.common.testing_list import get_null_check_test_method
 from src.common.util_parsing import get_all_function_calls
 from src.model.issue import Issue
-from src.rule.linguistic_antipattern.linguistic_antipattern import LinguisticAntipattern
 
 
 # Impacted File: Test

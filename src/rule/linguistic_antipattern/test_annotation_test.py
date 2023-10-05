@@ -1,7 +1,6 @@
 from src.common.enum import FileType, IdentifierType
 from src.common.error_handler import handle_error, ErrorSeverity
 from src.model.issue import Issue
-from src.rule.linguistic_antipattern.linguistic_antipattern import LinguisticAntipattern
 
 # Impacted File: Test
 # Impacted identifier: Method

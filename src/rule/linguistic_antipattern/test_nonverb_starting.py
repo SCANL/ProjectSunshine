@@ -6,7 +6,6 @@ from src.model.issue import Issue
 from src.model.project import Project
 from src.nlp import pos_tag
 from src.nlp.pos_tag import POSType
-from src.rule.linguistic_antipattern.linguistic_antipattern import LinguisticAntipattern
 
 # Impacted File: Test
 # Impacted identifier: Method
