@@ -34,6 +34,7 @@ RUN  apt-get update && apt-get install -y --no-install-recommends \
 
 # copy source files into container
 COPY test /app/test
+COPY pytest.ini /app/pytest.ini
 COPY src /app/src/
 COPY requirements.txt /app/requirements.txt
 COPY definitions.py /app/definitions.py
