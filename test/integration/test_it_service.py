@@ -159,6 +159,9 @@ class TestItService:
             return parser
         
     def test_parse_file(self, create_code_file, mock_ast_tree):
+        """
+            TC-SRV-7.1
+        """
         p: PythonParser = mock_ast_tree
 
         p.parse_file()
@@ -167,6 +170,9 @@ class TestItService:
         assert len(p.get_functions()) == 1
     
     def test_parse_single_attribute(self, create_code_file, mock_ast_tree):
+        """
+            TC-SRV-5.1
+        """
         p: PythonParser = mock_ast_tree
 
         p.extract_attribute()
@@ -175,6 +181,9 @@ class TestItService:
         assert p.get_attributes()[0].get_identifier() == 'dog_name'
 
     def test_parse_multiple_attributes(self, create_multiple_attr_code_file, mock_ast_tree):
+        """
+            TC-SRV-5.2
+        """
         p: PythonParser = mock_ast_tree
 
         p.extract_attribute()
@@ -198,6 +207,9 @@ class TestItService:
         os.remove(f"{PATH}/Main.py")
 
     def test_parse_no_attribute(self, create_no_attribute_code_file, mock_ast_tree):
+        """
+            TC-SRV-5.3
+        """
         p: PythonParser = mock_ast_tree
 
         p.extract_attribute()
@@ -205,6 +217,9 @@ class TestItService:
         assert p.get_attributes() == None
 
     def test_parse_attribute_in_function(self, create_multiple_attr_in_func_code_file, mock_ast_tree):
+        """
+            TC-SRV-5.4
+        """
         p: PythonParser = mock_ast_tree
 
         p.extract_attribute()
@@ -213,6 +228,9 @@ class TestItService:
         assert p.get_attributes()[0].get_identifier() == 'dog_name'
 
     def test_parse_single_function(self, create_code_file, mock_ast_tree):
+        """
+            TC-SRV-6.1
+        """
         p: PythonParser = mock_ast_tree
 
         p.extract_function()
@@ -238,6 +256,10 @@ class TestItService:
         os.remove(f"{PATH}/Main.py")
 
     def test_parse_single_function(self, create_single_func_in_a_class_code_file, mock_ast_tree):
+        """
+            TC-SRV-6.4
+        """
+        
         p: PythonParser = mock_ast_tree
 
         p.extract_function()
@@ -269,6 +291,9 @@ class TestItService:
         os.remove(f"{PATH}/Main.py")
 
     def test_parse_multiple_function_in_a_class(self, create_multiple_func_in_a_class_code_file, mock_ast_tree):
+        """
+            TC-SRV-6.5
+        """
         p: PythonParser = mock_ast_tree
 
         p.extract_function()
@@ -303,6 +328,10 @@ class TestItService:
         os.remove(f"{PATH}/Main.py")
 
     def test_parse_multiple_function(self, create_multiple_func_code_file, mock_ast_tree):
+        """
+            TC-SRV-6.2
+        """
+
         p: PythonParser = mock_ast_tree
 
         p.extract_function()
@@ -327,6 +356,10 @@ class TestItService:
         os.remove(f"{PATH}/Main.py")
 
     def test_parse_no_function(self, create_no_func_code_file, mock_ast_tree):
+        """
+            TC-SRV-6.3
+        """
+
         p: PythonParser = mock_ast_tree
 
         p.extract_function()
@@ -358,6 +391,10 @@ class TestItService:
         os.remove(f"{PATH}/Main.py")
 
     def test_attribute_with_array_value(self, mock_ast_tree_array_assign):
+        """
+            TC-SRV-5.5
+        """
+        
         p: PythonParser = mock_ast_tree_array_assign
 
         p.extract_attribute()
@@ -379,6 +416,10 @@ class TestItService:
         os.remove(f"{PATH}/Main.py")
 
     def test_attribute_with_tuple_value(self, mock_ast_tree_tuple_assign):
+        """
+            TC-SRV-5.6
+        """
+
         p: PythonParser = mock_ast_tree_tuple_assign
 
         p.extract_attribute()
@@ -387,6 +428,7 @@ class TestItService:
 
     @pytest.fixture
     def mock_ast_tree_set_assign(self):
+        
         self.create_file_with_assign(assign_type="{\"first_value\", \"second_value\", \"third_value\"}")
 
         parser = None
@@ -401,6 +443,10 @@ class TestItService:
         os.remove(f"{PATH}/Main.py")
 
     def test_attribute_with_set_value(self, mock_ast_tree_set_assign):
+        """
+            TC-SRV-5.7
+        """
+        
         p: PythonParser = mock_ast_tree_set_assign
 
         p.extract_attribute()
@@ -422,6 +468,10 @@ class TestItService:
         os.remove(f"{PATH}/Main.py")
 
     def test_attribute_with_dictionary_value(self, mock_ast_tree_dictionary_assign):
+        """
+            TC-SRV-5.10
+        """
+        
         p: PythonParser = mock_ast_tree_dictionary_assign
 
         p.extract_attribute()
@@ -443,6 +493,10 @@ class TestItService:
         os.remove(f"{PATH}/Main.py")
 
     def test_attribute_with_tuple_name_assign(self,  mock_ast_tree_tuple_name_assign):
+        """
+            TC-SRV-5.8
+        """
+        
         p: PythonParser =  mock_ast_tree_tuple_name_assign
 
         p.extract_attribute()
@@ -464,6 +518,10 @@ class TestItService:
         os.remove(f"{PATH}/Main.py")
 
     def test_attribute_with_list_name_assign(self,  mock_ast_tree_list_name_assign):
+        """
+            TC-SRV-5.9
+        """
+        
         p: PythonParser =  mock_ast_tree_list_name_assign
 
         p.extract_attribute()
@@ -485,6 +543,10 @@ class TestItService:
         os.remove(f"{PATH}/Main.py")
 
     def test_attribute_with_func_call_value(self, mock_ast_tree_func_call_assign):
+        """
+            TC-SRV-5.11
+        """
+        
         p: PythonParser = mock_ast_tree_func_call_assign
 
         p.extract_attribute()
@@ -506,6 +568,10 @@ class TestItService:
         os.remove(f"{PATH}/Main.py")
 
     def test_attribute_with_func_call_with_attrs_value(self, mock_ast_tree_func_call_with_attrs_assign):
+        """
+            TC-SRV-5.12
+        """
+        
         p: PythonParser = mock_ast_tree_func_call_with_attrs_assign
 
         p.extract_attribute()

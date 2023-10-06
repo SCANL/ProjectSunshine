@@ -47,6 +47,7 @@ def get_tag_text(tag: str) -> POSType:
             POSType: The part of speech type of the tag.
     """
     verbs = ['VB', 'VBD', 'VBG', 'VBN', 'VBP', 'VBZ', 'MD']
+    tag = tag.upper() 
     if tag in verbs:
         return POSType.Verb
 

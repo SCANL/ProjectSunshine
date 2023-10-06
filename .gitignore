@@ -143,7 +143,9 @@ cover/
 # IDEAL Input Files
 IDEAL_Results.csv
 IDEAL_Results.xlsx
-input.csv
+
+# Greet
+.greet
 
 # Translations
 *.mo
