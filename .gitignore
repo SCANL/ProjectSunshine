@@ -140,6 +140,13 @@ coverage.xml
 .pytest_cache/
 cover/
 
+# IDEAL Input Files
+IDEAL_Results.csv
+IDEAL_Results.xlsx
+
+# Greet
+.greet
+
 # Translations
 *.mo
 *.pot
@@ -226,3 +233,4 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
+coverage.json

@@ -19,10 +19,16 @@ psutil==5.8.0
 ptyprocess==0.7.0
 py==1.10.0
 pyparsing==2.4.7
-pytest==6.2.2
 python-dateutil==2.8.1
 termcolor==1.1.0
 toml==0.10.2
 tqdm==4.56.2
 typing-extensions==3.7.4.3
 git+https://github.com/casics/spiral@1.1.0#egg=spiral
+pytest==7.4.0
+pytest-cov==4.1.0
+pytest-mock==3.11.1
+lazydocs==0.4.8
+transformers==4.30.2
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.0.1+cpu

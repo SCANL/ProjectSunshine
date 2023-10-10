@@ -1,38 +1,53 @@
 import enum
-
+from src.model.project import Project
 from src.nlp import term_list
 
-
-# def initialize_stanford_tagger():
-#     path_to_model = util.get_config_setting('stanford', 'path_to_model')
-#     path_to_jar = util.get_config_setting('stanford', 'path_to_jar')
-#     path_to_java = util.get_config_setting('general', 'path_to_java')
-#     os.environ['JAVAHOME'] = path_to_java
-#     return StanfordPOSTagger(path_to_model, path_to_jar)
-from ..nlp.pos_tagger_stanford import POSTaggerStanford
+from src.nlp.pos_tagger_stanford import POSTaggerStanford
 
 
-def generate_tag(project, term):
+def generate_tag(project: Project, term: str) -> str:
+    """
+        Generate a part-of-speech (POS) tag for a given term in a specific project.
+
+        This function first checks if the term is present in a custom dictionary specific to the project.
+        If the term is found in the custom dictionary, the corresponding POS tag is returned.
+        If the term is not in the custom dictionary, it uses the Stanford Part-of-Speech Tagger to generate the POS tag.
+
+        Args:
+            project (str): The name of the project or context in which the term is being analyzed.
+            term (str): The input term for which the POS tag is to be generated.
+
+        Returns:
+            str: The POS tag for the input term.
+    """
     custom_dictionary = term_list.get_pos_terms(project)
     if term.lower() in custom_dictionary.keys():
         return custom_dictionary[term.lower()]
     else:
         stanford = POSTaggerStanford()
         return stanford.get_pos(term)
-        #tagger = stanford.tagger #initialize_stanford_tagger()
-        #tagger.tag([term])[0][1]
 
 
-# def generate_tags(term_list, append_I=False):
-#     terms = term_list.copy()
-#     if append_I:
-#         terms.insert(0, 'I')
-#     tagger = initialize_stanford_tagger()
-#     return tagger.tag(terms)
+class POSType(enum.Enum):
+    Verb = 1
+    Noun = 2
+    Preposition = 3
+    Conjunction = 4
+    Unknown = 0
 
 
-def get_tag_text(tag):
+def get_tag_text(tag: str) -> POSType:
+    """
+        Returns the part of speech type of a given tag.
+
+        Args:
+            tag (str): The tag to be analyzed.
+
+        Returns:
+            POSType: The part of speech type of the tag.
+    """
     verbs = ['VB', 'VBD', 'VBG', 'VBN', 'VBP', 'VBZ', 'MD']
+    tag = tag.upper() 
     if tag in verbs:
         return POSType.Verb
 
@@ -47,11 +62,3 @@ def get_tag_text(tag):
         return POSType.Preposition
 
     return POSType.Unknown
-
-
-class POSType(enum.Enum):
-    Verb = 1
-    Noun = 2
-    Preposition = 3
-    Conjunction = 4
-    Unknown = 0
